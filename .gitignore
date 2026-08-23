@@ -11,10 +11,15 @@ node_modules
 dist
 dist-ssr
 .output
+.vercel
 .vinxi
 .tanstack/**
 .nitro
 *.local
+
+# Vercel / deployment artifacts
+.vercel/
+.vercel/output/
 
 # Wrangler / Cloudflare
 .wrangler/
