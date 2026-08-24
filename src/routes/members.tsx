@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Github, Linkedin, Twitter } from "lucide-react";
+import { gsap } from "gsap";
 import { PageHeader } from "@/components/site/Ambient";
 
 export const Route = createFileRoute("/members")({
@@ -46,52 +47,106 @@ function initials(name: string) {
 function Members() {
   const [active, setActive] = useState<(typeof groups)[number]>("All");
   const shown = active === "All" ? members : members.filter((m) => m.group === active);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Fade and translate on filtering
+    if (gridRef.current) {
+      gsap.fromTo(
+        gridRef.current.children,
+        { opacity: 0, scale: 0.95, y: 20 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.45, stagger: 0.08, ease: "power2.out" }
+      );
+    }
+  }, [active]);
 
   return (
-    <div className="px-4 pt-36 pb-10">
+    <div className="px-6 pt-36 pb-20 lg:px-16">
+      {/* Header */}
       <PageHeader
-        eyebrow="Team & leadership"
-        title="The people behind DSC"
-        subtitle="Students, leads and mentors who run every workshop, hackathon and research sprint."
+        eyebrow="TEAM & LEADERSHIP"
+        title="The minds behind DSC"
+        subtitle="Students, coordinators, and domain mentors driving workshops, software, and research."
       />
 
-      <div className="mx-auto mt-10 flex max-w-4xl flex-wrap justify-center gap-2">
-        {groups.map((g) => (
-          <button
-            key={g}
-            onClick={() => setActive(g)}
-            className={`rounded-xl px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] transition-all ${
-              active === g ? "btn-neon" : "btn-glass text-muted-foreground"
-            }`}
-          >
-            {g}
-          </button>
-        ))}
-      </div>
+      <div className="mx-auto mt-20 max-w-6xl">
+        <div className="grid gap-12 lg:grid-cols-12">
+          
+          {/* Left Column: Filter panel */}
+          <div className="lg:col-span-3 lg:sticky lg:top-32 h-fit">
+            <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">ROSTER DEPARTMENTS</span>
+            <h2 className="mt-3 font-display text-2xl font-bold text-white">Filter Team</h2>
+            <p className="mt-4 text-xs text-slate-400 leading-relaxed">
+              Toggle different active groups within our local cohort directory.
+            </p>
 
-      <div className="mx-auto mt-12 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {shown.map((m) => (
-          <article key={m.name} className="glass glass-hover rounded-3xl p-6 text-center">
-            <div className="mx-auto flex size-24 items-center justify-center rounded-full border border-border bg-secondary font-display text-2xl font-bold text-gradient">
-              {initials(m.name)}
-            </div>
-            <h3 className="mt-5 text-lg font-semibold">{m.name}</h3>
-            <p className="mt-1 font-mono text-xs uppercase tracking-[0.15em] text-silver">{m.role}</p>
-            <p className="mt-2 text-xs text-muted-foreground">{m.dept}</p>
-            <div className="mt-5 flex justify-center gap-2">
-              {[Github, Linkedin, Twitter].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  aria-label={`${m.name} social link`}
-                  className="btn-glass rounded-xl p-2 text-muted-foreground hover:text-foreground"
+            <div className="mt-8 flex flex-col gap-2">
+              {groups.map((g) => (
+                <button
+                  key={g}
+                  onClick={() => setActive(g)}
+                  className={`w-full rounded-xl py-3 px-5 font-mono text-xs uppercase tracking-widest text-left transition-all border ${
+                    active === g 
+                      ? "bg-white text-slate-950 font-bold border-white" 
+                      : "text-slate-400 hover:text-white border-white/5 bg-slate-900/10"
+                  }`}
                 >
-                  <Icon className="size-4" />
-                </a>
+                  {g}
+                </button>
               ))}
             </div>
-          </article>
-        ))}
+          </div>
+
+          {/* Right Column: Member Dossiers Asymmetric Grid */}
+          <div 
+            ref={gridRef} 
+            className="lg:col-span-9 grid gap-6 sm:grid-cols-2 md:grid-cols-3"
+          >
+            {shown.map((m) => (
+              <article 
+                key={m.name} 
+                className="glass glass-hover group relative rounded-3xl border border-white/5 p-6 text-center flex flex-col justify-between"
+              >
+                <div>
+                  {/* Glowing Dossier Avatar */}
+                  <div className="mx-auto flex size-20 items-center justify-center rounded-full border border-white/5 bg-slate-950 font-display text-xl font-bold text-white group-hover:border-primary group-hover:shadow-glow transition-all duration-300">
+                    {initials(m.name)}
+                  </div>
+                  
+                  <h3 className="mt-5 font-display text-lg font-bold text-white">
+                    {m.name}
+                  </h3>
+                  <p className="mt-1 font-mono text-[9px] uppercase tracking-widest text-accent">
+                    {m.role}
+                  </p>
+                  <p className="mt-3 text-xs text-slate-400">
+                    {m.dept}
+                  </p>
+                </div>
+
+                <div className="mt-6 pt-5 border-t border-white/5 flex justify-center gap-2">
+                  {[
+                    { Icon: Github, href: "https://github.com" },
+                    { Icon: Linkedin, href: "https://linkedin.com" },
+                    { Icon: Twitter, href: "https://twitter.com" }
+                  ].map(({ Icon, href }, i) => (
+                    <a
+                      key={i}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${m.name} social profile`}
+                      className="btn-glass rounded-xl p-2.5 text-slate-400 hover:text-white hover:border-white/20 transition-all"
+                    >
+                      <Icon className="size-4" />
+                    </a>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+
+        </div>
       </div>
     </div>
   );

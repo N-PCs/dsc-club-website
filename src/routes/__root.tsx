@@ -7,12 +7,14 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { type ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
+import Lenis from "lenis";
 
 import appCss from "../styles.css?url";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
-import { Ambient } from "@/components/site/Ambient";
+import { DynamicBackground } from "@/components/site/DynamicBackground";
+import { CustomCursor } from "@/components/site/CustomCursor";
 
 function NotFoundComponent() {
   return (
@@ -119,11 +121,33 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    // Initialize Lenis smooth scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
+
+    let animationFrameId: number;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      animationFrameId = requestAnimationFrame(raf);
+    };
+
+    animationFrameId = requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Ambient />
+      <CustomCursor />
+      <DynamicBackground />
       <Nav />
-      <main className="relative">
+      <main className="relative min-h-screen">
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
       </main>
