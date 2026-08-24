@@ -52,48 +52,48 @@
 :root {
   --radius: 1rem;
 
-  /* surfaces */
-  --background: oklch(0.04 0.008 270);
-  --surface-container-lowest: oklch(0.015 0.004 270);
-  --surface-container-low: oklch(0.13 0.01 270);
-  --surface-container: oklch(0.17 0.012 270);
-  --surface-container-high: oklch(0.21 0.014 271);
-  --surface-container-highest: oklch(0.26 0.016 272);
+  /* Premium Space-Blue & White Surfaces */
+  --background: oklch(0.06 0.03 245); /* Deep luxury midnight space-blue */
+  --surface-container-lowest: oklch(0.03 0.02 245);
+  --surface-container-low: oklch(0.09 0.04 245);
+  --surface-container: oklch(0.12 0.05 245);
+  --surface-container-high: oklch(0.16 0.06 245);
+  --surface-container-highest: oklch(0.20 0.07 245);
 
-  --foreground: oklch(0.915 0.036 278.7);
-  --card: oklch(0.243 0.035 271.7);
-  --card-foreground: oklch(0.915 0.036 278.7);
-  --popover: oklch(0.227 0.036 271.5);
-  --popover-foreground: oklch(0.915 0.036 278.7);
+  --foreground: oklch(0.99 0.005 245); /* Pure ice-white */
+  --card: oklch(0.09 0.04 245 / 45%); /* Frosted deep blue glass */
+  --card-foreground: oklch(0.99 0.005 245);
 
-  /* monochrome hierarchy */
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.311 0.003 197);
-  --secondary: oklch(0.285 0.036 272.6);
-  --secondary-foreground: oklch(0.829 0.026 285.8);
-  --muted: oklch(0.227 0.036 271.5);
-  --muted-foreground: oklch(0.829 0.026 285.8);
-  --accent: oklch(0.827 0.001 286.4);
-  --accent-foreground: oklch(0.311 0.003 197);
-  --destructive: oklch(0.838 0.089 26.8);
-  --destructive-foreground: oklch(0.328 0.134 27.3);
+  --popover: oklch(0.08 0.04 245);
+  --popover-foreground: oklch(0.99 0.005 245);
 
-  --border: oklch(0.985 0 0 / 14%);
-  --input: oklch(0.165 0.039 269.8);
-  --ring: oklch(0.985 0 0);
+  /* Blue-white cybernetic accent hierarchy */
+  --primary: oklch(0.60 0.25 250); /* High-vibrancy electric blue */
+  --primary-foreground: oklch(0.99 0.005 245);
+  --secondary: oklch(0.14 0.06 245); /* Mid-cobalt navy */
+  --secondary-foreground: oklch(0.85 0.03 240); /* Ice slate */
+  --muted: oklch(0.10 0.04 245);
+  --muted-foreground: oklch(0.75 0.03 240);
+  
+  --accent: oklch(0.75 0.18 210); /* Glowing cyber-cyan */
+  --accent-foreground: oklch(0.06 0.03 245);
 
-  --silver: oklch(0.827 0.001 286.4);
-  --carbon: oklch(0.494 0.003 197.1);
-  --gold: oklch(0.879 0.153 91.6);
-  /* legacy accent aliases now resolve to the monochrome scale */
-  --neon: oklch(0.985 0 0);
-  --electric: oklch(0.829 0.026 285.8);
-  --aqua: oklch(0.829 0.026 285.8);
+  --border: oklch(0.99 0.005 245 / 8%); /* Frosted white border */
+  --input: oklch(0.08 0.04 245);
+  --ring: oklch(0.60 0.25 250);
 
-  --gradient-brand: linear-gradient(100deg, oklch(0.985 0 0), oklch(0.827 0.001 286.4));
-  --gradient-text: linear-gradient(100deg, oklch(0.99 0 0), oklch(0.83 0.02 285) 60%, oklch(0.66 0.027 283));
-  --shadow-glow: 0 0 15px oklch(1 0 0 / 20%);
-  --shadow-glass: 0 24px 70px -40px oklch(0 0 0 / 95%);
+  --silver: oklch(0.88 0.02 240);
+  --carbon: oklch(0.48 0.04 245);
+  --gold: oklch(0.99 0.005 245); /* Replaced gold with pure white for the palette */
+  
+  --neon: oklch(0.60 0.25 250);
+  --electric: oklch(0.75 0.18 210);
+  --aqua: oklch(0.88 0.08 200);
+
+  --gradient-brand: linear-gradient(135deg, oklch(0.60 0.25 250), oklch(0.75 0.18 210), oklch(0.99 0.005 245));
+  --gradient-text: linear-gradient(135deg, oklch(0.99 0.005 245) 20%, oklch(0.75 0.18 210) 60%, oklch(0.60 0.25 250));
+  --shadow-glow: 0 0 25px oklch(0.60 0.25 250 / 25%);
+  --shadow-glass: 0 24px 70px -40px oklch(0 0 0 / 80%);
 }
 
 @layer base {
@@ -234,3 +234,42 @@
 @utility marquee-track {
   animation: marquee-x 26s linear infinite;
 }
+
+/* Custom Out-of-World Web Effects */
+@utility text-outline {
+  -webkit-text-stroke: 1.5px oklch(0.99 0.005 245 / 40%);
+  color: transparent;
+  transition: -webkit-text-stroke 0.3s ease;
+  
+  &:hover {
+    -webkit-text-stroke: 1.5px oklch(0.60 0.25 250);
+  }
+}
+
+.custom-cursor-active,
+.custom-cursor-active * {
+  cursor: none !important;
+}
+
+/* Lenis smooth scrolling rules */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
