@@ -2,6 +2,9 @@
   position: relative;
   width: 100%;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .text-loop-svg {
@@ -17,4 +20,14 @@
 .text-loop-measure {
   visibility: hidden;
   pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .text-loop {
+    margin: 24px 0 !important;
+  }
+  .text-loop-svg {
+    height: 120px !important;
+    min-height: 120px;
+  }
 }

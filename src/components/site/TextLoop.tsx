@@ -91,6 +91,16 @@ export const TextLoop: React.FC<TextLoopProps> = ({
   const tailRef = useRef<SVGTextPathElement | null>(null);
 
   const [metrics, setMetrics] = useState({ length: 0, reps: 3 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(typeof window !== 'undefined' && window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const rawId = useId();
   const pathId = `text-loop-${rawId.replace(/:/g, '')}`;
@@ -194,7 +204,7 @@ export const TextLoop: React.FC<TextLoopProps> = ({
       <svg
         className="text-loop-svg"
         viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
-        preserveAspectRatio="xMidYMid meet"
+        preserveAspectRatio={isMobile ? 'xMidYMid slice' : 'xMidYMid meet'}
         role="img"
         aria-label={text}
       >

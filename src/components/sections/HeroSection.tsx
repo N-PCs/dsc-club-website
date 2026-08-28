@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import ParticleCloud from "@/components/ui/ParticleCloud";
 
 interface StatConfig {
   icon: string;
@@ -78,7 +79,16 @@ export const HeroSection: React.FC = () => {
 
   return (
     <section id="hero" ref={sectionRef} className="hero-section">
+      <div className="bg">
+        <ParticleCloud />
+      </div>
+
       <div className="hero-content page">
+        {/* Eyebrow Pill */}
+        <div className="badge-pill">
+          <span className="badge-dot" />
+          DATA SCIENCE CLUB — VIT BHOPAL
+        </div>
 
         {/* Headline */}
         <h1 className="headline">
@@ -88,7 +98,7 @@ export const HeroSection: React.FC = () => {
 
         {/* Subhead */}
         <p className="subhead">
-          We turn insights into shipped models, interactive tools, and open-source
+          We turn raw insights into shipped models, interactive tools, and open-source
           intelligence. Join a 100+ strong developer cohort pushing boundaries at
           VIT Bhopal.
         </p>
@@ -96,10 +106,10 @@ export const HeroSection: React.FC = () => {
         {/* CTAs */}
         <div className="cta-group">
           <a href="#join" className="cta-btn primary-btn">
-            Join the Core
+            Sign up →
           </a>
           <a href="#events" className="cta-btn secondary-btn">
-            Explore Calendar
+            Explore Events
           </a>
         </div>
 
@@ -120,3 +130,4 @@ export const HeroSection: React.FC = () => {
     </section>
   );
 };
+

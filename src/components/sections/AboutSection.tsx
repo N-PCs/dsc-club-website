@@ -163,13 +163,13 @@ export const AboutSection: React.FC = () => {
           direction="forward"
           separator="✦"
           curviness={35}
-          fontSize={36}
+          fontSize={34}
           fontWeight={800}
-          letterSpacing={5}
+          letterSpacing={6}
           uppercase
           color="#ffffff"
           pauseOnHover={true}
-          style={{ width: "100%", margin: "12px 0 12px 0" }}
+          style={{ width: "100%", margin: "16px 0" }}
         />
 
         {/* Mission & Vision Dual Grid */}
