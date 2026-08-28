@@ -86,7 +86,6 @@ export const HeroSection: React.FC = () => {
       <div className="hero-content page">
         {/* Eyebrow Pill */}
         <div className="badge-pill">
-          <span className="badge-dot" />
           DATA SCIENCE CLUB — VIT BHOPAL
         </div>
 

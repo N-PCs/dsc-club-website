@@ -21,7 +21,7 @@ export interface RadialMenuProps {
 const DEFAULT_RADIAL_ITEMS: RadialMenuItem[] = [
   {
     label: "Home",
-    href: "#hero",
+    href: "/",
     icon: "fa-solid fa-house",
     ariaLabel: "Home",
     bgColor: "#3b82f6",
@@ -29,7 +29,7 @@ const DEFAULT_RADIAL_ITEMS: RadialMenuItem[] = [
   },
   {
     label: "About",
-    href: "#about",
+    href: "/#about",
     icon: "fa-solid fa-circle-info",
     ariaLabel: "About Us",
     bgColor: "#10b981",
@@ -37,7 +37,7 @@ const DEFAULT_RADIAL_ITEMS: RadialMenuItem[] = [
   },
   {
     label: "Domains",
-    href: "#domains",
+    href: "/#domains",
     icon: "fa-solid fa-cubes",
     ariaLabel: "Domains",
     bgColor: "#00d2ff",
@@ -45,7 +45,7 @@ const DEFAULT_RADIAL_ITEMS: RadialMenuItem[] = [
   },
   {
     label: "Events",
-    href: "#events",
+    href: "/#events",
     icon: "fa-solid fa-calendar-days",
     ariaLabel: "Events",
     bgColor: "#f59e0b",
@@ -53,15 +53,15 @@ const DEFAULT_RADIAL_ITEMS: RadialMenuItem[] = [
   },
   {
     label: "Team",
-    href: "#team",
+    href: "/members",
     icon: "fa-solid fa-users",
-    ariaLabel: "Team",
+    ariaLabel: "Team Roster",
     bgColor: "#8b5cf6",
     textColor: "#ffffff",
   },
   {
     label: "Join Us",
-    href: "#join",
+    href: "/join",
     icon: "fa-solid fa-paper-plane",
     ariaLabel: "Join Core Team",
     bgColor: "#ec4899",
@@ -171,7 +171,7 @@ export function RadialMenu({
             textDecoration: "none",
             background: "rgba(11, 19, 41, 0.85)",
             padding: "8px 18px 8px 12px",
-            borderRadius: "999px",
+            borderRadius: "14px",
             border: "1px solid rgba(0, 210, 255, 0.25)",
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
@@ -179,16 +179,16 @@ export function RadialMenu({
           }}
         >
           <img
-            src="/assets/DSClogo.png"
+            src="/DSClogo.png"
             alt="DSC Logo"
-            style={{ width: "32px", height: "32px", objectFit: "contain" }}
+            style={{ width: "40px", height: "40px", objectFit: "contain" }}
           />
           <div style={{ display: "flex", flexDirection: "column" }}>
             <span
               style={{
                 fontFamily: "var(--font-sans, sans-serif)",
                 fontWeight: 800,
-                fontSize: "13px",
+                fontSize: "17.5px",
                 letterSpacing: "0.08em",
                 color: "#ffffff",
                 lineHeight: 1.1,

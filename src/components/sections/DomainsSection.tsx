@@ -48,6 +48,18 @@ export const DomainsSection: React.FC = () => {
                 Get Interviewed
               </a>
             </div>
+
+            {/* Resized Data Science Video */}
+            <div className="domain-video-wrapper">
+              <video
+                src="/datascience.webm"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="domain-video"
+              />
+            </div>
           </div>
 
           <div className="domains-grid">

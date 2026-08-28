@@ -13,7 +13,7 @@ interface EventItem {
 
 const upcomingEvents: EventItem[] = [
   {
-    img: "/assets/event-workshop.jpg",
+    img: "/event-workshop.jpg",
     tag: "BOOTCAMP",
     title: "PyTorch Deep Dive Bootcamp",
     date: "12 Sep 2026 · 10:00 AM",
@@ -23,7 +23,7 @@ const upcomingEvents: EventItem[] = [
     btnType: "primary",
   },
   {
-    img: "/assets/event-talk.jpg",
+    img: "/event-talk.jpg",
     tag: "TECH TALK",
     title: "Talks: LLMs in Production",
     date: "26 Sep 2026 · 5:30 PM",
@@ -33,7 +33,7 @@ const upcomingEvents: EventItem[] = [
     btnType: "primary",
   },
   {
-    img: "/assets/event-hackathon.jpg",
+    img: "/event-hackathon.jpg",
     tag: "HACKATHON",
     title: "DataHacks '26",
     date: "18 Oct 2026 · 9:00 AM",
@@ -46,7 +46,7 @@ const upcomingEvents: EventItem[] = [
 
 const pastEvents: EventItem[] = [
   {
-    img: "/assets/event-hackathon.jpg",
+    img: "/event-hackathon.jpg",
     tag: "HACKATHON",
     title: "DataHacks '25",
     date: "20 Oct 2025",
@@ -56,7 +56,7 @@ const pastEvents: EventItem[] = [
     btnType: "secondary",
   },
   {
-    img: "/assets/event-workshop.jpg",
+    img: "/event-workshop.jpg",
     tag: "WORKSHOP",
     title: "Python for Data Bootcamp",
     date: "08 Aug 2025",
@@ -66,7 +66,7 @@ const pastEvents: EventItem[] = [
     btnType: "secondary",
   },
   {
-    img: "/assets/event-team.jpg",
+    img: "/event-team.jpg",
     tag: "COMMUNITY",
     title: "DSC Onboarding Night",
     date: "02 Aug 2025",
