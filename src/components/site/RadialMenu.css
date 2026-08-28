@@ -12,8 +12,8 @@
   height: 56px;
   border-radius: 50%;
   background: rgba(11, 19, 41, 0.85);
-  border: 1px solid rgba(0, 210, 255, 0.35);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 102, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   display: flex;
@@ -27,15 +27,16 @@
 }
 
 .radial-toggle-btn:hover {
-  transform: scale(1.08);
-  border-color: rgba(0, 210, 255, 0.7);
-  box-shadow: 0 10px 40px rgba(0, 102, 255, 0.45);
+  transform: scale(1.06);
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(15, 28, 59, 0.95);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
 }
 
 .radial-toggle-btn.open {
-  background: rgba(0, 102, 255, 0.9);
-  border-color: #00d2ff;
-  box-shadow: 0 0 30px rgba(0, 210, 255, 0.6);
+  background: rgba(0, 102, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 102, 255, 0.3);
 }
 
 .radial-toggle-icon {

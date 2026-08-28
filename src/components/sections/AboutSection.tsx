@@ -169,7 +169,7 @@ export const AboutSection: React.FC = () => {
           uppercase
           color="#ffffff"
           pauseOnHover={true}
-          style={{ width: "100%", margin: "24px 0 12px 0" }}
+          style={{ width: "100%", margin: "12px 0 12px 0" }}
         />
 
         {/* Mission & Vision Dual Grid */}
