@@ -1,19 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import React from "react";
+import { Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/sections/Navbar";
 import { FooterSection } from "@/components/sections/FooterSection";
-import "./NotFoundPage.css";
+import "@/routes/NotFoundPage.css";
 
-export const Route = createFileRoute("/$")({
-  head: () => ({
-    meta: [
-      { title: "404 Page Not Found — DSC Club VITB" },
-      { name: "description", content: "The requested page path does not exist." },
-    ],
-  }),
-  component: NotFoundPage,
-});
-
-export function NotFoundPage() {
+export const NotFoundPage: React.FC = () => {
   return (
     <div className="not-found-wrapper">
       <Navbar />
@@ -50,10 +41,10 @@ export function NotFoundPage() {
             <div className="terminal-line">[ACTION]: Return to core platform index</div>
           </div>
 
-          {/* Home Button with ample top margin spacing */}
+          {/* Home Button with generous top margin spacing */}
           <div className="not-found-btn-wrap">
             <Link to="/" className="not-found-home-btn">
-              <i className="fa-solid fa-house" /> Back To Home
+              <i className="fa-solid fa-house" /> Back To Home Platform
             </Link>
           </div>
         </div>
@@ -62,4 +53,6 @@ export function NotFoundPage() {
       <FooterSection />
     </div>
   );
-}
+};
+
+export default NotFoundPage;

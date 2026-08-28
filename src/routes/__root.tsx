@@ -8,7 +8,7 @@ import {
 import { useEffect } from "react";
 import Lenis from "lenis";
 
-import { NotFoundPage } from "./$";
+import { NotFoundPage } from "@/components/pages/NotFoundPage";
 
 function NotFoundComponent() {
   return <NotFoundPage />;
