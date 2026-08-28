@@ -79,6 +79,7 @@ export const HeroSection: React.FC = () => {
   return (
     <section id="hero" ref={sectionRef} className="hero-section">
       <div className="hero-content page">
+
         {/* Headline */}
         <h1 className="headline">
           <span className="headline-line line1">UNLEASHING THE</span>

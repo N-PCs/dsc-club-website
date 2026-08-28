@@ -1,0 +1,177 @@
+.logoloop {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+
+  --logoloop-gap: 54px;
+  --logoloop-logoHeight: 48px;
+  --logoloop-fadeColorAuto: #0b1329;
+}
+
+.logoloop--vertical {
+  height: 100%;
+  display: inline-block;
+}
+
+.logoloop__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+  user-select: none;
+  position: relative;
+  z-index: 0;
+  padding: 44px 0 20px 0; /* Expanded top padding so tooltips fit comfortably */
+}
+
+.logoloop--vertical .logoloop__track {
+  flex-direction: column;
+  height: max-content;
+  width: 100%;
+  padding: 0;
+}
+
+.logoloop__list {
+  display: flex;
+  align-items: center;
+}
+
+.logoloop--vertical .logoloop__list {
+  flex-direction: column;
+}
+
+.logoloop__item {
+  flex: 0 0 auto;
+  margin-right: var(--logoloop-gap);
+  line-height: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoloop--vertical .logoloop__item {
+  margin-right: 0;
+  margin-bottom: var(--logoloop-gap);
+}
+
+.logoloop__item:last-child {
+  margin-right: var(--logoloop-gap);
+}
+
+.logoloop--vertical .logoloop__item:last-child {
+  margin-right: 0;
+  margin-bottom: var(--logoloop-gap);
+}
+
+.logoloop__node {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Minimalist Logo Icon Styling in Authentic Brand Colors */
+.tech-logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  height: var(--logoloop-logoHeight);
+  width: auto;
+}
+
+.tech-logo-icon i {
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.tech-logo-icon:hover {
+  transform: scale(1.18);
+  z-index: 50;
+}
+
+/* Tooltip on Hover */
+.tech-logo-icon .tech-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(3, 7, 18, 0.95);
+  border: 1px solid rgba(0, 210, 255, 0.5);
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+  z-index: 100;
+}
+
+.tech-logo-icon:hover .tech-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.logoloop__link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: opacity 0.2s ease;
+}
+
+.logoloop__link:hover {
+  opacity: 0.8;
+}
+
+.logoloop__link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.logoloop--fade::before,
+.logoloop--fade::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(30px, 12%, 140px);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.logoloop--fade::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    var(--logoloop-fadeColor, var(--logoloop-fadeColorAuto)) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.logoloop--fade::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    var(--logoloop-fadeColor, var(--logoloop-fadeColorAuto)) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logoloop__track {
+    transform: translate3d(0, 0, 0) !important;
+  }
+
+  .logoloop__item img,
+  .logoloop__node {
+    transition: none !important;
+  }
+}
