@@ -4,8 +4,8 @@ interface Point3D {
   x: number;
   y: number;
   z: number;
-  color?: string;
-  isHub?: boolean;
+  color?: string | undefined;
+  isHub?: boolean | undefined;
 }
 
 export function InteractiveGlobe({ size = 420 }: { size?: number }) {
