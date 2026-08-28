@@ -162,7 +162,7 @@ export function RadialMenu({
         }}
       >
         <a
-          href="#hero"
+          href="/"
           className="brand-group"
           style={{
             display: "flex",

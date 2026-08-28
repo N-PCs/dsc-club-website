@@ -269,6 +269,35 @@ html.lenis body {
   overflow: hidden;
 }
 
+/* Button & Card Spacing Improvements */
+.cta-btn,
+.btn-neon,
+.btn-glass,
+.card-btn {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.glass-card .cta-btn,
+.glass-card button,
+.glass-card a.cta-btn,
+.activity-card .cta-btn,
+.domain-card .cta-btn,
+.event-card .cta-btn,
+form button[type="submit"] {
+  margin-top: 28px;
+}
+
 .lenis-scrolling iframe {
   pointer-events: none;
 }
