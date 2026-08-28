@@ -30,22 +30,32 @@ export const HeroSection: React.FC = () => {
         const startDelay = 250 + index * 80;
 
         setTimeout(() => {
-          const startTime = performance.now();
-          const update = (now: number) => {
-            const elapsed = now - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const current = Math.floor(easeOutCubic(progress) * stat.target);
+          let startTime: number | null = null;
+
+          const step = (currentTime: number) => {
+            if (!startTime) startTime = currentTime;
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            const easedProgress = easeOutCubic(progress);
+            const currentVal = Math.floor(easedProgress * stat.target);
+
             setCounts((prev) => {
               const next = [...prev];
-              next[index] = current;
+              next[index] = currentVal;
               return next;
             });
 
             if (progress < 1) {
-              requestAnimationFrame(update);
+              requestAnimationFrame(step);
+            } else {
+              setCounts((prev) => {
+                const next = [...prev];
+                next[index] = stat.target;
+                return next;
+              });
             }
           };
-          requestAnimationFrame(update);
+
+          requestAnimationFrame(step);
         }, startDelay);
       });
     };
@@ -68,50 +78,40 @@ export const HeroSection: React.FC = () => {
 
   return (
     <section id="hero" ref={sectionRef} className="hero-section">
-      <div className="bg">
-        <video
-          className="bg-video"
-          autoPlay
-          loop
-          muted
-          playsInline
-          src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-network-lines-movement-31742-large.mp4"
-        />
-        <div className="bg-overlay" />
-      </div>
-
-      <div className="hero-content">
-        <div className="badge-pill">
-          <span className="badge-dot"></span>
-          OFFICIAL DATA SCIENCE CLUB • VIT BHOPAL
-        </div>
-
+      <div className="hero-content page">
+        {/* Headline */}
         <h1 className="headline">
-          <span className="headline-line line1">Empowering Builders.</span>
-          <span className="headline-line line2">Advancing Intelligence.</span>
+          <span className="headline-line line1">UNLEASHING THE</span>
+          <span className="headline-line line2">DATA UNIVERSE</span>
         </h1>
 
+        {/* Subhead */}
         <p className="subhead">
-          Join VIT Bhopal's premier community of data scientists, machine learning engineers, and open-source developers building next-generation intelligent systems.
+          We turn insights into shipped models, interactive tools, and open-source
+          intelligence. Join a 100+ strong developer cohort pushing boundaries at
+          VIT Bhopal.
         </p>
 
+        {/* CTAs */}
         <div className="cta-group">
           <a href="#join" className="cta-btn primary-btn">
-            Join the Club
+            Join the Core
           </a>
-          <a href="#about" className="cta-btn secondary-btn">
-            Explore Initiatives
+          <a href="#events" className="cta-btn secondary-btn">
+            Explore Calendar
           </a>
         </div>
 
+        {/* Stats Bar */}
         <div className="stats-telemetry-bar">
-          {stats.map((stat, idx) => (
+          {stats.map((stat, i) => (
             <div key={stat.label} className="stat-item">
-              <div className="stat-value">
-                {counts[idx]}
+              <span className="stat-icon">{stat.icon}</span>
+              <span className="stat-value">
+                {counts[i]}
                 {stat.suffix}
-              </div>
-              <div className="stat-label">{stat.label}</div>
+              </span>
+              <span className="stat-label">{stat.label}</span>
             </div>
           ))}
         </div>

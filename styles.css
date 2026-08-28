@@ -282,7 +282,7 @@ body {
   max-width: 960px;
   width: 100%;
   height: 100%;
-  padding: 100px 24px 30px;
+  padding: 140px 24px 40px;
 }
 
 /* Badge Pill */
@@ -463,7 +463,7 @@ body {
   gap: 20px;
   width: 100%;
   max-width: 880px;
-  margin-top: auto;
+  margin-top: 48px;
 }
 
 .stat-item {
