@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
-import { Github, Linkedin, Twitter } from "lucide-react";
 import { gsap } from "gsap";
 import { PageHeader } from "@/components/site/Ambient";
 
@@ -122,25 +121,6 @@ function Members() {
                   <p className="mt-3 text-xs text-slate-400">
                     {m.dept}
                   </p>
-                </div>
-
-                <div className="mt-6 pt-5 border-t border-white/5 flex justify-center gap-2">
-                  {[
-                    { Icon: Github, href: "https://github.com" },
-                    { Icon: Linkedin, href: "https://linkedin.com" },
-                    { Icon: Twitter, href: "https://twitter.com" }
-                  ].map(({ Icon, href }, i) => (
-                    <a
-                      key={i}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${m.name} social profile`}
-                      className="btn-glass rounded-xl p-2.5 text-slate-400 hover:text-white hover:border-white/20 transition-all"
-                    >
-                      <Icon className="size-4" />
-                    </a>
-                  ))}
                 </div>
               </article>
             ))}
