@@ -1,33 +1,109 @@
 import React, { useState } from "react";
+import ChromaGrid, { ChromaItem } from "@/components/ui/ChromaGrid";
+import "./TeamSection.css";
 
-interface Member {
-  name: string;
-  role: string;
-  dept: string;
+interface TeamMember extends ChromaItem {
   group: "Executive Board" | "Leads" | "Core Team" | "Mentors";
 }
 
-const members: Member[] = [
-  { name: "Aarav Mehta", role: "President", dept: "CSE (AI & ML), '26", group: "Executive Board" },
-  { name: "Ishita Rao", role: "Vice President", dept: "CSE (Data Science), '26", group: "Executive Board" },
-  { name: "Kabir Nanda", role: "General Secretary", dept: "ECE, '27", group: "Executive Board" },
-  { name: "Sanya Kapoor", role: "AI/ML Lead", dept: "CSE (AI & ML), '27", group: "Leads" },
-  { name: "Rohan Iyer", role: "Data Engineering Lead", dept: "CSE, '27", group: "Leads" },
-  { name: "Meera Joshi", role: "Design Lead", dept: "CSE (UI/UX), '28", group: "Leads" },
-  { name: "Dev Sharma", role: "Technical Coordinator", dept: "CSE, '28", group: "Core Team" },
-  { name: "Ananya Bose", role: "Content Head", dept: "CSE (Data Science), '28", group: "Core Team" },
-  { name: "Vikram Sethi", role: "Events Manager", dept: "Mechanical, '27", group: "Core Team" },
-  { name: "Dr. Priya Nair", role: "Faculty Mentor", dept: "School of Computing", group: "Mentors" },
-  { name: "Arjun Verma", role: "Alumni Mentor", dept: "Data Scientist, '23", group: "Mentors" },
-  { name: "Nisha Pillai", role: "Research Mentor", dept: "School of Computing", group: "Mentors" },
+const teamMembers: TeamMember[] = [
+  {
+    title: "Aarav Mehta",
+    subtitle: "President",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80",
+    borderColor: "#00d2ff",
+    gradient: "linear-gradient(145deg, rgba(0, 210, 255, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
+    group: "Executive Board",
+  },
+  {
+    title: "Ishita Rao",
+    subtitle: "Vice President",
+    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=80",
+    borderColor: "#ec4899",
+    gradient: "linear-gradient(145deg, rgba(236, 72, 153, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
+    group: "Executive Board",
+  },
+  {
+    title: "Kabir Nanda",
+    subtitle: "General Secretary",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80",
+    borderColor: "#10b981",
+    gradient: "linear-gradient(145deg, rgba(16, 185, 129, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
+    group: "Executive Board",
+  },
+  {
+    title: "Sanya Kapoor",
+    subtitle: "AI/ML Lead",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=80",
+    borderColor: "#8b5cf6",
+    gradient: "linear-gradient(145deg, rgba(139, 92, 246, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
+    group: "Leads",
+  },
+  {
+    title: "Rohan Iyer",
+    subtitle: "Data Engineering Lead",
+    image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=80",
+    borderColor: "#f59e0b",
+    gradient: "linear-gradient(145deg, rgba(245, 158, 11, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
+    group: "Leads",
+  },
+  {
+    title: "Meera Joshi",
+    subtitle: "Design Lead",
+    image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop&q=80",
+    borderColor: "#06b6d4",
+    gradient: "linear-gradient(145deg, rgba(6, 182, 212, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
+    group: "Leads",
+  },
+  {
+    title: "Dev Sharma",
+    subtitle: "Technical Coordinator",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80",
+    borderColor: "#3b82f6",
+    gradient: "linear-gradient(145deg, rgba(59, 130, 246, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
+    group: "Core Team",
+  },
+  {
+    title: "Ananya Bose",
+    subtitle: "Content Head",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80",
+    borderColor: "#ef4444",
+    gradient: "linear-gradient(145deg, rgba(239, 68, 68, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
+    group: "Core Team",
+  },
+  {
+    title: "Vikram Sethi",
+    subtitle: "Events Manager",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80",
+    borderColor: "#10b981",
+    gradient: "linear-gradient(145deg, rgba(16, 185, 129, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
+    group: "Core Team",
+  },
+  {
+    title: "Dr. Priya Nair",
+    subtitle: "Faculty Mentor",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&auto=format&fit=crop&q=80",
+    borderColor: "#00d2ff",
+    gradient: "linear-gradient(145deg, rgba(0, 210, 255, 0.25) 0%, rgba(11, 19, 41, 0.95) 100%)",
+    group: "Mentors",
+  },
+  {
+    title: "Arjun Verma",
+    subtitle: "Alumni Mentor",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80",
+    borderColor: "#8b5cf6",
+    gradient: "linear-gradient(145deg, rgba(139, 92, 246, 0.25) 0%, rgba(11, 19, 41, 0.95) 100%)",
+    group: "Mentors",
+  },
+  {
+    title: "Nisha Pillai",
+    subtitle: "Research Mentor",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=500&auto=format&fit=crop&q=80",
+    borderColor: "#ec4899",
+    gradient: "linear-gradient(145deg, rgba(236, 72, 153, 0.25) 0%, rgba(11, 19, 41, 0.95) 100%)",
+    group: "Mentors",
+  },
 ];
-
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("");
-}
 
 const groups = ["All", "Executive Board", "Leads", "Core Team", "Mentors"] as const;
 
@@ -36,8 +112,8 @@ export const TeamSection: React.FC = () => {
 
   const filteredMembers =
     activeGroup === "All"
-      ? members
-      : members.filter((m) => m.group === activeGroup);
+      ? teamMembers
+      : teamMembers.filter((m) => m.group === activeGroup);
 
   return (
     <section id="team" className="content-section">
@@ -45,16 +121,15 @@ export const TeamSection: React.FC = () => {
         <div className="section-header text-center">
           <span className="section-eyebrow">TEAM & LEADERSHIP</span>
           <h2 className="section-title">
-            The Minds Behind <span className="gradient-text">DSC</span>
+            The Minds Behind <span className="gradient-text">DSC VITB</span>
           </h2>
           <p className="section-subtitle">
-            Students, coordinators, and domain mentors driving workshops, software,
-            and research.
+            Students, coordinators, and domain mentors driving workshops, software pipelines, and AI research.
           </p>
         </div>
 
         <div className="team-layout margin-top-lg">
-          {/* Sidebar Filter */}
+          {/* Restored Sidebar Department Selector */}
           <div className="team-sidebar">
             <span className="filter-label">ROSTER DEPARTMENTS</span>
             <h3 className="filter-title">Filter Team</h3>
@@ -71,19 +146,21 @@ export const TeamSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Member Grid */}
-          <div className="team-grid">
-            {filteredMembers.map((m) => (
-              <div key={m.name} className="member-card glass-card">
-                <div className="member-avatar">{getInitials(m.name)}</div>
-                <h4 className="member-name">{m.name}</h4>
-                <span className="member-role">{m.role}</span>
-                <p className="member-dept">{m.dept}</p>
-              </div>
-            ))}
+          {/* Compact ChromaGrid Roster */}
+          <div className="team-grid-area" style={{ width: "100%", position: "relative" }}>
+            <ChromaGrid
+              items={filteredMembers}
+              radius={240}
+              columns={3}
+              damping={0.45}
+              fadeOut={0.6}
+              ease="power3.out"
+            />
           </div>
         </div>
       </div>
     </section>
   );
 };
+
+export default TeamSection;
