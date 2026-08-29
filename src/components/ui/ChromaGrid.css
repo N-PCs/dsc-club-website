@@ -18,8 +18,30 @@
 
 @media (max-width: 640px) {
   .chroma-grid {
-    grid-template-columns: repeat(auto-fill, minmax(135px, 165px));
+    grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+    justify-content: center;
     gap: 0.65rem;
+  }
+
+  .chroma-card {
+    min-height: 160px;
+    border-radius: 10px;
+  }
+
+  .chroma-img-wrapper img {
+    height: 85px;
+  }
+
+  .chroma-info {
+    padding: 0.4rem 0.5rem 0.5rem 0.5rem;
+  }
+
+  .chroma-info .name {
+    font-size: 0.82rem;
+  }
+
+  .chroma-info .role {
+    font-size: 0.7rem;
   }
 }
 

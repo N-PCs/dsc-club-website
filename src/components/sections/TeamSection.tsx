@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ChromaGrid, { ChromaItem } from "@/components/ui/ChromaGrid";
 import "./TeamSection.css";
 
@@ -187,6 +187,31 @@ const teamOrderMap: Record<string, number> = {
 
 export const TeamSection: React.FC = () => {
   const [activeGroup, setActiveGroup] = useState<string>("Panel");
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [userInteracted, setUserInteracted] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile || userInteracted) return;
+
+    const interval = setInterval(() => {
+      setActiveGroup((prev) => {
+        const currentIndex = groups.indexOf(prev as typeof groups[number]);
+        const nextIndex = (currentIndex + 1) % groups.length;
+        return groups[nextIndex] || "Panel";
+      });
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [isMobile, userInteracted]);
 
   const filteredMembers =
     activeGroup === "Leads"
@@ -198,6 +223,8 @@ export const TeamSection: React.FC = () => {
           .filter((m) => m.role === "Co-Lead")
           .sort((a, b) => (teamOrderMap[a.group] || 99) - (teamOrderMap[b.group] || 99))
       : teamMembers.filter((m) => m.group === activeGroup);
+
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
   return (
     <section id="team" className="content-section">
@@ -213,7 +240,67 @@ export const TeamSection: React.FC = () => {
         </div>
 
         <div className="team-layout margin-top-lg">
-          {/* Sidebar Department Selector */}
+          {/* Custom Animated Mobile Dropdown View */}
+          <div className="mobile-custom-dropdown-container">
+            <div className="mobile-dropdown-topbar">
+              <span className="filter-label">ROSTER DEPARTMENTS</span>
+              {!userInteracted ? (
+                <span className="auto-slide-badge">
+                  <span className="pulse-dot" /> Auto-playing teams
+                </span>
+              ) : (
+                <span className="auto-slide-badge paused">
+                  {filteredMembers.length} Members
+                </span>
+              )}
+            </div>
+
+            <button
+              type="button"
+              className={`mobile-dropdown-trigger ${dropdownOpen ? "open" : ""}`}
+              onClick={() => setDropdownOpen((prev) => !prev)}
+            >
+              <div className="trigger-left">
+                <span className="trigger-icon">❖</span>
+                <span className="trigger-selected-text">{activeGroup}</span>
+              </div>
+              <div className="trigger-right">
+                <span className="count-pill">{filteredMembers.length}</span>
+                <span className={`trigger-chevron ${dropdownOpen ? "rotate" : ""}`}>▼</span>
+              </div>
+            </button>
+
+            {dropdownOpen && (
+              <div className="mobile-dropdown-menu">
+                {groups.map((g) => {
+                  const count =
+                    g === "Leads"
+                      ? teamMembers.filter((m) => m.role === "Lead").length
+                      : g === "Co-Leads"
+                      ? teamMembers.filter((m) => m.role === "Co-Lead").length
+                      : teamMembers.filter((m) => m.group === g).length;
+
+                  return (
+                    <button
+                      key={g}
+                      type="button"
+                      className={`mobile-dropdown-item ${activeGroup === g ? "active" : ""}`}
+                      onClick={() => {
+                        setActiveGroup(g);
+                        setUserInteracted(true);
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      <span className="item-name">{g}</span>
+                      <span className="item-count">{count}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Desktop Sidebar Department Selector */}
           <div className="team-sidebar">
             <span className="filter-label">ROSTER DEPARTMENTS</span>
             <h3 className="filter-title">Filter Team</h3>
@@ -222,7 +309,10 @@ export const TeamSection: React.FC = () => {
                 <button
                   key={g}
                   className={`team-tab-btn ${activeGroup === g ? "active" : ""}`}
-                  onClick={() => setActiveGroup(g)}
+                  onClick={() => {
+                    setActiveGroup(g);
+                    setUserInteracted(true);
+                  }}
                 >
                   {g}
                 </button>
