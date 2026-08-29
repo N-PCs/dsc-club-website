@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 
 import { NotFoundPage } from "@/components/pages/NotFoundPage";
+import TopAnnouncementBanner from "@/components/site/TopAnnouncementBanner";
 
 function NotFoundComponent() {
   return <NotFoundPage />;
@@ -88,6 +89,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <TopAnnouncementBanner />
       <main className="relative min-h-screen">
         <Outlet />
       </main>

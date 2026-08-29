@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import {
   databases,
+  account,
   APPWRITE_DATABASE_ID,
   APPWRITE_RECRUITMENT_COLLECTION_ID,
   RecruitmentData,
+  loginWithOAuth,
 } from "@/lib/appwrite";
+import { OAuthProvider } from "appwrite";
 import "./AdminPanel.css";
 
 // Super Admin Bypass Email
@@ -65,11 +68,20 @@ export const AdminPanel: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
+  const [dbNotice, setDbNotice] = useState<string>("");
 
   // Manage custom authorized admin emails list
   const [authorizedAdmins, setAuthorizedAdmins] = useState<string[]>([SUPER_ADMIN_EMAIL]);
   const [newAdminEmail, setNewAdminEmail] = useState<string>("");
   const [showAdminManager, setShowAdminManager] = useState<boolean>(false);
+
+  // Recruitment Toggle (On / Off)
+  const [isRecruitmentOpen, setIsRecruitmentOpen] = useState<boolean>(true);
+
+  // Top Notification Headline Controls
+  const [adminHeadline, setAdminHeadline] = useState<string>("🚀 Core Team Recruitment 2026 is LIVE! Submit your application now.");
+  const [showHeadline, setShowHeadline] = useState<boolean>(false);
+  const [showBannerControls, setShowBannerControls] = useState<boolean>(false);
 
   const [applications, setApplications] = useState<ApplicationRecord[]>(INITIAL_MOCK_APPLICATIONS);
   const [loading, setLoading] = useState<boolean>(false);
@@ -77,7 +89,7 @@ export const AdminPanel: React.FC = () => {
   const [teamFilter, setTeamFilter] = useState<string>("All");
   const [statusFilter, setStatusFilter] = useState<string>("All");
 
-  // Load authorized admin emails & check persisted login
+  // Load state from localStorage on mount
   useEffect(() => {
     try {
       const storedAdmins = localStorage.getItem("dsc_authorized_admin_emails");
@@ -87,15 +99,55 @@ export const AdminPanel: React.FC = () => {
           setAuthorizedAdmins(Array.from(new Set([SUPER_ADMIN_EMAIL, ...parsed])));
         }
       }
+
+      const storedRecruitmentStatus = localStorage.getItem("dsc_recruitment_open");
+      if (storedRecruitmentStatus === "false") {
+        setIsRecruitmentOpen(false);
+      }
+
+      const storedHeadline = localStorage.getItem("dsc_admin_headline");
+      if (storedHeadline) setAdminHeadline(storedHeadline);
+
+      const storedHeadlineEnabled = localStorage.getItem("dsc_admin_headline_enabled");
+      if (storedHeadlineEnabled === "true") setShowHeadline(true);
     } catch (e) {
-      console.warn("Failed loading authorized admins:", e);
+      console.warn("Failed loading stored admin settings:", e);
     }
 
-    const savedEmail = localStorage.getItem("dsc_admin_email");
-    if (savedEmail) {
-      handleValidateLogin(savedEmail, true);
-    }
+    const checkActiveSession = async () => {
+      try {
+        const currentUser = await account.get();
+        if (currentUser && currentUser.email) {
+          handleValidateLogin(currentUser.email, true);
+          return;
+        }
+      } catch {
+        const savedEmail = localStorage.getItem("dsc_admin_email");
+        if (savedEmail) {
+          handleValidateLogin(savedEmail, true);
+        }
+      }
+    };
+
+    checkActiveSession();
   }, []);
+
+  // Save Recruitment Toggle Status
+  const toggleRecruitmentStatus = () => {
+    const nextStatus = !isRecruitmentOpen;
+    setIsRecruitmentOpen(nextStatus);
+    localStorage.setItem("dsc_recruitment_open", String(nextStatus));
+    window.dispatchEvent(new Event("dsc_recruitment_status_updated"));
+  };
+
+  // Save Top Banner Announcement Settings
+  const handleSaveHeadline = (e: React.FormEvent) => {
+    e.preventDefault();
+    localStorage.setItem("dsc_admin_headline", adminHeadline);
+    localStorage.setItem("dsc_admin_headline_enabled", String(showHeadline));
+    window.dispatchEvent(new Event("dsc_headline_updated"));
+    alert("Top Notification Headline updated successfully!");
+  };
 
   // Save authorized admin emails list
   const saveAuthorizedAdmins = (newList: string[]) => {
@@ -133,6 +185,7 @@ export const AdminPanel: React.FC = () => {
       setIsSuperAdmin(true);
       setUserEmail(cleanEmail);
       localStorage.setItem("dsc_admin_email", cleanEmail);
+      localStorage.setItem("dsc_admin_authenticated", "true");
       setErrorMsg("");
       fetchLiveApplications();
       return;
@@ -144,6 +197,7 @@ export const AdminPanel: React.FC = () => {
       setIsSuperAdmin(false);
       setUserEmail(cleanEmail);
       localStorage.setItem("dsc_admin_email", cleanEmail);
+      localStorage.setItem("dsc_admin_authenticated", "true");
       setErrorMsg("");
       fetchLiveApplications();
       return;
@@ -155,6 +209,7 @@ export const AdminPanel: React.FC = () => {
       setIsSuperAdmin(false);
       setUserEmail(cleanEmail);
       localStorage.setItem("dsc_admin_email", cleanEmail);
+      localStorage.setItem("dsc_admin_authenticated", "true");
       setErrorMsg("");
       fetchLiveApplications();
       return;
@@ -177,17 +232,24 @@ export const AdminPanel: React.FC = () => {
     handleValidateLogin(userEmail);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setIsAuthenticated(false);
     setIsSuperAdmin(false);
     setUserEmail("");
     setPassword("");
     localStorage.removeItem("dsc_admin_email");
+    localStorage.removeItem("dsc_admin_authenticated");
+    try {
+      await account.deleteSession("current");
+    } catch {
+      // Ignore if no active Appwrite OAuth session
+    }
   };
 
-  // Fetch live documents from Appwrite Database
+  // Fetch live documents from Appwrite Database with safe error handling
   const fetchLiveApplications = async () => {
     setLoading(true);
+    setDbNotice("");
     try {
       const response = await databases.listDocuments(
         APPWRITE_DATABASE_ID,
@@ -210,9 +272,14 @@ export const AdminPanel: React.FC = () => {
           submittedAt: doc.submittedAt || doc.$createdAt,
         }));
         setApplications(fetchedDocs);
+      } else {
+        setDbNotice("Appwrite collection connected (0 live submissions currently).");
       }
-    } catch (err) {
-      console.warn("Appwrite live fetch fallback to local data:", err);
+    } catch (err: any) {
+      console.warn("Appwrite live fetch notice:", err?.message || err);
+      setDbNotice(
+        "💡 Appwrite Notice: Displaying local dashboard applications. Run 'npm run setup:db' to sync live Appwrite database collection."
+      );
     } finally {
       setLoading(false);
     }
@@ -301,6 +368,48 @@ export const AdminPanel: React.FC = () => {
               Authenticate & Access Panel →
             </button>
           </form>
+
+          <div style={{ display: "flex", alignItems: "center", margin: "20px 0", gap: "10px" }}>
+            <div style={{ flex: 1, height: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
+            <span style={{ fontSize: "11px", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em" }}>OR</span>
+            <div style={{ flex: 1, height: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
+          </div>
+
+          <button
+            type="button"
+            className="btn-admin-submit"
+            style={{
+              background: "rgba(255, 255, 255, 0.06)",
+              border: "1px solid rgba(255, 255, 255, 0.15)",
+              color: "#ffffff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px",
+              boxShadow: "none",
+            }}
+            onClick={() => loginWithOAuth(OAuthProvider.Google)}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <path
+                fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+              />
+              <path
+                fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+              />
+            </svg>
+            Continue with Google OAuth
+          </button>
         </div>
       </div>
     );
@@ -324,7 +433,39 @@ export const AdminPanel: React.FC = () => {
           </p>
         </div>
 
-        <div className="admin-user-info">
+        <div className="admin-user-info" style={{ flexWrap: "wrap", gap: "10px" }}>
+          {/* Recruitment On / Off Toggle */}
+          <button
+            type="button"
+            onClick={toggleRecruitmentStatus}
+            style={{
+              padding: "8px 16px",
+              borderRadius: "20px",
+              fontSize: "13px",
+              fontWeight: "700",
+              cursor: "pointer",
+              border: "1px solid " + (isRecruitmentOpen ? "rgba(52, 211, 153, 0.5)" : "rgba(239, 68, 68, 0.5)"),
+              background: isRecruitmentOpen ? "rgba(52, 211, 153, 0.15)" : "rgba(239, 68, 68, 0.15)",
+              color: isRecruitmentOpen ? "#34d399" : "#f87171",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: isRecruitmentOpen ? "#34d399" : "#f87171" }} />
+            Recruitments: {isRecruitmentOpen ? "OPEN (Active)" : "CLOSED (Paused)"}
+          </button>
+
+          {/* Top Banner Control Toggle */}
+          <button
+            type="button"
+            className="filter-select"
+            style={{ padding: "8px 14px", fontSize: "13px", color: "#00d2ff", borderColor: "rgba(0, 210, 255, 0.4)" }}
+            onClick={() => setShowBannerControls(!showBannerControls)}
+          >
+            📢 Website Banner Notice
+          </button>
+
           {isSuperAdmin && (
             <button
               type="button"
@@ -332,7 +473,7 @@ export const AdminPanel: React.FC = () => {
               style={{ padding: "8px 14px", fontSize: "13px", fontWeight: "700" }}
               onClick={() => setShowAdminManager(!showAdminManager)}
             >
-              👑 Manage Admin Emails ({authorizedAdmins.length})
+              👑 Manage Admins ({authorizedAdmins.length})
             </button>
           )}
 
@@ -342,6 +483,52 @@ export const AdminPanel: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Top Banner Control Panel */}
+      {showBannerControls && (
+        <div style={{ background: "rgba(15, 23, 42, 0.95)", border: "1px solid rgba(0, 210, 255, 0.4)", borderRadius: "18px", padding: "20px", marginBottom: "28px" }}>
+          <h3 style={{ fontSize: "16px", fontWeight: "800", color: "#00d2ff", marginBottom: "6px" }}>
+            📢 Admin Announcement Banner (Top of Website)
+          </h3>
+          <p style={{ fontSize: "13px", color: "#94a3b8", marginBottom: "16px" }}>
+            Set a custom ticker headline notification visible across the top of all website pages.
+          </p>
+
+          <form onSubmit={handleSaveHeadline} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            <input
+              type="text"
+              className="search-input-box"
+              placeholder="e.g. 🚀 Core Team Recruitments 2026 are OPEN! Apply now."
+              value={adminHeadline}
+              onChange={(e) => setAdminHeadline(e.target.value)}
+              required
+            />
+
+            <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+              <label style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "13.5px", color: "#ffffff", cursor: "pointer" }}>
+                <input
+                  type="checkbox"
+                  checked={showHeadline}
+                  onChange={(e) => setShowHeadline(e.target.checked)}
+                  style={{ width: "16px", height: "16px", accentColor: "#00d2ff" }}
+                />
+                Show Announcement Banner on Website
+              </label>
+
+              <button type="submit" className="btn-admin-submit" style={{ width: "auto", padding: "8px 20px", marginTop: 0 }}>
+                Save Banner Announcement
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Appwrite Status / Database Notice */}
+      {dbNotice && (
+        <div style={{ background: "rgba(0, 210, 255, 0.08)", border: "1px solid rgba(0, 210, 255, 0.25)", color: "#00d2ff", padding: "12px 18px", borderRadius: "12px", fontSize: "13px", marginBottom: "24px" }}>
+          {dbNotice}
+        </div>
+      )}
 
       {/* Super Admin Manager Modal / Banner */}
       {isSuperAdmin && showAdminManager && (
