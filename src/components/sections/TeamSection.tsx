@@ -34,14 +34,14 @@ const createMember = (
 });
 
 const teamMembers: TeamMember[] = [
-  // PANEL
-  createMember("Divish Jain", "President", "Panel", "#00d2ff", "0, 210, 255"),
-  createMember("Kritika Maurya", "Vice President", "Panel", "#00d2ff", "0, 210, 255"),
-  createMember("Aman Panday", "General Secretary", "Panel", "#00d2ff", "0, 210, 255"),
-  createMember("Somya Tiwari", "Joint Secretary", "Panel", "#00d2ff", "0, 210, 255"),
-  createMember("Shriyash Sahu", "Ops Manager", "Panel", "#00d2ff", "0, 210, 255"),
+  // PANEL (METALLIC SILVER)
+  createMember("Divish Jain", "President", "Panel", "#cbd5e1", "203, 213, 225"),
+  createMember("Kritika Maurya", "Vice President", "Panel", "#cbd5e1", "203, 213, 225"),
+  createMember("Aman Panday", "General Secretary", "Panel", "#cbd5e1", "203, 213, 225"),
+  createMember("Somya Tiwari", "Joint Secretary", "Panel", "#cbd5e1", "203, 213, 225"),
+  createMember("Shriyash Sahu", "Ops Manager", "Panel", "#cbd5e1", "203, 213, 225"),
 
-  // HR TEAM
+  // HR TEAM (HOT PINK)
   createMember("Aditya Saini", "Lead", "HR Team", "#ec4899", "236, 72, 153"),
   createMember("Vedant Patil", "Co-Lead", "HR Team", "#ec4899", "236, 72, 153"),
   createMember("Gargi Singh", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
@@ -51,7 +51,7 @@ const teamMembers: TeamMember[] = [
   createMember("Aryan Awasthi", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
   createMember("Aryan Raj Mishra", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
 
-  // EVENT MANAGEMENT TEAM
+  // EVENT MANAGEMENT TEAM (GOLDEN AMBER)
   createMember("Ayush Gupta", "Lead", "Event Management Team", "#f59e0b", "245, 158, 11"),
   createMember("Arunika Bag", "Co-Lead", "Event Management Team", "#f59e0b", "245, 158, 11"),
   createMember("Ashutosh Shrivastava", "Co-Lead", "Event Management Team", "#f59e0b", "245, 158, 11"),
@@ -75,7 +75,7 @@ const teamMembers: TeamMember[] = [
   createMember("Siddhi Gupta", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
   createMember("Salam Khan", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
 
-  // PR AND OUTREACH TEAM
+  // PR AND OUTREACH TEAM (NEON PURPLE)
   createMember("Shalini Pal", "Lead", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
   createMember("Soumya Chouhan", "Co-Lead", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
   createMember("Sousthab Mitra", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
@@ -85,7 +85,7 @@ const teamMembers: TeamMember[] = [
   createMember("Sivi Shrivastav", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
   createMember("Vijval Singh", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
 
-  // CONTENT TEAM
+  // CONTENT TEAM (ELECTRIC TEAL)
   createMember("Jihi Mamtani", "Lead", "Content Team", "#06b6d4", "6, 182, 212"),
   createMember("Anusha Singh Rajput", "Co-Lead", "Content Team", "#06b6d4", "6, 182, 212"),
   createMember("Shruti Mishra", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
@@ -94,7 +94,7 @@ const teamMembers: TeamMember[] = [
   createMember("Bhavesh Wadhwani", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
   createMember("Ashi Gupta", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
 
-  // TECHNICAL TEAM
+  // TECHNICAL TEAM (EMERALD GREEN)
   createMember("Sumit Tripathi", "Lead", "Technical Team", "#10b981", "16, 185, 129"),
   createMember("Abhishek Bochare", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
   createMember("Sparsh Kapoor", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
@@ -107,7 +107,7 @@ const teamMembers: TeamMember[] = [
   createMember("Siddhi Dogne", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
   createMember("Kuldeep", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
 
-  // SOCIAL MEDIA TEAM
+  // SOCIAL MEDIA TEAM (CRIMSON ROSE)
   createMember("Himesh Jham", "Lead", "Social Media Team", "#f43f5e", "244, 63, 94"),
   createMember("Shalvi Pandey", "Co-Lead", "Social Media Team", "#f43f5e", "244, 63, 94"),
   createMember("Pari Pancholiya", "Co-Lead", "Social Media Team", "#f43f5e", "244, 63, 94"),
@@ -127,35 +127,35 @@ const teamMembers: TeamMember[] = [
   createMember("Aashish", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
   createMember("N Nishchay Reddy", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
 
-  // DESIGN TEAM
-  createMember("Pranjal Tiwari", "Lead", "Design Team", "#8b5cf6", "139, 92, 246"),
-  createMember("Aditya Pandey", "Co-Lead", "Design Team", "#8b5cf6", "139, 92, 246"),
-  createMember("Ishani Sahay", "Co-Lead", "Design Team", "#8b5cf6", "139, 92, 246"),
-  createMember("Saumya Dayal", "Core Member", "Design Team", "#8b5cf6", "139, 92, 246"),
-  createMember("Vaibhav Santosh Tiwari", "Core Member", "Design Team", "#8b5cf6", "139, 92, 246"),
-  createMember("Abhishek", "Core Member", "Design Team", "#8b5cf6", "139, 92, 246"),
-  createMember("Drishti Singh", "Core Member", "Design Team", "#8b5cf6", "139, 92, 246"),
-  createMember("Prisha Sharma", "Core Member", "Design Team", "#8b5cf6", "139, 92, 246"),
+  // DESIGN TEAM (VIVID INDIGO)
+  createMember("Pranjal Tiwari", "Lead", "Design Team", "#818cf8", "129, 140, 248"),
+  createMember("Aditya Pandey", "Co-Lead", "Design Team", "#818cf8", "129, 140, 248"),
+  createMember("Ishani Sahay", "Co-Lead", "Design Team", "#818cf8", "129, 140, 248"),
+  createMember("Saumya Dayal", "Core Member", "Design Team", "#818cf8", "129, 140, 248"),
+  createMember("Vaibhav Santosh Tiwari", "Core Member", "Design Team", "#818cf8", "129, 140, 248"),
+  createMember("Abhishek", "Core Member", "Design Team", "#818cf8", "129, 140, 248"),
+  createMember("Drishti Singh", "Core Member", "Design Team", "#818cf8", "129, 140, 248"),
+  createMember("Prisha Sharma", "Core Member", "Design Team", "#818cf8", "129, 140, 248"),
 
-  // PHOTOGRAPHY TEAM
+  // PHOTOGRAPHY TEAM (SUNSET CORAL)
   createMember("Prabhav Sharma", "Lead", "Photography Team", "#ff7849", "255, 120, 73"),
   createMember("Neha A", "Core Member", "Photography Team", "#ff7849", "255, 120, 73"),
   createMember("Vaishnavi Gupta", "Core Member", "Photography Team", "#ff7849", "255, 120, 73"),
   createMember("Prince Gupta", "Core Member", "Photography Team", "#ff7849", "255, 120, 73"),
   createMember("Parimal Vinod Swami", "Core Member", "Photography Team", "#ff7849", "255, 120, 73"),
 
-  // SOFTWARE DEV TEAM
-  createMember("Neel Pandey", "Lead", "Software Dev Team", "#3b82f6", "59, 130, 246"),
-  createMember("Aarush Rahul Patel", "Co-Lead", "Software Dev Team", "#3b82f6", "59, 130, 246"),
-  createMember("Sanskar", "Co-Lead", "Software Dev Team", "#3b82f6", "59, 130, 246"),
-  createMember("Nikhil Kumar Tiwari", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
-  createMember("Shresth Bhargava", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
-  createMember("Tanishka", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
-  createMember("Ritik", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
-  createMember("Varun Saini", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
-  createMember("Rajnarayan", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
-  createMember("Anish", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
-  createMember("Ananya", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
+  // SOFTWARE DEV TEAM (PLATINUM CYAN)
+  createMember("Neel Pandey", "Lead", "Software Dev Team", "#38bdf8", "56, 189, 248"),
+  createMember("Aarush Rahul Patel", "Co-Lead", "Software Dev Team", "#38bdf8", "56, 189, 248"),
+  createMember("Sanskar", "Co-Lead", "Software Dev Team", "#38bdf8", "56, 189, 248"),
+  createMember("Nikhil Kumar Tiwari", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
+  createMember("Shresth Bhargava", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
+  createMember("Tanishka", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
+  createMember("Ritik", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
+  createMember("Varun Saini", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
+  createMember("Rajnarayan", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
+  createMember("Anish", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
+  createMember("Ananya", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
 ];
 
 const groups = [
