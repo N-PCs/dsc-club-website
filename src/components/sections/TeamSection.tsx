@@ -2,117 +2,201 @@ import React, { useState } from "react";
 import ChromaGrid, { ChromaItem } from "@/components/ui/ChromaGrid";
 import "./TeamSection.css";
 
-interface TeamMember extends ChromaItem {
-  group: "Executive Board" | "Leads" | "Core Team" | "Mentors";
+export interface TeamMember extends ChromaItem {
+  group:
+    | "Panel"
+    | "HR Team"
+    | "Event Management Team"
+    | "PR & Outreach Team"
+    | "Content Team"
+    | "Technical Team"
+    | "Social Media Team"
+    | "Design Team"
+    | "Photography Team"
+    | "Software Dev Team";
+  role: string;
 }
 
+const createMember = (
+  name: string,
+  role: string,
+  group: TeamMember["group"],
+  borderColor: string,
+  rgbGlow: string
+): TeamMember => ({
+  title: name,
+  subtitle: `${role} • ${group}`,
+  group,
+  role,
+  borderColor,
+  gradient: `linear-gradient(145deg, rgba(${rgbGlow}, 0.22) 0%, rgba(11, 19, 41, 0.95) 100%)`,
+  image: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0b1329&color=${borderColor.replace('#', '')}&bold=true&font-size=0.38`
+});
+
 const teamMembers: TeamMember[] = [
-  {
-    title: "Aarav Mehta",
-    subtitle: "President",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80",
-    borderColor: "#00d2ff",
-    gradient: "linear-gradient(145deg, rgba(0, 210, 255, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
-    group: "Executive Board",
-  },
-  {
-    title: "Ishita Rao",
-    subtitle: "Vice President",
-    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=80",
-    borderColor: "#ec4899",
-    gradient: "linear-gradient(145deg, rgba(236, 72, 153, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
-    group: "Executive Board",
-  },
-  {
-    title: "Kabir Nanda",
-    subtitle: "General Secretary",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80",
-    borderColor: "#10b981",
-    gradient: "linear-gradient(145deg, rgba(16, 185, 129, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
-    group: "Executive Board",
-  },
-  {
-    title: "Sanya Kapoor",
-    subtitle: "AI/ML Lead",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=80",
-    borderColor: "#8b5cf6",
-    gradient: "linear-gradient(145deg, rgba(139, 92, 246, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
-    group: "Leads",
-  },
-  {
-    title: "Rohan Iyer",
-    subtitle: "Data Engineering Lead",
-    image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=80",
-    borderColor: "#f59e0b",
-    gradient: "linear-gradient(145deg, rgba(245, 158, 11, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
-    group: "Leads",
-  },
-  {
-    title: "Meera Joshi",
-    subtitle: "Design Lead",
-    image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop&q=80",
-    borderColor: "#06b6d4",
-    gradient: "linear-gradient(145deg, rgba(6, 182, 212, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
-    group: "Leads",
-  },
-  {
-    title: "Dev Sharma",
-    subtitle: "Technical Coordinator",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80",
-    borderColor: "#3b82f6",
-    gradient: "linear-gradient(145deg, rgba(59, 130, 246, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
-    group: "Core Team",
-  },
-  {
-    title: "Ananya Bose",
-    subtitle: "Content Head",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80",
-    borderColor: "#ef4444",
-    gradient: "linear-gradient(145deg, rgba(239, 68, 68, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
-    group: "Core Team",
-  },
-  {
-    title: "Vikram Sethi",
-    subtitle: "Events Manager",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80",
-    borderColor: "#10b981",
-    gradient: "linear-gradient(145deg, rgba(16, 185, 129, 0.2) 0%, rgba(11, 19, 41, 0.95) 100%)",
-    group: "Core Team",
-  },
-  {
-    title: "Dr. Priya Nair",
-    subtitle: "Faculty Mentor",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&auto=format&fit=crop&q=80",
-    borderColor: "#00d2ff",
-    gradient: "linear-gradient(145deg, rgba(0, 210, 255, 0.25) 0%, rgba(11, 19, 41, 0.95) 100%)",
-    group: "Mentors",
-  },
-  {
-    title: "Arjun Verma",
-    subtitle: "Alumni Mentor",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80",
-    borderColor: "#8b5cf6",
-    gradient: "linear-gradient(145deg, rgba(139, 92, 246, 0.25) 0%, rgba(11, 19, 41, 0.95) 100%)",
-    group: "Mentors",
-  },
-  {
-    title: "Nisha Pillai",
-    subtitle: "Research Mentor",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=500&auto=format&fit=crop&q=80",
-    borderColor: "#ec4899",
-    gradient: "linear-gradient(145deg, rgba(236, 72, 153, 0.25) 0%, rgba(11, 19, 41, 0.95) 100%)",
-    group: "Mentors",
-  },
+  // PANEL
+  createMember("Divish Jain", "President", "Panel", "#00d2ff", "0, 210, 255"),
+  createMember("Kritika Maurya", "Vice President", "Panel", "#00d2ff", "0, 210, 255"),
+  createMember("Aman Panday", "General Secretary", "Panel", "#00d2ff", "0, 210, 255"),
+  createMember("Somya Tiwari", "Joint Secretary", "Panel", "#00d2ff", "0, 210, 255"),
+  createMember("Shriyash Sahu", "Ops Manager", "Panel", "#00d2ff", "0, 210, 255"),
+
+  // HR TEAM
+  createMember("Aditya Saini", "Lead", "HR Team", "#ec4899", "236, 72, 153"),
+  createMember("Vedant Patil", "Co-Lead", "HR Team", "#ec4899", "236, 72, 153"),
+  createMember("Gargi Singh", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
+  createMember("Swagatika Priyadarshini Sahoo", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
+  createMember("Tanisha Sethi", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
+  createMember("Mitali Pandey", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
+  createMember("Aryan Awasthi", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
+  createMember("Aryan Raj Mishra", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
+
+  // EVENT MANAGEMENT TEAM
+  createMember("Ayush Gupta", "Lead", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Arunika Bag", "Co-Lead", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Ashutosh Shrivastava", "Co-Lead", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Divyansh Dhimole", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Akshat Mujmer", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Anshima", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Nilesh Ugale", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Ayush Ranjan", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Prashant Dubey", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Rakshit Yadav", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Anushka Dubey", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Bhawesh Kumar Gautam", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Sandeep Ganesh", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Anvesha Agrawal", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Satwik Singh", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Anushka Sahu", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Khushi Thakur", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Krishna Nishad", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Tejal Sharma", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Abhinav Gomra", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Siddhi Gupta", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember("Salam Khan", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+
+  // PR AND OUTREACH TEAM
+  createMember("Shalini Pal", "Lead", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
+  createMember("Soumya Chouhan", "Co-Lead", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
+  createMember("Sousthab Mitra", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
+  createMember("Pranjal Bhatnagar", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
+  createMember("Anandita Sharma", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
+  createMember("Karan Kumar Gupta", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
+  createMember("Sivi Shrivastav", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
+  createMember("Vijval Singh", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
+
+  // CONTENT TEAM
+  createMember("Jihi Mamtani", "Lead", "Content Team", "#06b6d4", "6, 182, 212"),
+  createMember("Anusha Singh Rajput", "Co-Lead", "Content Team", "#06b6d4", "6, 182, 212"),
+  createMember("Shruti Mishra", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
+  createMember("Akshat Singh", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
+  createMember("Ananya Pandey", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
+  createMember("Bhavesh Wadhwani", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
+  createMember("Ashi Gupta", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
+
+  // TECHNICAL TEAM
+  createMember("Sumit Tripathi", "Lead", "Technical Team", "#10b981", "16, 185, 129"),
+  createMember("Abhishek Bochare", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
+  createMember("Sparsh Kapoor", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
+  createMember("Harshit Mohta", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
+  createMember("Divyanshi Adhikari", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
+  createMember("Monika Sahu", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
+  createMember("Parth Chopra", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
+  createMember("Anwesha Dhote", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
+  createMember("Mansi Kumari", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
+  createMember("Siddhi Dogne", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
+  createMember("Kuldeep", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
+
+  // SOCIAL MEDIA TEAM
+  createMember("Himesh Jham", "Lead", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Shalvi Pandey", "Co-Lead", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Pari Pancholiya", "Co-Lead", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Ankit Kumar Yadav", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Rudra Pratap Singh", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Sanidhya Raj", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Aarushi Raizada", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Utkarsh Agrawal", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Shrashti Bansal", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Indrayudh Paul", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Riddhima Gupta", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Aastha Sharma", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Dhanraj Choudhary", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Muskan Bhatia", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Abhinav Sharma", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Sohini Dutta", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("Aashish", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  createMember("N Nishchay Reddy", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+
+  // DESIGN TEAM
+  createMember("Pranjal Tiwari", "Lead", "Design Team", "#8b5cf6", "139, 92, 246"),
+  createMember("Aditya Pandey", "Co-Lead", "Design Team", "#8b5cf6", "139, 92, 246"),
+  createMember("Ishani Sahay", "Co-Lead", "Design Team", "#8b5cf6", "139, 92, 246"),
+  createMember("Saumya Dayal", "Core Member", "Design Team", "#8b5cf6", "139, 92, 246"),
+  createMember("Vaibhav Santosh Tiwari", "Core Member", "Design Team", "#8b5cf6", "139, 92, 246"),
+  createMember("Abhishek", "Core Member", "Design Team", "#8b5cf6", "139, 92, 246"),
+  createMember("Drishti Singh", "Core Member", "Design Team", "#8b5cf6", "139, 92, 246"),
+  createMember("Prisha Sharma", "Core Member", "Design Team", "#8b5cf6", "139, 92, 246"),
+
+  // PHOTOGRAPHY TEAM
+  createMember("Prabhav Sharma", "Lead", "Photography Team", "#ff7849", "255, 120, 73"),
+  createMember("Neha A", "Core Member", "Photography Team", "#ff7849", "255, 120, 73"),
+  createMember("Vaishnavi Gupta", "Core Member", "Photography Team", "#ff7849", "255, 120, 73"),
+  createMember("Prince Gupta", "Core Member", "Photography Team", "#ff7849", "255, 120, 73"),
+  createMember("Parimal Vinod Swami", "Core Member", "Photography Team", "#ff7849", "255, 120, 73"),
+
+  // SOFTWARE DEV TEAM
+  createMember("Neel Pandey", "Lead", "Software Dev Team", "#3b82f6", "59, 130, 246"),
+  createMember("Aarush Rahul Patel", "Co-Lead", "Software Dev Team", "#3b82f6", "59, 130, 246"),
+  createMember("Sanskar", "Co-Lead", "Software Dev Team", "#3b82f6", "59, 130, 246"),
+  createMember("Nikhil Kumar Tiwari", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
+  createMember("Shresth Bhargava", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
+  createMember("Tanishka", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
+  createMember("Ritik", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
+  createMember("Varun Saini", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
+  createMember("Rajnarayan", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
+  createMember("Anish", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
+  createMember("Ananya", "Core Member", "Software Dev Team", "#3b82f6", "59, 130, 246"),
 ];
 
-const groups = ["All", "Executive Board", "Leads", "Core Team", "Mentors"] as const;
+const groups = [
+  "Panel",
+  "Leads",
+  "Co-Leads",
+  "Software Dev Team",
+  "Technical Team",
+  "Event Management Team",
+  "HR Team",
+  "PR & Outreach Team",
+  "Content Team",
+  "Social Media Team",
+  "Design Team",
+  "Photography Team",
+] as const;
+
+const teamOrderMap: Record<string, number> = {
+  "Software Dev Team": 1,
+  "Technical Team": 2,
+  "Event Management Team": 3,
+  "HR Team": 4,
+  "PR & Outreach Team": 5,
+  "Content Team": 6,
+  "Social Media Team": 7,
+  "Design Team": 8,
+  "Photography Team": 9,
+};
 
 export const TeamSection: React.FC = () => {
-  const [activeGroup, setActiveGroup] = useState<string>("All");
+  const [activeGroup, setActiveGroup] = useState<string>("Panel");
 
   const filteredMembers =
-    activeGroup === "All"
+    activeGroup === "Leads"
       ? teamMembers
+          .filter((m) => m.role === "Lead")
+          .sort((a, b) => (teamOrderMap[a.group] || 99) - (teamOrderMap[b.group] || 99))
+      : activeGroup === "Co-Leads"
+      ? teamMembers
+          .filter((m) => m.role === "Co-Lead")
+          .sort((a, b) => (teamOrderMap[a.group] || 99) - (teamOrderMap[b.group] || 99))
       : teamMembers.filter((m) => m.group === activeGroup);
 
   return (
@@ -124,12 +208,12 @@ export const TeamSection: React.FC = () => {
             The Minds Behind <span className="gradient-text">DSC VITB</span>
           </h2>
           <p className="section-subtitle">
-            Students, coordinators, and domain mentors driving workshops, software pipelines, and AI research.
+            Students, leads, and core members driving innovation, event management, software development, and AI initiatives.
           </p>
         </div>
 
         <div className="team-layout margin-top-lg">
-          {/* Restored Sidebar Department Selector */}
+          {/* Sidebar Department Selector */}
           <div className="team-sidebar">
             <span className="filter-label">ROSTER DEPARTMENTS</span>
             <h3 className="filter-title">Filter Team</h3>
@@ -140,7 +224,7 @@ export const TeamSection: React.FC = () => {
                   className={`team-tab-btn ${activeGroup === g ? "active" : ""}`}
                   onClick={() => setActiveGroup(g)}
                 >
-                  {g === "All" ? "All Members" : g}
+                  {g}
                 </button>
               ))}
             </div>
@@ -151,7 +235,7 @@ export const TeamSection: React.FC = () => {
             <ChromaGrid
               items={filteredMembers}
               radius={240}
-              columns={3}
+              columns={4}
               damping={0.45}
               fadeOut={0.6}
               ease="power3.out"
@@ -164,3 +248,7 @@ export const TeamSection: React.FC = () => {
 };
 
 export default TeamSection;
+
+
+
+
