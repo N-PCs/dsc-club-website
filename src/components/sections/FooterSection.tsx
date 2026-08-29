@@ -17,16 +17,16 @@ export const FooterSection: React.FC = () => {
             </div>
 
             <div className="footer-socials">
-              <a href="https://github.com" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="GitHub">
+              <a href="https://github.com/cdsvitbhopal" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="GitHub">
                 <i className="fa-brands fa-github" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/company/dsc-vitb/?originalSubdomain=in" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="LinkedIn">
                 <i className="fa-brands fa-linkedin-in" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="Twitter">
+              <a href="https://x.com/DSC_VITB" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="Twitter">
                 <i className="fa-brands fa-x-twitter" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="Instagram">
+              <a href="https://www.instagram.com/dsc_vitb/" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="Instagram">
                 <i className="fa-brands fa-instagram" />
               </a>
             </div>
@@ -116,16 +116,16 @@ export const FooterSection: React.FC = () => {
 
           {/* Social Links Row */}
           <div className="mobile-socials-row">
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="mobile-social-btn" aria-label="GitHub">
+            <a href="https://github.com/cdsvitbhopal" target="_blank" rel="noreferrer" className="mobile-social-btn" aria-label="GitHub">
               <i className="fa-brands fa-github" />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="mobile-social-btn" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/company/dsc-vitb/?originalSubdomain=in" target="_blank" rel="noreferrer" className="mobile-social-btn" aria-label="LinkedIn">
               <i className="fa-brands fa-linkedin-in" />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="mobile-social-btn" aria-label="Twitter">
+            <a href="https://x.com/DSC_VITB" target="_blank" rel="noreferrer" className="mobile-social-btn" aria-label="Twitter">
               <i className="fa-brands fa-x-twitter" />
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="mobile-social-btn" aria-label="Instagram">
+            <a href="https://www.instagram.com/dsc_vitb/" target="_blank" rel="noreferrer" className="mobile-social-btn" aria-label="Instagram">
               <i className="fa-brands fa-instagram" />
             </a>
           </div>
