@@ -46,6 +46,7 @@ export function Footer() {
                 { to: "/events", label: "Events" },
                 { to: "/gallery", label: "Gallery" },
                 { to: "/join", label: "Join Us" },
+                { to: "/admin", label: "🛡️ Admin Access" },
               ].map((l) => (
                 <li key={l.to}>
                   <Link to={l.to} className="transition-colors hover:text-foreground">

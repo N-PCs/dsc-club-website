@@ -70,8 +70,11 @@ export const FooterSection: React.FC = () => {
         </div>
 
         {/* Desktop Bottom Bar */}
-        <div className="footer-bottom-bar">
+        <div className="footer-bottom-bar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <span className="bottom-copy">© 2026 Data Science Club VIT Bhopal. All Rights Reserved</span>
+          <Link to="/admin" className="admin-access-link" style={{ fontSize: "11.5px", color: "rgba(255, 255, 255, 0.45)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px", transition: "color 0.2s ease" }}>
+            <span style={{ fontSize: "10px" }}>🛡️</span> Admin Access
+          </Link>
         </div>
 
         {/* Desktop Giant White Watermark */}
@@ -108,6 +111,7 @@ export const FooterSection: React.FC = () => {
             <a href="/#events" className="mobile-nav-chip">Events</a>
             <Link to="/members" className="mobile-nav-chip">Members</Link>
             <Link to="/join" className="mobile-nav-chip highlighted">Join Core Team</Link>
+            <Link to="/admin" className="mobile-nav-chip" style={{ borderColor: "rgba(0, 210, 255, 0.3)", color: "#00d2ff" }}>🛡️ Admin Access</Link>
           </div>
 
           {/* Social Links Row */}
