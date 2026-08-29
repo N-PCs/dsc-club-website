@@ -44,7 +44,7 @@ export const DomainsSection: React.FC = () => {
               Choose a domain that fits your vision and register today.
             </p>
             <div className="margin-top-md">
-              <a href="#join" className="cta-btn primary-btn">
+              <a href="/join" className="cta-btn primary-btn">
                 Get Interviewed
               </a>
             </div>
