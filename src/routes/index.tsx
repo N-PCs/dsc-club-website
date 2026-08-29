@@ -56,7 +56,7 @@ function Index() {
                 <p className="text-slate-300 text-sm mt-3 leading-relaxed">
                   Discover the presidents, domain leads, core developers, and faculty mentors driving our machine learning workshops and open-source initiatives.
                 </p>
-                <div className="mt-6">
+                <div style={{ paddingTop: "24px" }}>
                   <Link to="/members" className="cta-btn primary-btn inline-flex items-center gap-2">
                     View Team Members <i className="fa-solid fa-arrow-right"></i>
                   </Link>
@@ -70,7 +70,7 @@ function Index() {
                 <p className="text-slate-300 text-sm mt-3 leading-relaxed">
                   Ready to shape AI/ML culture at VIT Bhopal? Submit your application for interview selection across tech, research, design, or events.
                 </p>
-                <div className="mt-6">
+                <div style={{ paddingTop: "24px" }}>
                   <Link to="/join" className="cta-btn secondary-btn inline-flex items-center gap-2">
                     Apply Now →
                   </Link>

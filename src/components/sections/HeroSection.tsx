@@ -104,7 +104,7 @@ export const HeroSection: React.FC = () => {
 
         {/* CTAs */}
         <div className="cta-group">
-          <a href="#join" className="cta-btn primary-btn">
+          <a href="/join" className="cta-btn primary-btn">
             Sign up →
           </a>
           <a href="#events" className="cta-btn secondary-btn">
