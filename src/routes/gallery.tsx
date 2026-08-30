@@ -1,133 +1,151 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect, useRef } from "react";
-import { X, ZoomIn } from "lucide-react";
-import { gsap } from "gsap";
-import { PageHeader } from "@/components/site/Ambient";
-import hackathonImg from "@/assets/event-hackathon.jpg";
-import workshopImg from "@/assets/event-workshop.jpg";
-import talkImg from "@/assets/event-talk.jpg";
-import teamImg from "@/assets/event-team.jpg";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, Camera, Maximize2, X } from "lucide-react";
+import { CircleImage } from "@/components/site/CircleImage";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
     meta: [
-      { title: "Gallery — DSC Club VITB" },
+      { title: "Gallery & Highlights — DSC VIT Bhopal" },
       {
         name: "description",
         content:
-          "Photos from DSC Club VITB hackathons, tech talks, workshops and team sessions at VIT Bhopal.",
+          "Moments and memories from hackathons, workshops, bootcamps, and community events at DSC VIT Bhopal.",
       },
-      { property: "og:title", content: "Gallery — DSC Club VITB" },
-      { property: "og:description", content: "Moments from DataHacks, bootcamps and tech talks." },
     ],
   }),
-  component: Gallery,
+  component: GalleryRoute,
 });
 
-const photos = [
-  { img: hackathonImg, tag: "DataHacks '25 Showcase", aspect: "col-span-2 row-span-2 md:h-[420px]" },
-  { img: workshopImg, tag: "PyTorch Deep Learning Lab", aspect: "col-span-1 row-span-1 md:h-[200px]" },
-  { img: talkImg, tag: "AI Platforms Session", aspect: "col-span-1 row-span-1 md:h-[200px]" },
-  { img: teamImg, tag: "Core Developer Sprint", aspect: "col-span-2 row-span-1 md:h-[200px]" },
-  { img: workshopImg, tag: "Neural Networks Setup", aspect: "col-span-1 row-span-2 md:h-[420px]" },
-  { img: talkImg, tag: "Industry Telemetry Meetup", aspect: "col-span-1 row-span-1 md:h-[200px]" },
-  { img: hackathonImg, tag: "Campus Datathon Sprint", aspect: "col-span-1 row-span-1 md:h-[200px]" },
-  { img: teamImg, tag: "Onboarding Celebration", aspect: "col-span-1 row-span-1 md:h-[200px]" },
-];
+type Category = "all" | "hackathons" | "workshops" | "team";
 
-function Gallery() {
-  const [open, setOpen] = useState<number | null>(null);
-  const galleryRef = useRef<HTMLDivElement>(null);
+interface Photo {
+  id: string;
+  title: string;
+  category: Category;
+  categoryLabel: string;
+  date: string;
+  imgUrl: string;
+}
 
-  useEffect(() => {
-    // Animate items on mount
-    if (galleryRef.current) {
-      gsap.from(galleryRef.current.children, {
-        opacity: 0,
-        scale: 0.9,
-        y: 40,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power3.out",
-      });
-    }
-  }, []);
+function GalleryRoute() {
+  const [filter, setFilter] = useState<Category>("all");
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
+
+  const photos: Photo[] = [
+    {
+      id: "g-1",
+      title: "NeuralHack 2025 Grand Finale",
+      category: "hackathons",
+      categoryLabel: "Hackathon",
+      date: "OCT 2025",
+      imgUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: "g-2",
+      title: "Deep Learning & PyTorch Bootcamp",
+      category: "workshops",
+      categoryLabel: "Workshop",
+      date: "NOV 2025",
+      imgUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: "g-3",
+      title: "Core Executive Team Meet",
+      category: "team",
+      categoryLabel: "Community",
+      date: "DEC 2025",
+      imgUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: "g-4",
+      title: "Data Streaming with Kafka Code Along",
+      category: "workshops",
+      categoryLabel: "Workshop",
+      date: "JAN 2026",
+      imgUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+    },
+  ];
+
+  const filteredPhotos =
+    filter === "all" ? photos : photos.filter((p) => p.category === filter);
 
   return (
-    <div className="px-6 pt-36 pb-20 lg:px-16">
-      {/* Header */}
-      <PageHeader
-        eyebrow="PORTFOLIO"
-        title="Moments from the lab"
-        subtitle="Exploring the milestones, prototype sprints, and community hack nights."
-      />
-
-      {/* Asymmetric Masonry Masonry Grid */}
-      <div 
-        ref={galleryRef} 
-        className="mx-auto mt-16 grid max-w-6xl grid-cols-1 md:grid-cols-3 gap-6 auto-rows-max"
-      >
-        {photos.map((p, i) => (
-          <button
-            key={i}
-            onClick={() => setOpen(i)}
-            className={`glass glass-hover group relative overflow-hidden rounded-3xl p-0 block w-full text-left ${p.aspect}`}
-          >
-            {/* Visual Overlays & Hover zoom */}
-            <div className="relative size-full overflow-hidden">
-              <img
-                src={p.img}
-                alt={p.tag}
-                loading="lazy"
-                className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              
-              {/* Dark layout cover */}
-              <div className="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/20 transition-colors duration-300" />
-              
-              {/* Zoom Trigger visual indicator */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <span className="p-4 rounded-full bg-slate-950/80 border border-white/20 text-accent shadow-glow">
-                  <ZoomIn className="size-5" />
-                </span>
-              </div>
-            </div>
-
-            {/* Custom info tags */}
-            <span className="absolute bottom-4 left-4 bg-slate-950/80 border border-white/10 px-4 py-1.5 font-mono text-[9px] uppercase tracking-widest text-accent rounded-full backdrop-blur-md">
-              {p.tag}
-            </span>
-          </button>
-        ))}
+    <div className="min-h-screen bg-[#F5F9FF] text-[#0B1E36] p-6 sm:p-12 lg:p-16 relative">
+      {/* Top Nav Bar */}
+      <div className="max-w-6xl mx-auto flex items-center justify-between pb-8 border-b border-[#0B3D91]/20 mb-12">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-[#0B3D91] font-mono text-xs font-bold border border-[#0B3D91]/30 shadow-xs hover:bg-[#0B3D91] hover:text-white transition-all"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>BACK TO CHAPTER SCROLLETTING</span>
+        </Link>
+        <span className="font-mono text-xs font-bold opacity-60">ARCHIVE // GALLERY</span>
       </div>
 
-      {/* Lightbox Modal (Custom GSAP animated overlay effect) */}
-      {open !== null && (
-        <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/90 p-4 backdrop-blur-xl transition-all"
-          onClick={() => setOpen(null)}
-        >
-          <div 
-            className="glass relative max-w-4xl overflow-hidden rounded-3xl border border-white/10" 
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img src={photos[open]!.img} alt={photos[open]!.tag} className="max-h-[70vh] w-full object-contain" />
-            
-            <div className="flex items-center justify-between p-6 bg-slate-900/60 border-t border-white/5">
-              <span className="font-mono text-xs uppercase tracking-widest text-white">
-                {photos[open]!.tag}
-              </span>
-              <button 
-                onClick={() => setOpen(null)} 
-                className="btn-glass rounded-xl p-2.5 hover:bg-white/10" 
-                aria-label="Close Lightbox"
-              >
-                <X className="size-4 text-white" />
-              </button>
-            </div>
+      <div className="max-w-6xl mx-auto space-y-12">
+        <div className="text-center max-w-3xl mx-auto space-y-4">
+          <div className="w-12 h-12 rounded-full bg-[#0B3D91] text-white flex items-center justify-center mx-auto shadow-md">
+            <Camera className="w-6 h-6" />
           </div>
+          <h1 className="text-4xl sm:text-6xl font-extrabold font-display tracking-tight text-slate-900">
+            Community <span className="text-[#0B3D91]">Gallery & Retrospective</span>
+          </h1>
+          <p className="text-slate-600 text-base leading-relaxed">
+            Visual retrospective of our hackathons, bootcamps, code sprints, and community gatherings.
+          </p>
         </div>
-      )}
+
+        {/* Filter Buttons */}
+        <div className="flex items-center justify-center gap-2 flex-wrap">
+          {[
+            { id: "all", label: "All Photos" },
+            { id: "hackathons", label: "Hackathons" },
+            { id: "workshops", label: "Workshops" },
+            { id: "team", label: "Community" },
+          ].map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setFilter(cat.id as Category)}
+              className={`px-5 py-2 rounded-full text-xs font-mono font-bold transition-all border ${
+                filter === cat.id
+                  ? "bg-[#0B3D91] text-white border-[#0B3D91] shadow-md"
+                  : "bg-white text-slate-600 border-slate-200 hover:bg-slate-100"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Masonry / Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredPhotos.map((photo) => (
+            <div
+              key={photo.id}
+              onClick={() => setSelectedPhoto(photo)}
+              className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center cursor-pointer group"
+            >
+              <div className="mb-4">
+                <CircleImage
+                  src={photo.imgUrl}
+                  alt={photo.title}
+                  size={140}
+                  accentColor="#0B3D91"
+                />
+              </div>
+              <span className="text-[10px] font-mono font-bold uppercase text-[#0B3D91]">
+                {photo.categoryLabel} • {photo.date}
+              </span>
+              <h3 className="text-lg font-bold font-display text-slate-900 mt-1 group-hover:text-[#0B3D91] transition-colors">
+                {photo.title}
+              </h3>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

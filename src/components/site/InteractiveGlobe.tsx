@@ -4,11 +4,10 @@ interface Point3D {
   x: number;
   y: number;
   z: number;
-  color?: string;
-  isHub?: boolean;
+  isHub?: boolean | undefined;
 }
 
-export function InteractiveGlobe({ size = 420 }: { size?: number }) {
+export function InteractiveGlobe({ size = 440 }: { size?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -18,7 +17,6 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Handle high DPI screens
     const dpr = window.devicePixelRatio || 1;
     canvas.width = size * dpr;
     canvas.height = size * dpr;
@@ -32,38 +30,22 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
     const numLatitudes = 14;
     const numLongitudes = 14;
 
-    // Generate latitude & longitude grid points to represent a wireframe globe
     for (let i = 0; i < numLatitudes; i++) {
-      const phi = (Math.PI * (i + 1)) / (numLatitudes + 1) - Math.PI / 2; // latitude
+      const phi = (Math.PI * (i + 1)) / (numLatitudes + 1) - Math.PI / 2;
       const cosPhi = Math.cos(phi);
       const sinPhi = Math.sin(phi);
 
       for (let j = 0; j < numLongitudes; j++) {
-        const theta = (Math.PI * 2 * j) / numLongitudes; // longitude
+        const theta = (Math.PI * 2 * j) / numLongitudes;
         const x = radius * cosPhi * Math.cos(theta);
         const y = radius * sinPhi;
         const z = radius * cosPhi * Math.sin(theta);
         
-        // Randomly assign some points as "hubs"
-        const isHub = Math.random() > 0.94;
+        const isHub = Math.random() > 0.92;
         points.push({ x, y, z, isHub });
       }
     }
 
-    // Add some random nodes floating slightly above the surface
-    for (let i = 0; i < 30; i++) {
-      const phi = Math.random() * Math.PI - Math.PI / 2;
-      const theta = Math.random() * Math.PI * 2;
-      const hRadius = radius * (1.0 + Math.random() * 0.05); // slightly above
-      points.push({
-        x: hRadius * Math.cos(phi) * Math.cos(theta),
-        y: hRadius * Math.sin(phi),
-        z: hRadius * Math.cos(phi) * Math.sin(theta),
-        isHub: Math.random() > 0.6,
-      });
-    }
-
-    // Rotation angles
     let angleX = 0.2;
     let angleY = 0.5;
     let targetSpeedX = 0.002;
@@ -71,18 +53,15 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
     let speedX = targetSpeedX;
     let speedY = targetSpeedY;
 
-    let mouse = { x: 0, y: 0, lastX: 0, lastY: 0, dragging: false };
-
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left - center;
-      mouse.y = e.clientY - rect.top - center;
+      const mx = e.clientX - rect.left - center;
+      const my = e.clientY - rect.top - center;
 
-      // Spin acceleration on hover
-      const dist = Math.sqrt(mouse.x * mouse.x + mouse.y * mouse.y);
+      const dist = Math.sqrt(mx * mx + my * my);
       if (dist < radius * 1.5) {
-        targetSpeedY = mouse.x * 0.00015;
-        targetSpeedX = -mouse.y * 0.00015;
+        targetSpeedY = mx * 0.00015;
+        targetSpeedX = -my * 0.00015;
       } else {
         targetSpeedX = 0.001;
         targetSpeedY = 0.004;
@@ -100,7 +79,7 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
         x: p.x,
         y: p.y * cos - p.z * sin,
         z: p.y * sin + p.z * cos,
-        isHub: p.isHub,
+        isHub: p.isHub ?? false,
       };
     };
 
@@ -111,25 +90,22 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
         x: p.x * cos - p.z * sin,
         y: p.y,
         z: p.x * sin + p.z * cos,
-        isHub: p.isHub,
+        isHub: p.isHub ?? false,
       };
     };
 
     const draw = () => {
       ctx.clearRect(0, 0, size, size);
 
-      // Smooth spin inertia
       speedX += (targetSpeedX - speedX) * 0.1;
       speedY += (targetSpeedY - speedY) * 0.1;
       angleX += speedX;
       angleY += speedY;
 
-      // Project and sort points by Z depth so we draw back-to-front
       const projected = points.map((p) => {
         let r = rotateY(p, angleY);
         r = rotateX(r, angleX);
 
-        // Perspective scaling
         const fov = 420;
         const scale = fov / (fov + r.z);
         const x2d = center + r.x * scale;
@@ -139,12 +115,12 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
           x: x2d,
           y: y2d,
           z: r.z,
-          isHub: p.isHub,
+          isHub: p.isHub ?? false,
         };
       });
 
-      // Draw faint wireframe rings (latitudes)
-      ctx.lineWidth = 0.5;
+      // Draw sharp solid wireframe rings (NO GRADIENTS)
+      ctx.lineWidth = 0.6;
       for (let lat = 1; lat < numLatitudes; lat++) {
         const phi = (Math.PI * lat) / numLatitudes - Math.PI / 2;
         const cosPhi = Math.cos(phi);
@@ -161,10 +137,9 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
           r = rotateX(r, angleX);
           const scale = 420 / (420 + r.z);
           
-          // Only draw if on front side for clarity
           if (r.z < 20) {
-            const alpha = Math.max(0.01, (radius - r.z) / (radius * 2.2)) * 0.12;
-            ctx.strokeStyle = `rgba(59, 130, 246, ${alpha})`;
+            const alpha = Math.max(0.02, (radius - r.z) / (radius * 2.2)) * 0.25;
+            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
             const px = center + r.x * scale;
             const py = center + r.y * scale;
             if (th === 0) ctx.moveTo(px, py);
@@ -174,11 +149,10 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
         ctx.stroke();
       }
 
-      // Draw the connections (Plexus)
-      ctx.lineWidth = 0.6;
+      // Draw Plexus Connections
+      ctx.lineWidth = 0.7;
       for (let i = 0; i < projected.length; i++) {
         const p1 = projected[i]!;
-        // Skip drawing connections for background nodes to avoid clutter
         if (p1.z > radius * 0.3) continue;
 
         let connections = 0;
@@ -190,9 +164,9 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
           const dy = p1.y - p2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 40 && connections < 3) {
-            const alpha = (1 - dist / 40) * 0.18 * (1 - (p1.z + p2.z) / (radius * 2));
-            ctx.strokeStyle = `rgba(96, 165, 250, ${alpha})`;
+          if (dist < 42 && connections < 3) {
+            const alpha = (1 - dist / 42) * 0.28;
+            ctx.strokeStyle = `rgba(0, 255, 157, ${alpha})`;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
@@ -202,31 +176,25 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
         }
       }
 
-      // Draw particles
+      // Draw Nodes (Solid Points, Zero Gradients)
       projected.forEach((p) => {
-        const depthAlpha = Math.max(0.05, 1 - (p.z + radius) / (radius * 2));
+        const depthAlpha = Math.max(0.1, 1 - (p.z + radius) / (radius * 2));
         
         if (p.isHub) {
-          // Glow effect for data centers/hubs
-          const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 7);
-          gradient.addColorStop(0, `rgba(255, 255, 255, ${depthAlpha * 0.95})`);
-          gradient.addColorStop(0.3, `rgba(96, 165, 250, ${depthAlpha * 0.75})`);
-          gradient.addColorStop(1, `rgba(59, 130, 246, 0)`);
-          ctx.fillStyle = gradient;
           ctx.beginPath();
-          ctx.arc(p.x, p.y, 7, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(0, 240, 255, ${depthAlpha})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
 
-          // Core point
           ctx.fillStyle = `rgba(255, 255, 255, ${depthAlpha * 0.9})`;
           ctx.beginPath();
-          ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
           ctx.fill();
         } else {
-          // Standard nodes
-          ctx.fillStyle = `rgba(96, 165, 250, ${depthAlpha * 0.55})`;
+          ctx.fillStyle = `rgba(0, 240, 255, ${depthAlpha * 0.7})`;
           ctx.beginPath();
-          ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
           ctx.fill();
         }
       });
@@ -244,11 +212,7 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
 
   return (
     <div className="relative flex items-center justify-center">
-      {/* Dynamic Glow Aura behind the globe */}
-      <div 
-        className="absolute rounded-full bg-primary/10 blur-[90px] pointer-events-none" 
-        style={{ width: `${size * 0.7}px`, height: `${size * 0.7}px` }}
-      />
+      <div className="absolute rounded-full border border-cyan-400/10 pointer-events-none" style={{ width: `${size * 0.85}px`, height: `${size * 0.85}px` }} />
       <canvas ref={canvasRef} className="relative z-10 block select-none" />
     </div>
   );

@@ -1,72 +1,113 @@
 import { Link } from "@tanstack/react-router";
-import { Github, Instagram, Linkedin, MessageCircle, Twitter } from "lucide-react";
-
-const socials = [
-  { icon: Linkedin, label: "LinkedIn" },
-  { icon: Instagram, label: "Instagram" },
-  { icon: Github, label: "GitHub" },
-  { icon: MessageCircle, label: "Discord" },
-  { icon: Twitter, label: "X / Twitter" },
-];
+import { Database, Github, Linkedin, Twitter, Mail, ArrowUpRight, Heart } from "lucide-react";
 
 export function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <footer className="relative mt-24 border-t border-border">
-      <div className="mx-auto max-w-6xl px-4 py-14">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
-          <div>
-            <div className="flex items-center gap-2.5">
-              <span className="dot-pulse block size-2.5 rounded-full bg-primary" />
-              <span className="font-display text-lg font-bold">DSC Club VITB</span>
+    <footer className="bg-slate-900 text-white pt-16 pb-12 border-t border-slate-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+          {/* Brand & Description */}
+          <div className="space-y-4 md:col-span-1">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white">
+                <Database className="w-5 h-5" />
+              </div>
+              <span className="font-bold text-lg text-white">DSC VITB</span>
             </div>
-            <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-              The official Data Science Club of VIT Bhopal — building an ecosystem of AI/ML
-              engineers, analysts and open-source builders on campus.
+            <p className="text-sm text-slate-400 leading-relaxed">
+              Official Data Science Club at VIT Bhopal. Fostering innovation in AI, Machine Learning, Big Data Engineering, and Open Source.
             </p>
-            <div className="mt-5 flex gap-2">
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href="#"
-                  aria-label={s.label}
-                  className="btn-glass rounded-xl p-2.5 text-muted-foreground hover:text-foreground"
-                >
-                  <s.icon className="size-4" />
-                </a>
-              ))}
+            <div className="flex items-center gap-2 text-xs text-emerald-400 font-medium bg-emerald-950/60 border border-emerald-800/60 px-3 py-1.5 rounded-full w-fit">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+              <span>All Systems Operational</span>
             </div>
           </div>
 
-          <div>
-            <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-silver">Navigate</h3>
-            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-              {[
-                { to: "/about", label: "About" },
-                { to: "/members", label: "Members" },
-                { to: "/events", label: "Events" },
-                { to: "/gallery", label: "Gallery" },
-                { to: "/join", label: "Join Us" },
-              ].map((l) => (
-                <li key={l.to}>
-                  <Link to={l.to} className="transition-colors hover:text-foreground">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
+          {/* Quick Links */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-200">Navigation</h4>
+            <ul className="space-y-2 text-sm text-slate-400">
+              <li><Link to="/" className="hover:text-blue-400 transition-colors">Home</Link></li>
+              <li><Link to="/about" className="hover:text-blue-400 transition-colors">About Guild</Link></li>
+              <li><Link to="/events" className="hover:text-blue-400 transition-colors">Upcoming Events</Link></li>
+              <li><Link to="/members" className="hover:text-blue-400 transition-colors">Team Roster</Link></li>
+              <li><Link to="/gallery" className="hover:text-blue-400 transition-colors">Gallery</Link></li>
+              <li><Link to="/join" className="hover:text-blue-400 transition-colors">Join Community</Link></li>
             </ul>
           </div>
 
-          <div>
-            <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-silver">Campus</h3>
-            <p className="mt-4 text-sm text-muted-foreground">
-              VIT Bhopal University, Kothri Kalan, Sehore, Madhya Pradesh
+          {/* Core Domains */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-200">Domains</h4>
+            <ul className="space-y-2 text-sm text-slate-400">
+              <li><span className="hover:text-blue-400 cursor-default">AI & Deep Learning</span></li>
+              <li><span className="hover:text-blue-400 cursor-default">Data Engineering & Pipelines</span></li>
+              <li><span className="hover:text-blue-400 cursor-default">Open Source Research</span></li>
+              <li><span className="hover:text-blue-400 cursor-default">Competitive Coding & Math</span></li>
+            </ul>
+          </div>
+
+          {/* Connect & Socials */}
+          <div className="space-y-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-200">Connect</h4>
+            <p className="text-sm text-slate-400">
+              VIT Bhopal University, Kotri Kalan, Sehore, Madhya Pradesh 466114
             </p>
-            <p className="mt-3 font-mono text-xs text-gold">dsc@vitbhopal.ac.in</p>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noreferrer"
+                className="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:bg-blue-600 transition-colors"
+                aria-label="GitHub"
+              >
+                <Github className="w-4 h-4" />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noreferrer"
+                className="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:bg-blue-600 transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noreferrer"
+                className="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:bg-blue-600 transition-colors"
+                aria-label="Twitter"
+              >
+                <Twitter className="w-4 h-4" />
+              </a>
+              <a
+                href="mailto:dsc@vitbhopal.ac.in"
+                className="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:bg-blue-600 transition-colors"
+                aria-label="Email"
+              >
+                <Mail className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 border-t border-border pt-6 text-center font-mono text-xs text-muted-foreground">
-          Copyright © 2026 DSC Club VITB. Built with passion by the DSC Web Team.
+        {/* Bottom Bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <p>© {new Date().getFullYear()} Data Science Club (DSC) VIT Bhopal. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <button
+              onClick={scrollToTop}
+              className="flex items-center gap-1 text-slate-400 hover:text-blue-400 transition-colors"
+            >
+              <span>Back to top</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </div>
     </footer>

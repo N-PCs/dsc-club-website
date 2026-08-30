@@ -6,33 +6,43 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  useLocation,
 } from "@tanstack/react-router";
 import { type ReactNode, useEffect } from "react";
-import Lenis from "lenis";
+import { AnimatePresence, motion } from "framer-motion";
 
 import appCss from "../styles.css?url";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
-import { DynamicBackground } from "@/components/site/DynamicBackground";
-import { CustomCursor } from "@/components/site/CustomCursor";
+import { PixelCursor } from "@/components/site/CustomCursor";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
-          </Link>
+    <div
+      className="flex min-h-screen items-center justify-center px-6 pixel-grid"
+      style={{ background: "#070710" }}
+    >
+      <div className="text-center">
+        <div
+          style={{
+            fontFamily: "Press Start 2P",
+            fontSize: "clamp(48px, 10vw, 96px)",
+            color: "#4466ff",
+            textShadow: "6px 6px 0 #2233cc, 12px 12px 0 #111133",
+            lineHeight: 1,
+          }}
+        >
+          404
         </div>
+        <div style={{ fontFamily: "Press Start 2P", fontSize: "12px", color: "#e8e8f0", marginTop: 20, marginBottom: 8 }}>
+          DUNGEON NOT FOUND
+        </div>
+        <div style={{ fontFamily: "VT323", fontSize: "18px", color: "#5a5a7a", marginBottom: 24 }}>
+          This quest location doesn't exist.
+        </div>
+        <Link to="/" className="btn-pixel" style={{ fontSize: "8px" }}>
+          ▶ RETURN TO CAMP
+        </Link>
       </div>
     </div>
   );
@@ -43,29 +53,37 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+    <div
+      className="flex min-h-screen items-center justify-center px-6"
+      style={{ background: "#070710" }}
+    >
+      <div className="max-w-md w-full">
+        <div
+          style={{
+            fontFamily: "Press Start 2P",
+            fontSize: "9px",
+            color: "#ff4444",
+            marginBottom: 16,
+            border: "3px solid #ff4444",
+            padding: 16,
+            background: "rgba(255,68,68,0.05)",
+          }}
+        >
+          <div style={{ marginBottom: 8 }}>RUNTIME ERROR</div>
+          <div style={{ fontFamily: "VT323", fontSize: "16px", color: "#5a5a7a" }}>
+            {error?.message || "An unexpected error occurred."}
+          </div>
+        </div>
+        <div className="flex gap-3">
           <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            onClick={() => { router.invalidate(); reset(); }}
+            className="btn-pixel"
+            style={{ fontSize: "8px" }}
           >
-            Try again
+            TRY AGAIN
           </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
+          <a href="/" className="btn-pixel-outline" style={{ fontSize: "8px" }}>
+            GO HOME
           </a>
         </div>
       </div>
@@ -78,24 +96,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DSC Club VITB" },
-      { name: "description", content: "The Official Data Science Club of VIT Bhopal." },
-      { name: "author", content: "DSC Club VITB" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { title: "DSC VITB — Data Science Club at VIT Bhopal" },
+      {
+        name: "description",
+        content:
+          "Official Data Science Club of VIT Bhopal — AI/ML, Cloud Data Pipelines, Open Source Research, and Hackathons.",
+      },
+      { name: "theme-color", content: "#2563eb" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
       },
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
     ],
   }),
   shellComponent: RootShell,
@@ -106,11 +123,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body suppressHydrationWarning style={{ background: "#F5F9FF", color: "#0B1E36" }}>
         {children}
         <Scripts />
       </body>
@@ -122,36 +139,15 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   useEffect(() => {
-    // Initialize Lenis smooth scroll
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    });
-
-    let animationFrameId: number;
-    const raf = (time: number) => {
-      lenis.raf(time);
-      animationFrameId = requestAnimationFrame(raf);
-    };
-
-    animationFrameId = requestAnimationFrame(raf);
-
-    return () => {
-      lenis.destroy();
-      cancelAnimationFrame(animationFrameId);
-    };
+    if (typeof window === "undefined") return;
+    document.documentElement.style.scrollBehavior = "smooth";
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CustomCursor />
-      <DynamicBackground />
-      <Nav />
-      <main className="relative min-h-screen">
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <main className="relative min-h-screen overflow-hidden">
         <Outlet />
       </main>
-      <Footer />
     </QueryClientProvider>
   );
 }

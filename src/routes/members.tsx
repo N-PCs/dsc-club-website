@@ -1,151 +1,96 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect, useRef } from "react";
-import { Github, Linkedin, Twitter } from "lucide-react";
-import { gsap } from "gsap";
-import { PageHeader } from "@/components/site/Ambient";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeft } from "lucide-react";
+import { TeamCard, type TeamMemberData } from "@/components/site/TeamCard";
 
 export const Route = createFileRoute("/members")({
   head: () => ({
     meta: [
-      { title: "Members — DSC Club VITB" },
+      { title: "Team & Roster — DSC VIT Bhopal" },
       {
         name: "description",
         content:
-          "Meet the executive board, core team, domain leads and mentors driving DSC Club VITB at VIT Bhopal.",
+          "Meet the core leads, AI researchers, and data engineers powering the Data Science Club at VIT Bhopal.",
       },
-      { property: "og:title", content: "Members — DSC Club VITB" },
-      { property: "og:description", content: "The team and leadership behind DSC Club VITB." },
     ],
   }),
-  component: Members,
+  component: MembersRoute,
 });
 
-const groups = ["All", "Executive Board", "Core Team", "Leads", "Mentors"] as const;
-
-const members = [
-  { name: "Aarav Mehta", role: "President", dept: "CSE (AI & ML), '26", group: "Executive Board" },
-  { name: "Ishita Rao", role: "Vice President", dept: "CSE (Data Science), '26", group: "Executive Board" },
-  { name: "Kabir Nanda", role: "General Secretary", dept: "ECE, '27", group: "Executive Board" },
-  { name: "Sanya Kapoor", role: "AI/ML Lead", dept: "CSE (AI & ML), '27", group: "Leads" },
-  { name: "Rohan Iyer", role: "Data Engineering Lead", dept: "CSE, '27", group: "Leads" },
-  { name: "Meera Joshi", role: "Design Lead", dept: "CSE (UI/UX), '28", group: "Leads" },
-  { name: "Dev Sharma", role: "Technical Coordinator", dept: "CSE, '28", group: "Core Team" },
-  { name: "Ananya Bose", role: "Content Head", dept: "CSE (Data Science), '28", group: "Core Team" },
-  { name: "Vikram Sethi", role: "Events Manager", dept: "Mechanical, '27", group: "Core Team" },
-  { name: "Dr. Priya Nair", role: "Faculty Mentor", dept: "School of Computing", group: "Mentors" },
-  { name: "Arjun Verma", role: "Alumni Mentor", dept: "Data Scientist, '23", group: "Mentors" },
-  { name: "Nisha Pillai", role: "Research Mentor", dept: "School of Computing", group: "Mentors" },
-];
-
-function initials(name: string) {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("");
-}
-
-function Members() {
-  const [active, setActive] = useState<(typeof groups)[number]>("All");
-  const shown = active === "All" ? members : members.filter((m) => m.group === active);
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Fade and translate on filtering
-    if (gridRef.current) {
-      gsap.fromTo(
-        gridRef.current.children,
-        { opacity: 0, scale: 0.95, y: 20 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.45, stagger: 0.08, ease: "power2.out" }
-      );
-    }
-  }, [active]);
+function MembersRoute() {
+  const members: TeamMemberData[] = [
+    {
+      id: "tm-1",
+      name: "Aarav Sharma",
+      role: "Club President & AI Lead",
+      bio: "Senior AI researcher building open-weight LLMs and distributed deep learning pipelines.",
+      imgUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+      githubUrl: "https://github.com",
+      linkedinUrl: "https://linkedin.com",
+      accentColor: "#1B2A6B",
+    },
+    {
+      id: "tm-2",
+      name: "Ananya Verma",
+      role: "Vice President & Data Ops Lead",
+      bio: "Data Infrastructure specialist passionate about Apache Kafka, Docker, and cloud data architecture.",
+      imgUrl: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
+      githubUrl: "https://github.com",
+      linkedinUrl: "https://linkedin.com",
+      accentColor: "#1B2A6B",
+    },
+    {
+      id: "tm-3",
+      name: "Rohan Patel",
+      role: "AI Research Lead",
+      bio: "Computer Vision & Transformer developer focusing on multimodal neural networks.",
+      imgUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
+      githubUrl: "https://github.com",
+      linkedinUrl: "https://linkedin.com",
+      accentColor: "#1B2A6B",
+    },
+    {
+      id: "tm-4",
+      name: "Diya Gupta",
+      role: "Data Engineering Lead",
+      bio: "ETL pipeline engineer mastering Apache Spark, PostgreSQL, and MLOps workflows.",
+      imgUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80",
+      githubUrl: "https://github.com",
+      linkedinUrl: "https://linkedin.com",
+      accentColor: "#1B2A6B",
+    },
+  ];
 
   return (
-    <div className="px-6 pt-36 pb-20 lg:px-16">
-      {/* Header */}
-      <PageHeader
-        eyebrow="TEAM & LEADERSHIP"
-        title="The minds behind DSC"
-        subtitle="Students, coordinators, and domain mentors driving workshops, software, and research."
-      />
+    <div className="min-h-screen bg-[#C2D9FF] text-[#0B1E36] p-6 sm:p-12 lg:p-16 relative">
+      {/* Top Nav Bar */}
+      <div className="max-w-6xl mx-auto flex items-center justify-between pb-8 border-b border-[#1B2A6B]/20 mb-12">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-[#1B2A6B] font-mono text-xs font-bold border border-[#1B2A6B]/30 shadow-xs hover:bg-[#1B2A6B] hover:text-white transition-all"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>BACK TO CHAPTER SCROLLETTING</span>
+        </Link>
+        <span className="font-mono text-xs font-bold opacity-60">CHAPTER 05 // CORE ROSTER</span>
+      </div>
 
-      <div className="mx-auto mt-20 max-w-6xl">
-        <div className="grid gap-12 lg:grid-cols-12">
-          
-          {/* Left Column: Filter panel */}
-          <div className="lg:col-span-3 lg:sticky lg:top-32 h-fit">
-            <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">ROSTER DEPARTMENTS</span>
-            <h2 className="mt-3 font-display text-2xl font-bold text-white">Filter Team</h2>
-            <p className="mt-4 text-xs text-slate-400 leading-relaxed">
-              Toggle different active groups within our local cohort directory.
-            </p>
-
-            <div className="mt-8 flex flex-col gap-2">
-              {groups.map((g) => (
-                <button
-                  key={g}
-                  onClick={() => setActive(g)}
-                  className={`w-full rounded-xl py-3 px-5 font-mono text-xs uppercase tracking-widest text-left transition-all border ${
-                    active === g 
-                      ? "bg-white text-slate-950 font-bold border-white" 
-                      : "text-slate-400 hover:text-white border-white/5 bg-slate-900/10"
-                  }`}
-                >
-                  {g}
-                </button>
-              ))}
-            </div>
+      <div className="max-w-6xl mx-auto space-y-12">
+        <div className="text-center max-w-3xl mx-auto space-y-4">
+          <div className="num-circle bg-[#1B2A6B] text-white border-[#1B2A6B] mx-auto">
+            05
           </div>
+          <h1 className="text-4xl sm:text-6xl font-extrabold font-display tracking-tight text-slate-900">
+            Meet the <span className="text-[#1B2A6B]">Engineers & Leads</span>
+          </h1>
+          <p className="text-slate-600 text-base leading-relaxed">
+            The passionate minds behind workshops, hackathons, and open-source projects.
+          </p>
+        </div>
 
-          {/* Right Column: Member Dossiers Asymmetric Grid */}
-          <div 
-            ref={gridRef} 
-            className="lg:col-span-9 grid gap-6 sm:grid-cols-2 md:grid-cols-3"
-          >
-            {shown.map((m) => (
-              <article 
-                key={m.name} 
-                className="glass glass-hover group relative rounded-3xl border border-white/5 p-6 text-center flex flex-col justify-between"
-              >
-                <div>
-                  {/* Glowing Dossier Avatar */}
-                  <div className="mx-auto flex size-20 items-center justify-center rounded-full border border-white/5 bg-slate-950 font-display text-xl font-bold text-white group-hover:border-primary group-hover:shadow-glow transition-all duration-300">
-                    {initials(m.name)}
-                  </div>
-                  
-                  <h3 className="mt-5 font-display text-lg font-bold text-white">
-                    {m.name}
-                  </h3>
-                  <p className="mt-1 font-mono text-[9px] uppercase tracking-widest text-accent">
-                    {m.role}
-                  </p>
-                  <p className="mt-3 text-xs text-slate-400">
-                    {m.dept}
-                  </p>
-                </div>
-
-                <div className="mt-6 pt-5 border-t border-white/5 flex justify-center gap-2">
-                  {[
-                    { Icon: Github, href: "https://github.com" },
-                    { Icon: Linkedin, href: "https://linkedin.com" },
-                    { Icon: Twitter, href: "https://twitter.com" }
-                  ].map(({ Icon, href }, i) => (
-                    <a
-                      key={i}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${m.name} social profile`}
-                      className="btn-glass rounded-xl p-2.5 text-slate-400 hover:text-white hover:border-white/20 transition-all"
-                    >
-                      <Icon className="size-4" />
-                    </a>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {members.map((m) => (
+            <TeamCard key={m.id} {...m} />
+          ))}
         </div>
       </div>
     </div>

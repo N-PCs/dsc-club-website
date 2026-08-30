@@ -1,198 +1,89 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect, useRef } from "react";
-import { CalendarDays, MapPin, ArrowRight } from "lucide-react";
-import { gsap } from "gsap";
-import { PageHeader } from "@/components/site/Ambient";
-import hackathonImg from "@/assets/event-hackathon.jpg";
-import workshopImg from "@/assets/event-workshop.jpg";
-import talkImg from "@/assets/event-talk.jpg";
-import teamImg from "@/assets/event-team.jpg";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeft } from "lucide-react";
+import { EventCard, type EventData } from "@/components/site/EventCard";
 
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
-      { title: "Events — DSC Club VITB" },
+      { title: "Events & Hackathons — DSC VIT Bhopal" },
       {
         name: "description",
         content:
-          "Upcoming and past events at DSC Club VITB: hackathons, PyTorch bootcamps, industry talks and datathons at VIT Bhopal.",
+          "Explore upcoming AI hackathons, machine learning workshops, and guest lectures at DSC VIT Bhopal.",
       },
-      { property: "og:title", content: "Events — DSC Club VITB" },
-      { property: "og:description", content: "Workshops, hackathons and tech talks by DSC VITB." },
     ],
   }),
-  component: Events,
+  component: EventsRoute,
 });
 
-const upcoming = [
-  {
-    img: workshopImg,
-    title: "PyTorch Deep Dive Bootcamp",
-    date: "12 Sep 2026 · 10:00 AM",
-    place: "AB-1 Auditorium",
-    text: "Three days of intensive tensors training, autograd computation graph breakdowns, and compiling vision classification models from scratch.",
-    tag: "BOOTCAMP",
-  },
-  {
-    img: talkImg,
-    title: "Talks: LLMs in Production",
-    date: "26 Sep 2026 · 5:30 PM",
-    place: "Seminar Hall 2",
-    text: "An ML platform team member shares deployment telemetries, LLM evaluations, inference costs, and model monitoring guardrails.",
-    tag: "TECH TALK",
-  },
-  {
-    img: hackathonImg,
-    title: "DataHacks '26",
-    date: "18 Oct 2026 · 9:00 AM",
-    place: "Innovation Center",
-    text: "Our flagship 36-hour hackathon focusing on open civic API integration and local-campus analytics platforms. 300+ builders expected.",
-    tag: "HACKATHON",
-  },
-];
-
-const past = [
-  {
-    img: hackathonImg,
-    title: "DataHacks '25",
-    date: "20 Oct 2025",
-    place: "Innovation Center",
-    text: "240 developers, 62 functional prototypes, and 36 hours of continuous pipeline building with real telemetry feedback.",
-    tag: "HACKATHON",
-  },
-  {
-    img: workshopImg,
-    title: "Python for Data Bootcamp",
-    date: "08 Aug 2025",
-    place: "Lab Complex 3",
-    text: "An intensive bootcamp covering Pandas indices, NumPy aggregations, and Seaborn visual layouts. 150+ students certified.",
-    tag: "WORKSHOP",
-  },
-  {
-    img: teamImg,
-    title: "DSC Onboarding Night",
-    date: "02 Aug 2025",
-    place: "Open Air Theatre",
-    text: "Welcoming our next cohort with lightning project demos, core coordinator reveals, and collaborative developer networking.",
-    tag: "COMMUNITY",
-  },
-];
-
-function Events() {
-  const [tab, setTab] = useState<"upcoming" | "past">("upcoming");
-  const list = tab === "upcoming" ? upcoming : past;
-  const listRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Fade in the list items on tab change
-    if (listRef.current) {
-      gsap.fromTo(
-        listRef.current.children,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power2.out" }
-      );
-    }
-  }, [tab]);
+function EventsRoute() {
+  const events: EventData[] = [
+    {
+      id: "ev-1",
+      title: "NeuralHack 2026: National AI Hackathon",
+      categoryLabel: "36H BUILD SPRINT",
+      date: "OCT 14-16, 2026",
+      time: "36 Hours Continuous",
+      venue: "Lab Complex 302 & Discord",
+      desc: "Build breakthrough applications using Generative AI, Large Language Models, and real-time data pipelines.",
+      imgUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80",
+      accentColor: "#2C7BE5",
+    },
+    {
+      id: "ev-2",
+      title: "LLM Fine-Tuning & Quantization Workshop",
+      categoryLabel: "HANDS-ON WORKSHOP",
+      date: "SEP 10, 2026",
+      time: "2:00 PM - 5:30 PM",
+      venue: "Auditorium Hall B",
+      desc: "Learn LoRA parameter-efficient fine-tuning, GGUF quantization, and Ollama deployment on consumer GPUs.",
+      imgUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80",
+      accentColor: "#2C7BE5",
+    },
+    {
+      id: "ev-3",
+      title: "Data Streaming Architecture with Apache Kafka",
+      categoryLabel: "MASTERCLASS",
+      date: "SEP 24, 2026",
+      time: "4:00 PM - 6:00 PM",
+      venue: "Online Code Stream",
+      desc: "Build scalable event-driven stream processing pipelines using Python, Kafka brokers, and Docker.",
+      imgUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+      accentColor: "#2C7BE5",
+    },
+  ];
 
   return (
-    <div className="px-6 pt-36 pb-20 lg:px-16">
-      {/* Header */}
-      <PageHeader
-        eyebrow="CALENDAR"
-        title="Events that ship skills"
-        subtitle="From weekend hackathons to deep learning bootcamps — choose your next track."
-      />
+    <div className="min-h-screen bg-[#DCEAFF] text-[#0B1E36] p-6 sm:p-12 lg:p-16 relative">
+      {/* Top Nav Bar */}
+      <div className="max-w-6xl mx-auto flex items-center justify-between pb-8 border-b border-[#2C7BE5]/20 mb-12">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-[#2C7BE5] font-mono text-xs font-bold border border-[#2C7BE5]/30 shadow-xs hover:bg-[#2C7BE5] hover:text-white transition-all"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>BACK TO CHAPTER SCROLLETTING</span>
+        </Link>
+        <span className="font-mono text-xs font-bold opacity-60">CHAPTER 03 // EVENTS & SPRINTS</span>
+      </div>
 
-      <div className="mx-auto mt-20 max-w-6xl">
-        <div className="grid gap-12 lg:grid-cols-12">
-          
-          {/* Left Column: Sticky Tab Selector */}
-          <div className="lg:col-span-4 lg:sticky lg:top-32 h-fit">
-            <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">FILTER TIMELINE</span>
-            <h2 className="mt-3 font-display text-3xl font-bold text-white">Select Cohort</h2>
-            <p className="mt-4 text-xs text-slate-400 leading-relaxed max-w-xs">
-              Check out what's coming up next or look back at our past initiatives, hackathons, and certifications.
-            </p>
-
-            <div className="glass mt-8 flex flex-col gap-2 rounded-2xl p-2 border border-white/5 bg-slate-900/10">
-              {(["upcoming", "past"] as const).map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setTab(t)}
-                  className={`w-full rounded-xl py-3.5 px-5 font-mono text-xs uppercase tracking-[0.2em] transition-all text-left ${
-                    tab === t 
-                      ? "bg-primary text-white font-bold shadow-glow" 
-                      : "text-slate-400 hover:text-white hover:bg-white/5"
-                  }`}
-                >
-                  {t === "upcoming" ? "Upcoming Sprints" : "Completed Sprints"}
-                </button>
-              ))}
-            </div>
+      <div className="max-w-6xl mx-auto space-y-12">
+        <div className="text-center max-w-3xl mx-auto space-y-4">
+          <div className="num-circle bg-[#2C7BE5] text-white border-[#2C7BE5] mx-auto">
+            03
           </div>
+          <h1 className="text-4xl sm:text-6xl font-extrabold font-display tracking-tight text-slate-900">
+            Upcoming <span className="text-[#2C7BE5]">Hackathons & Bootcamps</span>
+          </h1>
+          <p className="text-slate-600 text-base leading-relaxed">
+            Participate in high-impact AI build sprints, technical workshops, and expert masterclasses.
+          </p>
+        </div>
 
-          {/* Right Column: Timeline Cards List */}
-          <div ref={listRef} className="space-y-12 lg:col-span-8 relative border-l border-primary/20 pl-6 md:pl-10">
-            {list.map((e, index) => (
-              <article 
-                key={e.title} 
-                className="glass group relative rounded-3xl border border-white/5 p-6 md:p-8 flex flex-col md:flex-row gap-6 hover:border-primary/45 transition-colors"
-              >
-                {/* Timeline Dot Connector */}
-                <div className="absolute -left-[31px] md:-left-[47px] top-9 size-3.5 rounded-full bg-slate-950 border-[3.5px] border-primary group-hover:scale-125 transition-transform" />
-
-                {/* Event Image */}
-                <div className="w-full md:w-1/3 overflow-hidden rounded-2xl h-44 md:h-auto relative">
-                  <img
-                    src={e.img}
-                    alt={e.title}
-                    loading="lazy"
-                    className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-slate-950/20" />
-                  <span className="absolute top-3 left-3 bg-slate-950/80 border border-white/10 px-3 py-1 font-mono text-[9px] uppercase tracking-widest text-accent rounded-full backdrop-blur-md">
-                    {e.tag}
-                  </span>
-                </div>
-
-                {/* Event Details */}
-                <div className="flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="font-display text-2xl font-bold text-white group-hover:text-primary transition-colors">
-                      {e.title}
-                    </h3>
-                    
-                    <div className="mt-4 flex flex-wrap gap-3">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 border border-white/5 px-3.5 py-1.5 font-mono text-[9px] uppercase tracking-widest text-slate-300">
-                        <CalendarDays className="size-3 text-accent" /> {e.date}
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 border border-white/5 px-3.5 py-1.5 font-mono text-[9px] uppercase tracking-widest text-slate-300">
-                        <MapPin className="size-3 text-accent" /> {e.place}
-                      </span>
-                    </div>
-
-                    <p className="mt-5 text-xs text-slate-400 leading-relaxed">
-                      {e.text}
-                    </p>
-                  </div>
-
-                  <div className="mt-8 pt-6 border-t border-white/5">
-                    <button 
-                      className={`inline-flex items-center gap-2 rounded-xl py-3 px-6 text-xs font-bold transition-all ${
-                        tab === "upcoming" 
-                          ? "btn-neon" 
-                          : "btn-glass border-white/10"
-                      }`}
-                    >
-                      {tab === "upcoming" ? "Register For Event" : "View Recap dossier"}
-                      <ArrowRight className="size-3.5 group-hover:translate-x-1.5 transition-transform" />
-                    </button>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {events.map((ev) => (
+            <EventCard key={ev.id} {...ev} />
+          ))}
         </div>
       </div>
     </div>

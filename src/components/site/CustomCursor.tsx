@@ -1,97 +1,145 @@
 import { useEffect, useRef, useState } from "react";
+import { motion, useSpring, useMotionValue } from "framer-motion";
 
-export function CustomCursor() {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  const [hovered, setHovered] = useState(false);
+interface TrailPoint {
+  x: number;
+  y: number;
+  id: number;
+  color: string;
+}
+
+const TRAIL_COLORS = ["#00e5ff", "#4466ff", "#ff44cc", "#44ff88", "#ffdd44"];
+let trailId = 0;
+
+export function PixelCursor() {
+  const [trail, setTrail] = useState<TrailPoint[]>([]);
+  const [clicking, setClicking] = useState(false);
+  const [hovering, setHovering] = useState(false);
+
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+
+  const x = useSpring(rawX, { stiffness: 800, damping: 40, mass: 0.3 });
+  const y = useSpring(rawY, { stiffness: 800, damping: 40, mass: 0.3 });
+
+  const trailRef = useRef<TrailPoint[]>([]);
+  const frameRef = useRef<number>(0);
 
   useEffect(() => {
-    // Check if touch device
-    const isTouch = window.matchMedia("(pointer: coarse)").matches;
-    if (isTouch) return;
+    document.body.classList.add("custom-cursor-active");
 
-    // Enable custom cursor styles
-    document.documentElement.classList.add("custom-cursor-active");
+    const handleMove = (e: MouseEvent) => {
+      rawX.set(e.clientX);
+      rawY.set(e.clientY);
 
-    let mouseX = 0;
-    let mouseY = 0;
-    let ringX = 0;
-    let ringY = 0;
+      // Add trail point
+      const newPt: TrailPoint = {
+        x: e.clientX,
+        y: e.clientY,
+        id: trailId++,
+        color: TRAIL_COLORS[trailId % TRAIL_COLORS.length],
+      };
+      trailRef.current = [newPt, ...trailRef.current.slice(0, 7)];
+      setTrail([...trailRef.current]);
 
-    const onMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      if (!visible) setVisible(true);
+      // Check for interactive elements
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      const isHover =
+        el?.matches("button, a, [role=button], input, select, textarea, label, [tabindex]") ?? false;
+      setHovering(isHover);
     };
 
-    const onMouseLeave = () => {
-      setVisible(false);
-    };
+    const handleDown = () => setClicking(true);
+    const handleUp = () => setClicking(false);
 
-    window.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseleave", onMouseLeave);
-
-    // Dynamic hover listeners for links & buttons
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (
-        target.closest("a") ||
-        target.closest("button") ||
-        target.closest("input") ||
-        target.closest("select") ||
-        target.closest("textarea") ||
-        target.closest("[role='button']") ||
-        target.closest(".interactive")
-      ) {
-        setHovered(true);
-      } else {
-        setHovered(false);
-      }
-    };
-    window.addEventListener("mouseover", handleMouseOver);
-
-    // Animation loop for smooth ring lag
-    let animationFrameId: number;
-    const render = () => {
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-      }
-      if (ringRef.current) {
-        // Linear interpolation for smooth lag
-        ringX += (mouseX - ringX) * 0.15;
-        ringY += (mouseY - ringY) * 0.15;
-        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
-      }
-      animationFrameId = requestAnimationFrame(render);
-    };
-    render();
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("mousedown", handleDown);
+    window.addEventListener("mouseup", handleUp);
 
     return () => {
-      document.documentElement.classList.remove("custom-cursor-active");
-      window.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseleave", onMouseLeave);
-      window.removeEventListener("mouseover", handleMouseOver);
-      cancelAnimationFrame(animationFrameId);
+      document.body.classList.remove("custom-cursor-active");
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mousedown", handleDown);
+      window.removeEventListener("mouseup", handleUp);
+      cancelAnimationFrame(frameRef.current);
     };
-  }, [visible]);
+  }, [rawX, rawY]);
+
+  const cursorSize = hovering ? 20 : clicking ? 8 : 12;
+  const cursorColor = hovering ? "#ffdd44" : "#00e5ff";
 
   return (
     <>
-      {/* Inner Dot */}
-      <div
-        ref={dotRef}
-        className={`pointer-events-none fixed top-0 left-0 z-[9999] size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white transition-opacity duration-300 ${
-          visible ? "opacity-100" : "opacity-0"
-        }`}
-      />
-      {/* Outer Ring */}
-      <div
-        ref={ringRef}
-        className={`pointer-events-none fixed top-0 left-0 z-[9998] -translate-x-1/2 -translate-y-1/2 rounded-full border transition-all duration-300 ease-out ${
-          visible ? "opacity-100" : "opacity-0"
-        } ${hovered ? "size-14 bg-white/20 border-white" : "size-8 bg-primary/5 border-primary"}`}
-      />
+      {/* Trail pixels */}
+      {trail.map((pt, i) => (
+        <motion.div
+          key={pt.id}
+          className="pixel-cursor-trail"
+          style={{
+            left: pt.x - 2,
+            top: pt.y - 2,
+            width: Math.max(2, 4 - i * 0.4),
+            height: Math.max(2, 4 - i * 0.4),
+            background: pt.color,
+            opacity: (1 - i / 8) * 0.6,
+          }}
+          initial={{ opacity: (1 - i / 8) * 0.6, scale: 1 }}
+          animate={{ opacity: 0, scale: 0 }}
+          transition={{ duration: 0.4, ease: "linear" }}
+        />
+      ))}
+
+      {/* Main cursor */}
+      <motion.div
+        className="pixel-cursor"
+        style={{ x, y }}
+      >
+        {/* Crosshair lines */}
+        {hovering && (
+          <>
+            <div
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: -8,
+                right: -8,
+                height: 1,
+                background: cursorColor,
+                transform: "translateY(-50%)",
+                opacity: 0.6,
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: -8,
+                bottom: -8,
+                width: 1,
+                background: cursorColor,
+                transform: "translateX(-50%)",
+                opacity: 0.6,
+              }}
+            />
+          </>
+        )}
+        {/* Core dot */}
+        <motion.div
+          animate={{
+            width: cursorSize,
+            height: cursorSize,
+            background: cursorColor,
+            boxShadow: `0 0 0 2px #070710, 0 0 ${hovering ? 16 : 8}px ${cursorColor}`,
+          }}
+          transition={{ duration: 0.1, ease: "linear" }}
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      </motion.div>
     </>
   );
 }
