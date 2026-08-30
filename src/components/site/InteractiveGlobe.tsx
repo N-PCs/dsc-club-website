@@ -4,6 +4,7 @@ interface Point3D {
   x: number;
   y: number;
   z: number;
+  color?: string | undefined;
   isHub?: boolean | undefined;
 }
 

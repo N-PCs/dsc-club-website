@@ -20,6 +20,8 @@ export default defineConfig({
     tailwindcss(),
   ],
   resolve: {
-    tsconfigPaths: true,
+    alias: {
+      "@": "/src",
+    },
   },
 });

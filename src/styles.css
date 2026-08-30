@@ -196,3 +196,74 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(11, 61, 145, 0.45);
 }
+
+@utility marquee-track {
+  animation: marquee-x 26s linear infinite;
+}
+
+/* Custom Out-of-World Web Effects */
+@utility text-outline {
+  -webkit-text-stroke: 1.5px oklch(0.99 0.005 245 / 40%);
+  color: transparent;
+  transition: -webkit-text-stroke 0.3s ease;
+  
+  &:hover {
+    -webkit-text-stroke: 1.5px oklch(0.60 0.25 250);
+  }
+}
+
+.custom-cursor-active,
+.custom-cursor-active * {
+  cursor: none !important;
+}
+
+/* Lenis smooth scrolling rules */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Button & Card Spacing Improvements */
+.cta-btn,
+.btn-neon,
+.btn-glass,
+.card-btn {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.glass-card .cta-btn,
+.glass-card button,
+.glass-card a.cta-btn,
+.activity-card .cta-btn,
+.domain-card .cta-btn,
+.event-card .cta-btn,
+form button[type="submit"] {
+  margin-top: 28px;
+}
+
+.lenis-scrolling iframe {
+  pointer-events: none;
+}

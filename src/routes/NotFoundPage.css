@@ -1,0 +1,144 @@
+/* High-Impact Cyber 404 Not Found Page Styles */
+.not-found-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: radial-gradient(circle at 50% 30%, #061126 0%, #030712 70%);
+  position: relative;
+  overflow: hidden;
+}
+
+.not-found-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(to right, rgba(0, 210, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 210, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.not-found-container {
+  padding-top: 140px;
+  padding-bottom: 90px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.not-found-card {
+  max-width: 620px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 48px 36px;
+  border-radius: 28px;
+  background: rgba(11, 19, 41, 0.75);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 210, 255, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-align: center;
+}
+
+.glitch-code {
+  font-family: var(--font-display, sans-serif);
+  font-size: clamp(80px, 15vw, 150px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, #ffffff 20%, #00d2ff 60%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 40px rgba(0, 210, 255, 0.3);
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.not-found-title {
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 14px;
+}
+
+.not-found-subtitle {
+  font-size: 15px;
+  color: #94a3b8;
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 auto 28px auto;
+}
+
+/* Terminal diagnostics box */
+.terminal-box {
+  background: rgba(3, 7, 18, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #38bdf8;
+  text-align: left;
+  margin: 28px auto;
+  max-width: 460px;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.terminal-line {
+  margin-top: 4px;
+  color: #cbd5e1;
+}
+
+.terminal-error {
+  color: #f43f5e;
+}
+
+/* Generous spacing for buttons inside card boxes */
+.not-found-btn-wrap {
+  margin-top: 36px;
+  display: flex;
+  justify-content: center;
+}
+
+.not-found-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 32px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  box-shadow: 0 0 25px rgba(0, 210, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.not-found-home-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 0 35px rgba(0, 210, 255, 0.7);
+  color: #ffffff;
+}

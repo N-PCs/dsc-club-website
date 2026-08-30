@@ -1,0 +1,241 @@
+.radial-menu-container {
+  position: fixed;
+  top: 28px;
+  right: 36px;
+  z-index: 999;
+  pointer-events: auto;
+}
+
+/* Floating Radial Main Trigger Button */
+.radial-toggle-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(11, 19, 41, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  z-index: 1001;
+}
+
+.radial-toggle-btn:hover {
+  transform: scale(1.06);
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(15, 28, 59, 0.95);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+}
+
+.radial-toggle-btn.open {
+  background: rgba(0, 102, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 102, 255, 0.3);
+}
+
+.radial-toggle-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: transform 0.4s ease;
+}
+
+.radial-bar {
+  width: 20px;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+}
+
+.radial-toggle-btn.open .radial-bar:nth-child(1) {
+  transform: translateY(3.5px) rotate(45deg);
+}
+
+.radial-toggle-btn.open .radial-bar:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+
+.radial-toggle-btn.open .radial-bar:nth-child(3) {
+  transform: translateY(-3.5px) rotate(-45deg);
+}
+
+/* Backdrop Blur Overlay when open */
+.radial-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.radial-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Radial Items Container */
+.radial-items-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Radial Item Outer Anchor (positioned by GSAP translate) */
+.radial-item-btn {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  margin-left: -22px;
+  margin-top: -22px;
+  border-radius: 50%;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 15px;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.radial-item-btn:hover {
+  z-index: 1010;
+}
+
+/* Inner Circle (handles hover scaling without conflicting with GSAP translate) */
+.radial-item-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(11, 19, 41, 0.95);
+  border: 1px solid var(--hover-bg, rgba(0, 210, 255, 0.4));
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.radial-item-btn:hover .radial-item-inner {
+  transform: scale(1.18);
+  background: var(--hover-bg, #0066ff);
+  color: var(--hover-color, #ffffff);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 25px var(--hover-bg, rgba(0, 102, 255, 0.7));
+}
+
+/* Radial Label Tooltip */
+.radial-label {
+  position: absolute;
+  right: 52px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(3, 7, 18, 0.92);
+  border: 1px solid var(--hover-bg, rgba(0, 210, 255, 0.4));
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  z-index: 1011;
+}
+
+.radial-item-btn:hover .radial-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(-4px);
+}
+
+/* Mobile Staggered Menu Adjustments */
+@media (max-width: 767px) {
+  .radial-menu-container {
+    top: 20px;
+    right: 20px;
+  }
+  .radial-toggle-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  /* Make entire link pill interactive on mobile */
+  .radial-item-btn {
+    width: auto;
+    height: 42px;
+    margin-left: 0;
+    margin-top: -21px;
+    right: 0;
+    border-radius: 21px;
+    background: rgba(11, 19, 41, 0.95);
+    border: 1px solid var(--hover-bg, rgba(0, 210, 255, 0.5));
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 15px var(--hover-bg, rgba(0, 102, 255, 0.25));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    align-items: center;
+    padding: 0 16px 0 6px;
+    gap: 10px;
+    pointer-events: auto;
+    text-decoration: none;
+  }
+
+  .radial-item-inner {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--hover-bg, #0066ff);
+    color: var(--hover-color, #ffffff);
+    border: none;
+    box-shadow: 0 0 10px var(--hover-bg, rgba(0, 102, 255, 0.5));
+    flex-shrink: 0;
+  }
+
+  .radial-label {
+    position: static !important;
+    transform: none !important;
+    opacity: 1 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    pointer-events: auto !important;
+    letter-spacing: 0.04em !important;
+    white-space: nowrap;
+  }
+
+  .radial-item-btn:hover .radial-item-inner,
+  .radial-item-btn:active .radial-item-inner {
+    transform: scale(1.1);
+  }
+
+  .radial-item-btn:active {
+    background: var(--hover-bg, #0066ff);
+  }
+}

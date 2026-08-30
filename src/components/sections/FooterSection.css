@@ -1,0 +1,350 @@
+/* Reference-Inspired Modern Cyber Footer */
+.medtech-footer {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(180deg, #000211 0%, #030712 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 60px 24px 30px 24px;
+  overflow: hidden;
+  color: #e2e8f0;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+}
+
+/* Main Footer Body */
+.footer-main {
+  max-width: 1100px;
+  margin: 0 auto 50px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+/* Left Column */
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.center-logos-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 18px;
+  border-radius: 15px;
+  background: rgba(11, 19, 41, 0.85);
+  transition: all 0.3s ease;
+}
+
+.center-logos-container:hover {
+  border-color: rgba(0, 210, 255, 0.7);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 210, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.footer-brand-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.footer-college-logo {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
+.footer-logo-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.social-icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  display: grid;
+  place-items: center;
+  color: #f1f5f9;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.social-icon-btn:hover {
+  background: #ffffff;
+  color: #020617;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.4);
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact-email {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f8fafc;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+}
+
+.contact-email:hover {
+  color: var(--blue-bright, #00d2ff);
+}
+
+.contact-address {
+  font-style: normal;
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+/* Right Column */
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.nav-col-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+  margin-bottom: 12px;
+}
+
+.nav-col-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-col-list a {
+  font-size: 14px;
+  font-weight: 500;
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-col-list a:hover {
+  color: #ffffff;
+}
+
+/* 3. Footer Bottom Bar */
+.footer-bottom-bar {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  color: #64748b;
+  position: relative;
+  z-index: 2;
+}
+
+.bottom-copy {
+  color: #64748b;
+  text-align: center;
+}
+
+/* 4. Giant White Background Watermark */
+.giant-watermark {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(80px, 16vw, 210px);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  color: #ffffff;
+  opacity: 0.12;
+}
+
+/* Display toggles */
+.footer-desktop-view {
+  display: block;
+}
+
+.footer-mobile-view {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .footer-desktop-view {
+    display: none;
+  }
+
+  .footer-mobile-view {
+    display: block;
+    padding: 10px 0;
+  }
+
+  .mobile-footer-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding: 28px 18px;
+    background: rgba(11, 19, 41, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .mobile-logos-capsule {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    background: rgba(3, 7, 18, 0.85);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.15);
+  }
+
+  .mobile-brand-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  .mobile-college-logo {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .mobile-logo-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .mobile-contact-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .mobile-email {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .mobile-address {
+    font-size: 11px;
+    color: #94a3b8;
+    line-height: 1.4;
+  }
+
+  .mobile-nav-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    max-width: 320px;
+  }
+
+  .mobile-nav-chip {
+    padding: 6px 14px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 12px;
+    font-weight: 500;
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-nav-chip.highlighted {
+    background: rgba(0, 210, 255, 0.12);
+    border-color: rgba(0, 210, 255, 0.4);
+    color: #00d2ff;
+    font-weight: 600;
+  }
+
+  .mobile-socials-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mobile-social-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    display: grid;
+    place-items: center;
+    color: #f1f5f9;
+    font-size: 14px;
+    text-decoration: none;
+  }
+
+  .mobile-bottom-copy {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 4px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .mobile-watermark {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(38px, 12vw, 64px);
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+    color: #ffffff;
+    opacity: 0.08;
+  }
+}
