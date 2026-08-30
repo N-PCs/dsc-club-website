@@ -10,6 +10,7 @@ import {
 import { type ReactNode, useEffect } from "react";
 
 import appCss from "../styles.css?url";
+import TopAnnouncementBanner from "@/components/site/TopAnnouncementBanner";
 
 function NotFoundComponent() {
   return (
@@ -124,6 +125,7 @@ function RootComponent() {
   return (
     <RootShell>
       <QueryClientProvider client={queryClient}>
+        <TopAnnouncementBanner />
         <main className="relative min-h-screen">
           <Outlet />
         </main>

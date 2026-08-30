@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Database, Github, Linkedin, Twitter, Mail, ArrowUpRight, Heart } from "lucide-react";
+import { Database, Github, Linkedin, Twitter, Mail, ArrowUpRight } from "lucide-react";
 
 export function Footer() {
   const scrollToTop = () => {
@@ -37,6 +37,7 @@ export function Footer() {
               <li><Link to="/members" className="hover:text-blue-400 transition-colors">Team Roster</Link></li>
               <li><Link to="/gallery" className="hover:text-blue-400 transition-colors">Gallery</Link></li>
               <li><Link to="/join" className="hover:text-blue-400 transition-colors">Join Community</Link></li>
+              <li><Link to="/admin" className="hover:text-blue-400 transition-colors flex items-center gap-1.5"><span>🛡️</span><span>Admin Panel</span></Link></li>
             </ul>
           </div>
 
