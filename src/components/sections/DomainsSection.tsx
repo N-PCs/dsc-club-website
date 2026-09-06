@@ -40,8 +40,8 @@ export const DomainsSection: React.FC = () => {
               <span className="gradient-text">ONE TEAM.</span>
             </h2>
             <p className="section-subtitle">
-              We are structured into specific domains to ensure deep domain mastery.
-              Choose a domain that fits your vision and register today.
+              We are structured into specific domains to ensure deep domain mastery. Choose a domain
+              that fits your vision and register today.
             </p>
             <div className="margin-top-md">
               <a href="/join" className="cta-btn primary-btn">

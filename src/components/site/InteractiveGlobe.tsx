@@ -43,7 +43,7 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
         const x = radius * cosPhi * Math.cos(theta);
         const y = radius * sinPhi;
         const z = radius * cosPhi * Math.sin(theta);
-        
+
         // Randomly assign some points as "hubs"
         const isHub = Math.random() > 0.94;
         points.push({ x, y, z, isHub });
@@ -160,7 +160,7 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
           let r = rotateY({ x, y, z }, angleY);
           r = rotateX(r, angleX);
           const scale = 420 / (420 + r.z);
-          
+
           // Only draw if on front side for clarity
           if (r.z < 20) {
             const alpha = Math.max(0.01, (radius - r.z) / (radius * 2.2)) * 0.12;
@@ -205,7 +205,7 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
       // Draw particles
       projected.forEach((p) => {
         const depthAlpha = Math.max(0.05, 1 - (p.z + radius) / (radius * 2));
-        
+
         if (p.isHub) {
           // Glow effect for data centers/hubs
           const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 7);
@@ -245,8 +245,8 @@ export function InteractiveGlobe({ size = 420 }: { size?: number }) {
   return (
     <div className="relative flex items-center justify-center">
       {/* Dynamic Glow Aura behind the globe */}
-      <div 
-        className="absolute rounded-full bg-primary/10 blur-[90px] pointer-events-none" 
+      <div
+        className="absolute rounded-full bg-primary/10 blur-[90px] pointer-events-none"
         style={{ width: `${size * 0.7}px`, height: `${size * 0.7}px` }}
       />
       <canvas ref={canvasRef} className="relative z-10 block select-none" />

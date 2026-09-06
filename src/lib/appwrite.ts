@@ -11,9 +11,7 @@ export const APPWRITE_PROJECT_NAME =
 // Appwrite Client Initialization
 export const client = new Client();
 
-client
-  .setEndpoint(APPWRITE_ENDPOINT)
-  .setProject(APPWRITE_PROJECT_ID);
+client.setEndpoint(APPWRITE_ENDPOINT).setProject(APPWRITE_PROJECT_ID);
 
 // Services
 export const account = new Account(client);
@@ -25,7 +23,8 @@ export const teams = new Teams(client);
 export const APPWRITE_DATABASE_ID =
   (import.meta.env["VITE_APPWRITE_DATABASE_ID"] as string) || "dscvitb_db";
 export const APPWRITE_RECRUITMENT_COLLECTION_ID =
-  (import.meta.env["VITE_APPWRITE_RECRUITMENT_COLLECTION_ID"] as string) || "recruitment_applications";
+  (import.meta.env["VITE_APPWRITE_RECRUITMENT_COLLECTION_ID"] as string) ||
+  "recruitment_applications";
 
 // Recruitment Form Data Interface
 export interface RecruitmentData {
@@ -55,7 +54,7 @@ export async function submitRecruitmentApplication(data: RecruitmentData) {
         ...data,
         status: data.status || "pending",
         submittedAt: new Date().toISOString(),
-      }
+      },
     );
     return { success: true, document: response };
   } catch (error: any) {

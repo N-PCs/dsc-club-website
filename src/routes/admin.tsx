@@ -9,8 +9,7 @@ export const Route = createFileRoute("/admin")({
       { title: "Admin Portal — DSC Club VITB" },
       {
         name: "description",
-        content:
-          "Administrative recruitment portal for Data Science Club VIT Bhopal.",
+        content: "Administrative recruitment portal for Data Science Club VIT Bhopal.",
       },
     ],
   }),

@@ -79,11 +79,11 @@ export default function ParticleCloud() {
       { main: "#ffffff", glow: "rgba(255, 255, 255, 0.95)" }, // Core White
       { main: "#f472b6", glow: "rgba(244, 114, 182, 0.85)" }, // Soft Pink
       { main: "#ec4899", glow: "rgba(236, 72, 153, 0.85)" }, // Neon Magenta
-      { main: "#d946ef", glow: "rgba(217, 70, 239, 0.8)" },  // Fuchsia
-      { main: "#a855f7", glow: "rgba(168, 85, 247, 0.8)" },  // Purple
+      { main: "#d946ef", glow: "rgba(217, 70, 239, 0.8)" }, // Fuchsia
+      { main: "#a855f7", glow: "rgba(168, 85, 247, 0.8)" }, // Purple
       { main: "#8b5cf6", glow: "rgba(139, 92, 246, 0.75)" }, // Violet
-      { main: "#06b6d4", glow: "rgba(6, 182, 212, 0.75)" },  // Cyan
-      { main: "#38bdf8", glow: "rgba(56, 189, 248, 0.7)" },  // Sky
+      { main: "#06b6d4", glow: "rgba(6, 182, 212, 0.75)" }, // Cyan
+      { main: "#38bdf8", glow: "rgba(56, 189, 248, 0.7)" }, // Sky
     ];
 
     // ==========================================
@@ -105,7 +105,7 @@ export default function ParticleCloud() {
 
       const defaultColor = colors[0] ?? { main: "#ffffff", glow: "rgba(255,255,255,0.95)" };
       const baseColor = colors[Math.floor(Math.random() * colors.length)] ?? defaultColor;
-      const coreColor = Math.random() < 0.5 ? defaultColor : colors[2] ?? defaultColor;
+      const coreColor = Math.random() < 0.5 ? defaultColor : (colors[2] ?? defaultColor);
       const colorObj = r < maxDim * 0.1 ? coreColor : baseColor;
 
       cloudParticles.push({
@@ -191,11 +191,11 @@ export default function ParticleCloud() {
         0,
         centerX,
         centerY,
-        nebulaRadius * pulseScale
+        nebulaRadius * pulseScale,
       );
-      nebulaGrad.addColorStop(0, "rgba(236, 72, 153, 0.28)");  // Core Magenta
+      nebulaGrad.addColorStop(0, "rgba(236, 72, 153, 0.28)"); // Core Magenta
       nebulaGrad.addColorStop(0.35, "rgba(168, 85, 247, 0.18)"); // Violet Mid
-      nebulaGrad.addColorStop(0.7, "rgba(6, 182, 212, 0.08)");  // Cyan Halo
+      nebulaGrad.addColorStop(0.7, "rgba(6, 182, 212, 0.08)"); // Cyan Halo
       nebulaGrad.addColorStop(1, "rgba(0, 2, 17, 0)");
 
       ctx.fillStyle = nebulaGrad;
@@ -205,7 +205,14 @@ export default function ParticleCloud() {
 
       // 4. Cursor Follower Light
       if (pointer.active) {
-        const cursorGrad = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 200);
+        const cursorGrad = ctx.createRadialGradient(
+          pointer.x,
+          pointer.y,
+          0,
+          pointer.x,
+          pointer.y,
+          200,
+        );
         cursorGrad.addColorStop(0, "rgba(217, 70, 239, 0.16)");
         cursorGrad.addColorStop(0.6, "rgba(99, 102, 241, 0.06)");
         cursorGrad.addColorStop(1, "rgba(0, 2, 17, 0)");
@@ -263,7 +270,10 @@ export default function ParticleCloud() {
           }
         }
 
-        const currentAlpha = Math.min(1, node.alpha * (0.75 + 0.25 * Math.sin(time * 0.03 + node.pulsePhase)));
+        const currentAlpha = Math.min(
+          1,
+          node.alpha * (0.75 + 0.25 * Math.sin(time * 0.03 + node.pulsePhase)),
+        );
         ctx.fillStyle = node.glowColor;
         ctx.globalAlpha = currentAlpha;
         ctx.beginPath();
@@ -336,7 +346,7 @@ export default function ParticleCloud() {
         const drawRadius = Math.max(0.5, p.radius * scale);
         const alpha = Math.min(
           1,
-          Math.max(0.1, scale * 0.85 * (0.7 + 0.3 * Math.sin(time * p.pulseSpeed + p.phase)))
+          Math.max(0.1, scale * 0.85 * (0.7 + 0.3 * Math.sin(time * p.pulseSpeed + p.phase))),
         );
 
         ctx.fillStyle = p.glowColor;

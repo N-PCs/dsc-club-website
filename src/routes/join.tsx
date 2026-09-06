@@ -13,7 +13,10 @@ export const Route = createFileRoute("/join")({
           "Apply for membership at DSC Club VITB. Pick your domain — AI/ML, Web Dev, UI/UX, Management or Technical Writing.",
       },
       { property: "og:title", content: "Join Us — DSC Club VITB" },
-      { property: "og:description", content: "Membership applications for the Data Science Club of VIT Bhopal." },
+      {
+        property: "og:description",
+        content: "Membership applications for the Data Science Club of VIT Bhopal.",
+      },
     ],
   }),
   component: Join,

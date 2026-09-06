@@ -55,7 +55,10 @@
   height: 2px;
   background-color: #ffffff;
   border-radius: 2px;
-  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease,
+    width 0.3s ease;
 }
 
 .radial-toggle-btn.open .radial-bar:nth-child(1) {
@@ -133,7 +136,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .radial-item-btn:hover .radial-item-inner {
@@ -161,7 +168,9 @@
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
   z-index: 1011;
 }
@@ -192,7 +201,9 @@
     border-radius: 21px;
     background: rgba(11, 19, 41, 0.95);
     border: 1px solid var(--hover-bg, rgba(0, 210, 255, 0.5));
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 15px var(--hover-bg, rgba(0, 102, 255, 0.25));
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.4),
+      0 0 15px var(--hover-bg, rgba(0, 102, 255, 0.25));
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     display: flex;

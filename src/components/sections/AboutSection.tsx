@@ -150,8 +150,8 @@ export const AboutSection: React.FC = () => {
             Campus Engine For <span className="gradient-text">Data Builders</span>
           </h2>
           <p className="section-subtitle">
-            We turn computational curiosity into production-ready pipelines,
-            insights, and algorithms.
+            We turn computational curiosity into production-ready pipelines, insights, and
+            algorithms.
           </p>
         </div>
 
@@ -178,10 +178,9 @@ export const AboutSection: React.FC = () => {
             <span className="card-num">01 / OUR MISSION</span>
             <h3 className="card-title">Cultivating ML Competency</h3>
             <p className="card-desc">
-              Make computational engineering accessible to every developer at VIT
-              Bhopal. We pair structured algorithmic fundamentals with
-              project-driven telemetry, creating a platform where builders gather to
-              design the future of technology.
+              Make computational engineering accessible to every developer at VIT Bhopal. We pair
+              structured algorithmic fundamentals with project-driven telemetry, creating a platform
+              where builders gather to design the future of technology.
             </p>
           </div>
 
@@ -189,10 +188,9 @@ export const AboutSection: React.FC = () => {
             <span className="card-num">02 / OUR VISION</span>
             <h3 className="card-title">Core Technology Hub</h3>
             <p className="card-desc">
-              To serve as central India's premier student hub for ML research,
-              software architecture, and data engineering pipelines. We aim to
-              establish a self-sustaining system of developer contributions that
-              scale far beyond campus boundaries.
+              To serve as central India's premier student hub for ML research, software
+              architecture, and data engineering pipelines. We aim to establish a self-sustaining
+              system of developer contributions that scale far beyond campus boundaries.
             </p>
           </div>
         </div>
@@ -207,8 +205,8 @@ export const AboutSection: React.FC = () => {
               </h3>
             </div>
             <p className="activities-sub">
-              We structure our sprints across several active tracks to match
-              individual engineering goals.
+              We structure our sprints across several active tracks to match individual engineering
+              goals.
             </p>
           </div>
 
@@ -231,7 +229,10 @@ export const AboutSection: React.FC = () => {
           <h4 className="marquee-title">
             DEVELOPMENT <span className="gradient-text">TECHNOLOGY</span>
           </h4>
-          <div className="glass-card" style={{ padding: "16px 0", overflow: "hidden", position: "relative" }}>
+          <div
+            className="glass-card"
+            style={{ padding: "16px 0", overflow: "hidden", position: "relative" }}
+          >
             <LogoLoop
               logos={techLogos}
               speed={80}

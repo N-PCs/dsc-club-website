@@ -27,7 +27,8 @@ export const NotFoundPage: React.FC = () => {
           </h1>
 
           <p className="not-found-subtitle">
-            The page or route telemetry vector you requested does not exist on the Data Science Club platform.
+            The page or route telemetry vector you requested does not exist on the Data Science Club
+            platform.
           </p>
 
           {/* Terminal Console */}
@@ -36,7 +37,9 @@ export const NotFoundPage: React.FC = () => {
               <span>DSC_SYSTEM_LOG.ERR</span>
               <span>HTTP 404</span>
             </div>
-            <div className="terminal-line">[ROUTE]: {typeof window !== "undefined" ? window.location.pathname : "/unknown"}</div>
+            <div className="terminal-line">
+              [ROUTE]: {typeof window !== "undefined" ? window.location.pathname : "/unknown"}
+            </div>
             <div className="terminal-line terminal-error">[STATUS]: 0x404_NULL_REFERENCE</div>
             <div className="terminal-line">[ACTION]: Return to core platform index</div>
           </div>

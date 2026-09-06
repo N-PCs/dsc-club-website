@@ -90,8 +90,7 @@ export const EventsSection: React.FC = () => {
             Events That <span className="gradient-text">Ship Skills</span>
           </h2>
           <p className="section-subtitle">
-            From weekend hackathons to deep learning bootcamps — choose your next
-            track.
+            From weekend hackathons to deep learning bootcamps — choose your next track.
           </p>
         </div>
 

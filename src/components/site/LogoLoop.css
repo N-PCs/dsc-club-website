@@ -84,7 +84,9 @@
 }
 
 .tech-logo-icon i {
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
 }
 
 .tech-logo-icon:hover {
@@ -112,7 +114,9 @@
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   z-index: 100;
 }
@@ -141,7 +145,7 @@
 
 .logoloop--fade::before,
 .logoloop--fade::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   bottom: 0;

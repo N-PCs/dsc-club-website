@@ -127,7 +127,7 @@ export function DynamicBackground() {
 
           if (dist < connectionDist) {
             const alpha = (1 - dist / connectionDist) * 0.12;
-            
+
             // If near mouse, light up the lines to electric blue!
             let useBlue = false;
             if (mouse.active) {
@@ -135,7 +135,10 @@ export function DynamicBackground() {
               const my1 = n.y - mouse.y;
               const mx2 = n2.x - mouse.x;
               const my2 = n2.y - mouse.y;
-              if (Math.sqrt(mx1 * mx1 + my1 * my1) < 120 || Math.sqrt(mx2 * mx2 + my2 * my2) < 120) {
+              if (
+                Math.sqrt(mx1 * mx1 + my1 * my1) < 120 ||
+                Math.sqrt(mx2 * mx2 + my2 * my2) < 120
+              ) {
                 useBlue = true;
               }
             }
@@ -170,9 +173,6 @@ export function DynamicBackground() {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="pointer-events-none fixed inset-0 -z-10 bg-background"
-    />
+    <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 -z-10 bg-background" />
   );
 }

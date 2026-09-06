@@ -1,4 +1,4 @@
-# ⚡ Data Science Club — VIT Bhopal (DSC VITB)
+# Data Science Club — VIT Bhopal (DSC VITB)
 
 [![React 19](https://img.shields.io/badge/React-19.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -7,20 +7,18 @@
 [![Vite](https://img.shields.io/badge/Vite-8.1-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.2-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Three.js](https://img.shields.io/badge/Three.js-r185-black?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
+[![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=white)](https://greensock.com/)
 
-The official, high-performance web platform for the **Data Science Club at VIT Bhopal University**. Built to showcase club projects, host event registrations, highlight member dossiers, and streamline core team recruitment via **Appwrite Cloud**.
+**The official, high-performance web platform for the Data Science Club at VIT Bhopal University.** Built to showcase club projects, host event registrations, highlight member dossiers, and streamline core team recruitment via **Appwrite Cloud**.
 
 ---
 
-## 🌟 Key Features
+## ✨ Features
 
 * **🎨 Cyberpunk & Glassmorphism Aesthetic**: Rich dark mode visuals, HSL glow effects, backdrop blur shaders, custom cursors, and responsive layouts.
 * **🌀 Shader-Powered Hero Section**: Live dynamic GLSL Dither shader background visualising data science concepts (graphs, noise, neural node scatter plots).
 * **👥 Member Roster & ChromaGrid**: Interactive grid featuring team cards with spotlight animations, domain color badges (Platinum, Gold, Silver, Neon Blue, Emerald), and strict core team filtering.
-* **📱 Custom Mobile Glassmorphism Dropdown**:
-  * Animated glass dropdown menu replacing native selects on mobile.
-  * Live **Member Count Pills** per team.
-  * **Auto-Slideshow Mode**: Automatically cycles through departmental teams every 3.5 seconds until manually interacted with.
+* **📱 Custom Mobile Glassmorphism Dropdown**: Animated glass dropdown menu replacing native selects on mobile. Live **Member Count Pills** per team. **Auto-Slideshow Mode**: Automatically cycles through departmental teams every 3.5 seconds until manually interacted with.
 * **📝 Online Core Team Recruitment**: Seamless application form submitting candidate profiles directly to Appwrite Cloud.
 * **🛡️ Admin Access Portal (`/admin`)**:
   * **Strict Campus Domain Filter**: Restricts standard admin logins to `@vitbhopal.ac.in` student email addresses.
@@ -31,22 +29,26 @@ The official, high-performance web platform for the **Data Science Club at VIT B
 
 ---
 
-## 🛠️ Tech Stack & Badges
+## 🛠️ Tech Stack
 
-| Layer | Technology | Description |
-| :--- | :--- | :--- |
-| **Frontend Framework** | ![React](https://img.shields.io/badge/-React_19-61DAFB?logo=react&logoColor=black) | Next-gen UI rendering |
-| **Language** | ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white) | Strict end-to-end type safety |
-| **Routing** | ![TanStack Router](https://img.shields.io/badge/-TanStack_Router-FF4154?logo=react-router&logoColor=white) | Fully type-safe file-based client & SSR routing |
-| **Backend & Auth** | ![Appwrite](https://img.shields.io/badge/-Appwrite_Cloud-F02E65?logo=appwrite&logoColor=white) | Authentication, Database, and Member Recruitment Storage |
-| **3D & Shaders** | ![Three.js](https://img.shields.io/badge/-Three.js_/_WebGL-000000?logo=three.js&logoColor=white) | Dither WebGL fragment shaders & 3D Interactive Globe |
-| **Animations** | ![GSAP](https://img.shields.io/badge/-GSAP-88CE02?logo=greensock&logoColor=white) | Smooth timeline animations and reactive UI motion |
-| **Styling** | ![Tailwind CSS](https://img.shields.io/badge/-Tailwind_CSS_v4-06B6D4?logo=tailwindcss&logoColor=white) | Utility-first CSS & Vanilla glassmorphism styling |
-| **Build Tool** | ![Vite](https://img.shields.io/badge/-Vite_8-646CFF?logo=vite&logoColor=white) | Instant HMR dev server & optimized bundler |
+<center>
+
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend Framework** | ![React](https://img.shields.io/badge/-React_19-61DAFB?logo=react&logoColor=black) |
+| **Language** | ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white) |
+| **Routing** | ![TanStack Router](https://img.shields.io/badge/-TanStack_Router-FF4154?logo=react-router&logoColor=white) |
+| **Backend & Auth** | ![Appwrite](https://img.shields.io/badge/-Appwrite_Cloud-F02E65?logo=appwrite&logoColor=white) |
+| **3D & Shaders** | ![Three.js](https://img.shields.io/badge/-Three.js_/_WebGL-000000?logo=three.js&logoColor=white) |
+| **Animations** | ![GSAP](https://img.shields.io/badge/-GSAP-88CE02?logo=greensock&logoColor=white) |
+| **Styling** | ![Tailwind CSS](https://img.shields.io/badge/-Tailwind_CSS_v4-06B6D4?logo=tailwindcss&logoColor=white) |
+| **Build Tool** | ![Vite](https://img.shields.io/badge/-Vite_8-646CFF?logo=vite&logoColor=white) |
+
+</center>
 
 ---
 
-## 🔄 System Architecture & Workflow
+## 🔄 Workflow Diagram
 
 ```mermaid
 flowchart TD
@@ -128,7 +130,7 @@ dsc-club-website/
 
 ---
 
-## 🚀 Quick Start Guide
+## 🚀 How to Run
 
 ### Prerequisites
 * **Node.js**: `v22.12.0` or higher
@@ -165,20 +167,8 @@ npm run setup:db
 ```bash
 npm run dev
 ```
+
 Open [http://localhost:5173](http://localhost:5173) in your browser.
-
----
-
-## 📦 Scripts Overview
-
-| Command | Description |
-| :--- | :--- |
-| `npm run dev` | Starts Vite development server with HMR |
-| `npm run build` | Builds optimized production bundle |
-| `npm run preview` | Previews production build locally |
-| `npm run setup:db` | Provisions Appwrite database, recruitment collections, and attributes |
-| `npm run lint` | Runs ESLint type checks and code quality rules |
-| `npm run format` | Formats codebase using Prettier |
 
 ---
 
@@ -197,6 +187,12 @@ This project is configured for seamless deployment on **Vercel**:
 
 ---
 
+## 👥 Contributors
+
+[![Contributors](https://contrib.rocks/image/gh/dscvitb/dsc-club-website)](https://contrib.rocks/gh/dscvitb/dsc-club-website)
+
+---
+
 ## 📄 License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
@@ -204,5 +200,5 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 ---
 
 <p align="center">
-  Crafted with ❤️ by the <strong>Data Science Club Web Team</strong> at VIT Bhopal University.
+  Crafted with ❤️ by the Data Science Club Web Team at VIT Bhopal University.
 </p>

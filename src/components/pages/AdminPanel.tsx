@@ -79,7 +79,9 @@ export const AdminPanel: React.FC = () => {
   const [isRecruitmentOpen, setIsRecruitmentOpen] = useState<boolean>(true);
 
   // Top Notification Headline Controls
-  const [adminHeadline, setAdminHeadline] = useState<string>("🚀 Core Team Recruitment 2026 is LIVE! Submit your application now.");
+  const [adminHeadline, setAdminHeadline] = useState<string>(
+    "🚀 Core Team Recruitment 2026 is LIVE! Submit your application now.",
+  );
   const [showHeadline, setShowHeadline] = useState<boolean>(false);
   const [showBannerControls, setShowBannerControls] = useState<boolean>(false);
 
@@ -151,7 +153,9 @@ export const AdminPanel: React.FC = () => {
 
   // Save authorized admin emails list
   const saveAuthorizedAdmins = (newList: string[]) => {
-    const uniqueList = Array.from(new Set([SUPER_ADMIN_EMAIL, ...newList.map((e) => e.trim().toLowerCase())]));
+    const uniqueList = Array.from(
+      new Set([SUPER_ADMIN_EMAIL, ...newList.map((e) => e.trim().toLowerCase())]),
+    );
     setAuthorizedAdmins(uniqueList);
     localStorage.setItem("dsc_authorized_admin_emails", JSON.stringify(uniqueList));
   };
@@ -173,7 +177,9 @@ export const AdminPanel: React.FC = () => {
       alert("Super Admin email cannot be removed.");
       return;
     }
-    saveAuthorizedAdmins(authorizedAdmins.filter((e) => e.toLowerCase() !== emailToRemove.toLowerCase()));
+    saveAuthorizedAdmins(
+      authorizedAdmins.filter((e) => e.toLowerCase() !== emailToRemove.toLowerCase()),
+    );
   };
 
   const handleValidateLogin = (emailInput: string, isAutoLogin = false) => {
@@ -218,7 +224,7 @@ export const AdminPanel: React.FC = () => {
     // 4. Access Denied
     if (!isAutoLogin) {
       setErrorMsg(
-        `Access Denied: Email "${cleanEmail}" is not authorized. Only @vitbhopal.ac.in student emails or authorized admins can log in.`
+        `Access Denied: Email "${cleanEmail}" is not authorized. Only @vitbhopal.ac.in student emails or authorized admins can log in.`,
       );
     }
   };
@@ -253,7 +259,7 @@ export const AdminPanel: React.FC = () => {
     try {
       const response = await databases.listDocuments(
         APPWRITE_DATABASE_ID,
-        APPWRITE_RECRUITMENT_COLLECTION_ID
+        APPWRITE_RECRUITMENT_COLLECTION_ID,
       );
       if (response && response.documents && response.documents.length > 0) {
         const fetchedDocs: ApplicationRecord[] = response.documents.map((doc: any) => ({
@@ -278,25 +284,25 @@ export const AdminPanel: React.FC = () => {
     } catch (err: any) {
       console.warn("Appwrite live fetch notice:", err?.message || err);
       setDbNotice(
-        "💡 Appwrite Notice: Displaying local dashboard applications. Run 'npm run setup:db' to sync live Appwrite database collection."
+        "💡 Appwrite Notice: Displaying local dashboard applications. Run 'npm run setup:db' to sync live Appwrite database collection.",
       );
     } finally {
       setLoading(false);
     }
   };
 
-  const handleUpdateStatus = async (id: string, newStatus: "pending" | "shortlisted" | "accepted" | "rejected") => {
+  const handleUpdateStatus = async (
+    id: string,
+    newStatus: "pending" | "shortlisted" | "accepted" | "rejected",
+  ) => {
     setApplications((prev) =>
-      prev.map((app) => (app.$id === id ? { ...app, status: newStatus } : app))
+      prev.map((app) => (app.$id === id ? { ...app, status: newStatus } : app)),
     );
 
     try {
-      await databases.updateDocument(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_RECRUITMENT_COLLECTION_ID,
-        id,
-        { status: newStatus }
-      );
+      await databases.updateDocument(APPWRITE_DATABASE_ID, APPWRITE_RECRUITMENT_COLLECTION_ID, id, {
+        status: newStatus,
+      });
     } catch (err) {
       console.warn("Appwrite status sync fallback:", err);
     }
@@ -326,7 +332,16 @@ export const AdminPanel: React.FC = () => {
       <div className="admin-login-wrapper">
         <div className="admin-login-card">
           <div className="admin-login-header">
-            <span className="dot-pulse" style={{ display: "inline-block", width: "10px", height: "10px", background: "#00d2ff", borderRadius: "50%" }} />
+            <span
+              className="dot-pulse"
+              style={{
+                display: "inline-block",
+                width: "10px",
+                height: "10px",
+                background: "#00d2ff",
+                borderRadius: "50%",
+              }}
+            />
             <h2 className="admin-login-title">DSC VITB Admin Portal</h2>
             <p style={{ fontSize: "13px", color: "#94a3b8", marginTop: "6px" }}>
               Sign in with your campus credentials to review recruitment applications.
@@ -334,7 +349,8 @@ export const AdminPanel: React.FC = () => {
           </div>
 
           <div className="domain-notice-box">
-            🔒 <strong>Strict Access Rule:</strong> Restricted to <code>@vitbhopal.ac.in</code> emails or authorized admins.
+            🔒 <strong>Strict Access Rule:</strong> Restricted to <code>@vitbhopal.ac.in</code>{" "}
+            emails or authorized admins.
           </div>
 
           {errorMsg && <div className="error-alert-box">{errorMsg}</div>}
@@ -371,7 +387,16 @@ export const AdminPanel: React.FC = () => {
 
           <div style={{ display: "flex", alignItems: "center", margin: "20px 0", gap: "10px" }}>
             <div style={{ flex: 1, height: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
-            <span style={{ fontSize: "11px", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em" }}>OR</span>
+            <span
+              style={{
+                fontSize: "11px",
+                color: "#94a3b8",
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+              }}
+            >
+              OR
+            </span>
             <div style={{ flex: 1, height: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
           </div>
 
@@ -444,15 +469,26 @@ export const AdminPanel: React.FC = () => {
               fontSize: "13px",
               fontWeight: "700",
               cursor: "pointer",
-              border: "1px solid " + (isRecruitmentOpen ? "rgba(52, 211, 153, 0.5)" : "rgba(239, 68, 68, 0.5)"),
-              background: isRecruitmentOpen ? "rgba(52, 211, 153, 0.15)" : "rgba(239, 68, 68, 0.15)",
+              border:
+                "1px solid " +
+                (isRecruitmentOpen ? "rgba(52, 211, 153, 0.5)" : "rgba(239, 68, 68, 0.5)"),
+              background: isRecruitmentOpen
+                ? "rgba(52, 211, 153, 0.15)"
+                : "rgba(239, 68, 68, 0.15)",
               color: isRecruitmentOpen ? "#34d399" : "#f87171",
               display: "inline-flex",
               alignItems: "center",
               gap: "8px",
             }}
           >
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: isRecruitmentOpen ? "#34d399" : "#f87171" }} />
+            <span
+              style={{
+                width: "8px",
+                height: "8px",
+                borderRadius: "50%",
+                background: isRecruitmentOpen ? "#34d399" : "#f87171",
+              }}
+            />
             Recruitments: {isRecruitmentOpen ? "OPEN (Active)" : "CLOSED (Paused)"}
           </button>
 
@@ -460,7 +496,12 @@ export const AdminPanel: React.FC = () => {
           <button
             type="button"
             className="filter-select"
-            style={{ padding: "8px 14px", fontSize: "13px", color: "#00d2ff", borderColor: "rgba(0, 210, 255, 0.4)" }}
+            style={{
+              padding: "8px 14px",
+              fontSize: "13px",
+              color: "#00d2ff",
+              borderColor: "rgba(0, 210, 255, 0.4)",
+            }}
             onClick={() => setShowBannerControls(!showBannerControls)}
           >
             📢 Website Banner Notice
@@ -486,15 +527,28 @@ export const AdminPanel: React.FC = () => {
 
       {/* Top Banner Control Panel */}
       {showBannerControls && (
-        <div style={{ background: "rgba(15, 23, 42, 0.95)", border: "1px solid rgba(0, 210, 255, 0.4)", borderRadius: "18px", padding: "20px", marginBottom: "28px" }}>
-          <h3 style={{ fontSize: "16px", fontWeight: "800", color: "#00d2ff", marginBottom: "6px" }}>
+        <div
+          style={{
+            background: "rgba(15, 23, 42, 0.95)",
+            border: "1px solid rgba(0, 210, 255, 0.4)",
+            borderRadius: "18px",
+            padding: "20px",
+            marginBottom: "28px",
+          }}
+        >
+          <h3
+            style={{ fontSize: "16px", fontWeight: "800", color: "#00d2ff", marginBottom: "6px" }}
+          >
             📢 Admin Announcement Banner (Top of Website)
           </h3>
           <p style={{ fontSize: "13px", color: "#94a3b8", marginBottom: "16px" }}>
             Set a custom ticker headline notification visible across the top of all website pages.
           </p>
 
-          <form onSubmit={handleSaveHeadline} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+          <form
+            onSubmit={handleSaveHeadline}
+            style={{ display: "flex", flexDirection: "column", gap: "14px" }}
+          >
             <input
               type="text"
               className="search-input-box"
@@ -505,7 +559,16 @@ export const AdminPanel: React.FC = () => {
             />
 
             <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
-              <label style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "13.5px", color: "#ffffff", cursor: "pointer" }}>
+              <label
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  fontSize: "13.5px",
+                  color: "#ffffff",
+                  cursor: "pointer",
+                }}
+              >
                 <input
                   type="checkbox"
                   checked={showHeadline}
@@ -515,7 +578,11 @@ export const AdminPanel: React.FC = () => {
                 Show Announcement Banner on Website
               </label>
 
-              <button type="submit" className="btn-admin-submit" style={{ width: "auto", padding: "8px 20px", marginTop: 0 }}>
+              <button
+                type="submit"
+                className="btn-admin-submit"
+                style={{ width: "auto", padding: "8px 20px", marginTop: 0 }}
+              >
                 Save Banner Announcement
               </button>
             </div>
@@ -525,22 +592,45 @@ export const AdminPanel: React.FC = () => {
 
       {/* Appwrite Status / Database Notice */}
       {dbNotice && (
-        <div style={{ background: "rgba(0, 210, 255, 0.08)", border: "1px solid rgba(0, 210, 255, 0.25)", color: "#00d2ff", padding: "12px 18px", borderRadius: "12px", fontSize: "13px", marginBottom: "24px" }}>
+        <div
+          style={{
+            background: "rgba(0, 210, 255, 0.08)",
+            border: "1px solid rgba(0, 210, 255, 0.25)",
+            color: "#00d2ff",
+            padding: "12px 18px",
+            borderRadius: "12px",
+            fontSize: "13px",
+            marginBottom: "24px",
+          }}
+        >
           {dbNotice}
         </div>
       )}
 
       {/* Super Admin Manager Modal / Banner */}
       {isSuperAdmin && showAdminManager && (
-        <div style={{ background: "rgba(15, 23, 42, 0.95)", border: "1px solid rgba(0, 210, 255, 0.4)", borderRadius: "18px", padding: "20px", marginBottom: "32px" }}>
-          <h3 style={{ fontSize: "16px", fontWeight: "800", color: "#00d2ff", marginBottom: "8px" }}>
+        <div
+          style={{
+            background: "rgba(15, 23, 42, 0.95)",
+            border: "1px solid rgba(0, 210, 255, 0.4)",
+            borderRadius: "18px",
+            padding: "20px",
+            marginBottom: "32px",
+          }}
+        >
+          <h3
+            style={{ fontSize: "16px", fontWeight: "800", color: "#00d2ff", marginBottom: "8px" }}
+          >
             👑 Super Admin Power: Grant Admin Access via Email
           </h3>
           <p style={{ fontSize: "13px", color: "#94a3b8", marginBottom: "16px" }}>
             Add any email address to grant direct administrative access to this dashboard.
           </p>
 
-          <form onSubmit={handleAddAdminEmail} style={{ display: "flex", gap: "12px", marginBottom: "20px", flexWrap: "wrap" }}>
+          <form
+            onSubmit={handleAddAdminEmail}
+            style={{ display: "flex", gap: "12px", marginBottom: "20px", flexWrap: "wrap" }}
+          >
             <input
               type="email"
               className="search-input-box"
@@ -550,12 +640,18 @@ export const AdminPanel: React.FC = () => {
               style={{ flex: 1, minWidth: "260px" }}
               required
             />
-            <button type="submit" className="btn-admin-submit" style={{ width: "auto", padding: "10px 20px", marginTop: 0 }}>
+            <button
+              type="submit"
+              className="btn-admin-submit"
+              style={{ width: "auto", padding: "10px 20px", marginTop: 0 }}
+            >
               + Grant Admin Access
             </button>
           </form>
 
-          <div style={{ fontSize: "13px", fontWeight: "700", color: "#ffffff", marginBottom: "10px" }}>
+          <div
+            style={{ fontSize: "13px", fontWeight: "700", color: "#ffffff", marginBottom: "10px" }}
+          >
             Authorized Admin Emails:
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
@@ -563,9 +659,17 @@ export const AdminPanel: React.FC = () => {
               <span
                 key={email}
                 style={{
-                  background: email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase() ? "rgba(245,158,11,0.2)" : "rgba(0,210,255,0.15)",
-                  border: "1px solid " + (email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase() ? "rgba(245,158,11,0.4)" : "rgba(0,210,255,0.3)"),
-                  color: email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase() ? "#f59e0b" : "#00d2ff",
+                  background:
+                    email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase()
+                      ? "rgba(245,158,11,0.2)"
+                      : "rgba(0,210,255,0.15)",
+                  border:
+                    "1px solid " +
+                    (email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase()
+                      ? "rgba(245,158,11,0.4)"
+                      : "rgba(0,210,255,0.3)"),
+                  color:
+                    email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase() ? "#f59e0b" : "#00d2ff",
                   padding: "6px 12px",
                   borderRadius: "20px",
                   fontSize: "12.5px",
@@ -579,7 +683,15 @@ export const AdminPanel: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleRemoveAdminEmail(email)}
-                    style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontWeight: "bold", fontSize: "14px", padding: 0 }}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "#ef4444",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      padding: 0,
+                    }}
                     title="Revoke Admin Access"
                   >
                     ×
@@ -599,15 +711,21 @@ export const AdminPanel: React.FC = () => {
         </div>
         <div className="stat-card">
           <span className="stat-label">Pending Review</span>
-          <div className="stat-value" style={{ color: "#f59e0b" }}>{pendingCount}</div>
+          <div className="stat-value" style={{ color: "#f59e0b" }}>
+            {pendingCount}
+          </div>
         </div>
         <div className="stat-card">
           <span className="stat-label">Shortlisted</span>
-          <div className="stat-value" style={{ color: "#c084fc" }}>{shortlistedCount}</div>
+          <div className="stat-value" style={{ color: "#c084fc" }}>
+            {shortlistedCount}
+          </div>
         </div>
         <div className="stat-card">
           <span className="stat-label">Accepted</span>
-          <div className="stat-value" style={{ color: "#34d399" }}>{acceptedCount}</div>
+          <div className="stat-value" style={{ color: "#34d399" }}>
+            {acceptedCount}
+          </div>
         </div>
       </div>
 
@@ -729,7 +847,14 @@ export const AdminPanel: React.FC = () => {
                       )}
                     </div>
                     {app.whyJoin && (
-                      <p style={{ fontSize: "11.5px", color: "#94a3b8", marginTop: "4px", maxWidth: "240px" }}>
+                      <p
+                        style={{
+                          fontSize: "11.5px",
+                          color: "#94a3b8",
+                          marginTop: "4px",
+                          maxWidth: "240px",
+                        }}
+                      >
                         "{app.whyJoin.slice(0, 70)}..."
                       </p>
                     )}

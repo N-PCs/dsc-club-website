@@ -89,7 +89,7 @@ function Events() {
       gsap.fromTo(
         listRef.current.children,
         { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power2.out" }
+        { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power2.out" },
       );
     }
   }, [tab]);
@@ -105,13 +105,15 @@ function Events() {
 
       <div className="mx-auto mt-20 max-w-6xl">
         <div className="grid gap-12 lg:grid-cols-12">
-          
           {/* Left Column: Sticky Tab Selector */}
           <div className="lg:col-span-4 lg:sticky lg:top-32 h-fit">
-            <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">FILTER TIMELINE</span>
+            <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
+              FILTER TIMELINE
+            </span>
             <h2 className="mt-3 font-display text-3xl font-bold text-white">Select Cohort</h2>
             <p className="mt-4 text-xs text-slate-400 leading-relaxed max-w-xs">
-              Check out what's coming up next or look back at our past initiatives, hackathons, and certifications.
+              Check out what's coming up next or look back at our past initiatives, hackathons, and
+              certifications.
             </p>
 
             <div className="glass mt-8 flex flex-col gap-2 rounded-2xl p-2 border border-white/5 bg-slate-900/10">
@@ -120,8 +122,8 @@ function Events() {
                   key={t}
                   onClick={() => setTab(t)}
                   className={`w-full rounded-xl py-3.5 px-5 font-mono text-xs uppercase tracking-[0.2em] transition-all text-left ${
-                    tab === t 
-                      ? "bg-primary text-white font-bold shadow-glow" 
+                    tab === t
+                      ? "bg-primary text-white font-bold shadow-glow"
                       : "text-slate-400 hover:text-white hover:bg-white/5"
                   }`}
                 >
@@ -132,10 +134,13 @@ function Events() {
           </div>
 
           {/* Right Column: Timeline Cards List */}
-          <div ref={listRef} className="space-y-12 lg:col-span-8 relative border-l border-primary/20 pl-6 md:pl-10">
+          <div
+            ref={listRef}
+            className="space-y-12 lg:col-span-8 relative border-l border-primary/20 pl-6 md:pl-10"
+          >
             {list.map((e, index) => (
-              <article 
-                key={e.title} 
+              <article
+                key={e.title}
                 className="glass group relative rounded-3xl border border-white/5 p-6 md:p-8 flex flex-col md:flex-row gap-6 hover:border-primary/45 transition-colors"
               >
                 {/* Timeline Dot Connector */}
@@ -161,7 +166,7 @@ function Events() {
                     <h3 className="font-display text-2xl font-bold text-white group-hover:text-primary transition-colors">
                       {e.title}
                     </h3>
-                    
+
                     <div className="mt-4 flex flex-wrap gap-3">
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 border border-white/5 px-3.5 py-1.5 font-mono text-[9px] uppercase tracking-widest text-slate-300">
                         <CalendarDays className="size-3 text-accent" /> {e.date}
@@ -171,17 +176,13 @@ function Events() {
                       </span>
                     </div>
 
-                    <p className="mt-5 text-xs text-slate-400 leading-relaxed">
-                      {e.text}
-                    </p>
+                    <p className="mt-5 text-xs text-slate-400 leading-relaxed">{e.text}</p>
                   </div>
 
                   <div className="mt-8 pt-6 border-t border-white/5">
-                    <button 
+                    <button
                       className={`inline-flex items-center gap-2 rounded-xl py-3 px-6 text-xs font-bold transition-all ${
-                        tab === "upcoming" 
-                          ? "btn-neon" 
-                          : "btn-glass border-white/10"
+                        tab === "upcoming" ? "btn-neon" : "btn-glass border-white/10"
                       }`}
                     >
                       {tab === "upcoming" ? "Register For Event" : "View Recap dossier"}
@@ -192,7 +193,6 @@ function Events() {
               </article>
             ))}
           </div>
-
         </div>
       </div>
     </div>

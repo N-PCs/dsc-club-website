@@ -15,7 +15,7 @@ export interface RadialMenuProps {
   items?: RadialMenuItem[];
   radius?: number;
   startAngle?: number; // degrees (e.g. 90 = down)
-  endAngle?: number;   // degrees (e.g. 180 = left)
+  endAngle?: number; // degrees (e.g. 180 = left)
 }
 
 const DEFAULT_RADIAL_ITEMS: RadialMenuItem[] = [
@@ -102,9 +102,7 @@ export function RadialMenu({
             // Desktop radial menu
             const count = items.length;
             const angleDeg =
-              count > 1
-                ? startAngle + (index * (endAngle - startAngle)) / (count - 1)
-                : startAngle;
+              count > 1 ? startAngle + (index * (endAngle - startAngle)) / (count - 1) : startAngle;
             const angleRad = (angleDeg * Math.PI) / 180;
 
             targetX = Math.cos(angleRad) * radius;
@@ -122,7 +120,7 @@ export function RadialMenu({
               duration: 0.45,
               delay: index * 0.05,
               ease: "back.out(1.7)",
-            }
+            },
           );
         });
       } else {
@@ -212,10 +210,7 @@ export function RadialMenu({
       </div>
 
       {/* Backdrop overlay */}
-      <div
-        className={`radial-overlay ${isOpen ? "open" : ""}`}
-        onClick={closeMenu}
-      />
+      <div className={`radial-overlay ${isOpen ? "open" : ""}`} onClick={closeMenu} />
 
       {/* Floating Radial Menu Top-Right */}
       <div className="radial-menu-container">

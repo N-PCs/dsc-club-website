@@ -13,20 +13,48 @@ export const FooterSection: React.FC = () => {
             <div className="center-logos-container">
               <img src="/DSClogo.png" alt="DSC Club Logo" className="footer-brand-logo" />
               <div className="footer-logo-divider" />
-              <img src="/Collegelogo.png" alt="VIT Bhopal College Logo" className="footer-college-logo" />
+              <img
+                src="/Collegelogo.png"
+                alt="VIT Bhopal College Logo"
+                className="footer-college-logo"
+              />
             </div>
 
             <div className="footer-socials">
-              <a href="https://github.com/cdsvitbhopal" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="GitHub">
+              <a
+                href="https://github.com/cdsvitbhopal"
+                target="_blank"
+                rel="noreferrer"
+                className="social-icon-btn"
+                aria-label="GitHub"
+              >
                 <i className="fa-brands fa-github" />
               </a>
-              <a href="https://www.linkedin.com/company/dsc-vitb/?originalSubdomain=in" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="LinkedIn">
+              <a
+                href="https://www.linkedin.com/company/dsc-vitb/?originalSubdomain=in"
+                target="_blank"
+                rel="noreferrer"
+                className="social-icon-btn"
+                aria-label="LinkedIn"
+              >
                 <i className="fa-brands fa-linkedin-in" />
               </a>
-              <a href="https://x.com/DSC_VITB" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="Twitter">
+              <a
+                href="https://x.com/DSC_VITB"
+                target="_blank"
+                rel="noreferrer"
+                className="social-icon-btn"
+                aria-label="Twitter"
+              >
                 <i className="fa-brands fa-x-twitter" />
               </a>
-              <a href="https://www.instagram.com/dsc_vitb/" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="Instagram">
+              <a
+                href="https://www.instagram.com/dsc_vitb/"
+                target="_blank"
+                rel="noreferrer"
+                className="social-icon-btn"
+                aria-label="Instagram"
+              >
                 <i className="fa-brands fa-instagram" />
               </a>
             </div>
@@ -70,9 +98,26 @@ export const FooterSection: React.FC = () => {
         </div>
 
         {/* Desktop Bottom Bar */}
-        <div className="footer-bottom-bar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span className="bottom-copy">© 2026 Data Science Club VIT Bhopal. All Rights Reserved</span>
-          <Link to="/admin" className="admin-access-link" style={{ fontSize: "11.5px", color: "rgba(255, 255, 255, 0.45)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px", transition: "color 0.2s ease" }}>
+        <div
+          className="footer-bottom-bar"
+          style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+        >
+          <span className="bottom-copy">
+            © 2026 Data Science Club VIT Bhopal. All Rights Reserved
+          </span>
+          <Link
+            to="/admin"
+            className="admin-access-link"
+            style={{
+              fontSize: "11.5px",
+              color: "rgba(255, 255, 255, 0.45)",
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              transition: "color 0.2s ease",
+            }}
+          >
             <span style={{ fontSize: "10px" }}>🛡️</span> Admin Access
           </Link>
         </div>
@@ -90,7 +135,11 @@ export const FooterSection: React.FC = () => {
           <div className="mobile-logos-capsule">
             <img src="/DSClogo.png" alt="DSC Club Logo" className="mobile-brand-logo" />
             <div className="mobile-logo-divider" />
-            <img src="/Collegelogo.png" alt="VIT Bhopal College Logo" className="mobile-college-logo" />
+            <img
+              src="/Collegelogo.png"
+              alt="VIT Bhopal College Logo"
+              className="mobile-college-logo"
+            />
           </div>
 
           {/* Contact Details */}
@@ -98,34 +147,74 @@ export const FooterSection: React.FC = () => {
             <a href="mailto:dsc@vitbhopal.ac.in" className="mobile-email">
               dsc@vitbhopal.ac.in
             </a>
-            <p className="mobile-address">
-              VIT Bhopal University, Kothri Kalan, Sehore, MP
-            </p>
+            <p className="mobile-address">VIT Bhopal University, Kothri Kalan, Sehore, MP</p>
           </div>
 
           {/* Navigation Chips */}
           <div className="mobile-nav-grid">
-            <Link to="/" className="mobile-nav-chip">Home</Link>
-            <a href="/#about" className="mobile-nav-chip">About</a>
-            <a href="/#domains" className="mobile-nav-chip">Domains</a>
-            <a href="/#events" className="mobile-nav-chip">Events</a>
-            <Link to="/members" className="mobile-nav-chip">Members</Link>
-            <Link to="/join" className="mobile-nav-chip highlighted">Join Core Team</Link>
-            <Link to="/admin" className="mobile-nav-chip" style={{ borderColor: "rgba(0, 210, 255, 0.3)", color: "#00d2ff" }}>🛡️ Admin Access</Link>
+            <Link to="/" className="mobile-nav-chip">
+              Home
+            </Link>
+            <a href="/#about" className="mobile-nav-chip">
+              About
+            </a>
+            <a href="/#domains" className="mobile-nav-chip">
+              Domains
+            </a>
+            <a href="/#events" className="mobile-nav-chip">
+              Events
+            </a>
+            <Link to="/members" className="mobile-nav-chip">
+              Members
+            </Link>
+            <Link to="/join" className="mobile-nav-chip highlighted">
+              Join Core Team
+            </Link>
+            <Link
+              to="/admin"
+              className="mobile-nav-chip"
+              style={{ borderColor: "rgba(0, 210, 255, 0.3)", color: "#00d2ff" }}
+            >
+              🛡️ Admin Access
+            </Link>
           </div>
 
           {/* Social Links Row */}
           <div className="mobile-socials-row">
-            <a href="https://github.com/cdsvitbhopal" target="_blank" rel="noreferrer" className="mobile-social-btn" aria-label="GitHub">
+            <a
+              href="https://github.com/cdsvitbhopal"
+              target="_blank"
+              rel="noreferrer"
+              className="mobile-social-btn"
+              aria-label="GitHub"
+            >
               <i className="fa-brands fa-github" />
             </a>
-            <a href="https://www.linkedin.com/company/dsc-vitb/?originalSubdomain=in" target="_blank" rel="noreferrer" className="mobile-social-btn" aria-label="LinkedIn">
+            <a
+              href="https://www.linkedin.com/company/dsc-vitb/?originalSubdomain=in"
+              target="_blank"
+              rel="noreferrer"
+              className="mobile-social-btn"
+              aria-label="LinkedIn"
+            >
               <i className="fa-brands fa-linkedin-in" />
             </a>
-            <a href="https://x.com/DSC_VITB" target="_blank" rel="noreferrer" className="mobile-social-btn" aria-label="Twitter">
+            <a
+              href="https://x.com/DSC_VITB"
+              target="_blank"
+              rel="noreferrer"
+              className="mobile-social-btn"
+              aria-label="Twitter"
+            >
               <i className="fa-brands fa-x-twitter" />
             </a>
-            <a href="https://www.instagram.com/dsc_vitb/" target="_blank" rel="noreferrer" className="mobile-social-btn" aria-label="Instagram">
+            <a
+              href="https://www.instagram.com/dsc_vitb/"
+              target="_blank"
+              rel="noreferrer"
+              className="mobile-social-btn"
+              aria-label="Instagram"
+            >
               <i className="fa-brands fa-instagram" />
             </a>
           </div>

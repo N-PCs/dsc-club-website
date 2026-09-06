@@ -67,7 +67,7 @@ export const HeroSection: React.FC = () => {
           startCounter();
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     if (sectionRef.current) {
@@ -85,9 +85,7 @@ export const HeroSection: React.FC = () => {
 
       <div className="hero-content page">
         {/* Eyebrow Pill */}
-        <div className="badge-pill">
-          DATA SCIENCE CLUB — VIT BHOPAL
-        </div>
+        <div className="badge-pill">DATA SCIENCE CLUB — VIT BHOPAL</div>
 
         {/* Headline */}
         <h1 className="headline">
@@ -97,9 +95,8 @@ export const HeroSection: React.FC = () => {
 
         {/* Subhead */}
         <p className="subhead">
-          We turn raw insights into shipped models, interactive tools, and open-source
-          intelligence. Join a 100+ strong developer cohort pushing boundaries at
-          VIT Bhopal.
+          We turn raw insights into shipped models, interactive tools, and open-source intelligence.
+          Join a 100+ strong developer cohort pushing boundaries at VIT Bhopal.
         </p>
 
         {/* CTAs */}
@@ -129,4 +126,3 @@ export const HeroSection: React.FC = () => {
     </section>
   );
 };
-

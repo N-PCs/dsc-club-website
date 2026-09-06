@@ -1,6 +1,14 @@
-import React, { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, CSSProperties } from 'react';
-import { gsap } from 'gsap';
-import './TextLoop.css';
+import React, {
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  CSSProperties,
+} from "react";
+import { gsap } from "gsap";
+import "./TextLoop.css";
 
 const VIEW_W = 1200;
 const VIEW_H = 240;
@@ -10,10 +18,10 @@ const EDGE_PAD = 6;
 
 export interface TextLoopProps {
   text?: string;
-  shape?: 'circle' | 'infinity' | 'arch' | 'line' | 'wave';
+  shape?: "circle" | "infinity" | "arch" | "line" | "wave";
   path?: string;
   speed?: number;
-  direction?: 'forward' | 'reverse';
+  direction?: "forward" | "reverse";
   separator?: string;
   curviness?: number;
   fontSize?: number;
@@ -34,11 +42,11 @@ const buildPath = (shape: string, curviness: number, ribbonWidth: number) => {
   const room = Math.max(20, CY - Math.max(0, ribbonWidth) / 2 - EDGE_PAD);
 
   switch (shape) {
-    case 'circle': {
+    case "circle": {
       const r = Math.min(80 + c * 0.7, room);
       return `M ${CX - r} ${CY} A ${r} ${r} 0 1 1 ${CX + r} ${CY} A ${r} ${r} 0 1 1 ${CX - r} ${CY} Z`;
     }
-    case 'infinity': {
+    case "infinity": {
       const r = 140 + c * 1.0;
       const h = Math.min(50 + c * 0.7, room);
       return [
@@ -47,16 +55,16 @@ const buildPath = (shape: string, curviness: number, ribbonWidth: number) => {
         `C ${CX + r} ${CY + h} ${CX + r * 0.55} ${CY + h} ${CX} ${CY}`,
         `C ${CX - r * 0.55} ${CY - h} ${CX - r} ${CY - h} ${CX - r} ${CY}`,
         `C ${CX - r} ${CY + h} ${CX - r * 0.55} ${CY + h} ${CX} ${CY}`,
-        'Z'
-      ].join(' ');
+        "Z",
+      ].join(" ");
     }
-    case 'arch': {
+    case "arch": {
       const rise = Math.min(60 + c * 0.7, room * 2);
       return `M 120 ${CY + rise / 2} Q ${CX} ${CY - rise * 1.5} ${VIEW_W - 120} ${CY + rise / 2}`;
     }
-    case 'line':
+    case "line":
       return `M -320 ${CY} L ${VIEW_W + 320} ${CY}`;
-    case 'wave':
+    case "wave":
     default: {
       const a = Math.min(c * 1.1, room * 1.6);
       return `M -320 ${CY} Q -160 ${CY - a} 0 ${CY} T 320 ${CY} T 640 ${CY} T 960 ${CY} T 1280 ${CY} T ${VIEW_W + 320} ${CY}`;
@@ -65,24 +73,24 @@ const buildPath = (shape: string, curviness: number, ribbonWidth: number) => {
 };
 
 export const TextLoop: React.FC<TextLoopProps> = ({
-  text = 'React ✦ Bits',
-  shape = 'wave',
+  text = "React ✦ Bits",
+  shape = "wave",
   path,
   speed = 90,
-  direction = 'forward',
-  separator = '✦',
+  direction = "forward",
+  separator = "✦",
   curviness = 90,
   fontSize = 38,
   fontWeight = 800,
   letterSpacing = 4,
   uppercase = true,
-  color = '#ffffff',
+  color = "#ffffff",
   ribbon = true,
-  ribbonColor = '#5227FF',
+  ribbonColor = "#5227FF",
   ribbonWidth = 76,
   pauseOnHover = true,
-  className = '',
-  style = {}
+  className = "",
+  style = {},
 }) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const pathRef = useRef<SVGPathElement | null>(null);
@@ -95,27 +103,32 @@ export const TextLoop: React.FC<TextLoopProps> = ({
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(typeof window !== 'undefined' && window.innerWidth <= 768);
+      setIsMobile(typeof window !== "undefined" && window.innerWidth <= 768);
     };
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const rawId = useId();
-  const pathId = `text-loop-${rawId.replace(/:/g, '')}`;
+  const pathId = `text-loop-${rawId.replace(/:/g, "")}`;
 
-  const d = useMemo(() => path || buildPath(shape, curviness, ribbonWidth), [path, shape, curviness, ribbonWidth]);
+  const d = useMemo(
+    () => path || buildPath(shape, curviness, ribbonWidth),
+    [path, shape, curviness, ribbonWidth],
+  );
 
   const unit = useMemo(() => {
     const base = uppercase ? String(text).toUpperCase() : String(text);
-    const gap = separator ? `\u00A0\u00A0\u00A0\u00A0${separator}\u00A0\u00A0\u00A0\u00A0` : '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
+    const gap = separator
+      ? `\u00A0\u00A0\u00A0\u00A0${separator}\u00A0\u00A0\u00A0\u00A0`
+      : "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0";
     return `${base}${gap}`;
   }, [text, separator, uppercase]);
 
   const textStyle = useMemo(
     () => ({ fontSize: `${fontSize}px`, fontWeight, letterSpacing: `${letterSpacing}px` }),
-    [fontSize, fontWeight, letterSpacing]
+    [fontSize, fontWeight, letterSpacing],
   );
 
   useLayoutEffect(() => {
@@ -138,11 +151,13 @@ export const TextLoop: React.FC<TextLoopProps> = ({
       if (!length) return;
 
       const reps = unitWidth > 0 ? Math.max(3, Math.ceil(length / unitWidth) + 1) : 3;
-      setMetrics(prev => (prev.length === length && prev.reps === reps ? prev : { length, reps }));
+      setMetrics((prev) =>
+        prev.length === length && prev.reps === reps ? prev : { length, reps },
+      );
     };
 
     measure();
-    if (typeof document !== 'undefined' && document.fonts?.ready) {
+    if (typeof document !== "undefined" && document.fonts?.ready) {
       document.fonts.ready.then(measure).catch(() => {});
     }
 
@@ -159,23 +174,24 @@ export const TextLoop: React.FC<TextLoopProps> = ({
 
     const apply = (offset: number) => {
       const partner = offset >= 0 ? offset - length : offset + length;
-      head.setAttribute('startOffset', String(offset));
-      tail.setAttribute('startOffset', String(partner));
+      head.setAttribute("startOffset", String(offset));
+      tail.setAttribute("startOffset", String(partner));
     };
 
     apply(0);
 
     const prefersReduced =
-      typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced || speed <= 0) return undefined;
 
     const state = { offset: 0 };
     const tween = gsap.to(state, {
-      offset: direction === 'reverse' ? -length : length,
+      offset: direction === "reverse" ? -length : length,
       duration: length / speed,
-      ease: 'none',
+      ease: "none",
       repeat: -1,
-      onUpdate: () => apply(state.offset)
+      onUpdate: () => apply(state.offset),
     });
 
     const root = rootRef.current;
@@ -183,15 +199,15 @@ export const TextLoop: React.FC<TextLoopProps> = ({
     const resume = () => tween.resume();
 
     if (pauseOnHover && root) {
-      root.addEventListener('pointerenter', pause);
-      root.addEventListener('pointerleave', resume);
+      root.addEventListener("pointerenter", pause);
+      root.addEventListener("pointerleave", resume);
     }
 
     return () => {
       tween.kill();
       if (pauseOnHover && root) {
-        root.removeEventListener('pointerenter', pause);
-        root.removeEventListener('pointerleave', resume);
+        root.removeEventListener("pointerenter", pause);
+        root.removeEventListener("pointerleave", resume);
       }
     };
   }, [metrics, speed, direction, pauseOnHover]);
@@ -204,7 +220,7 @@ export const TextLoop: React.FC<TextLoopProps> = ({
       <svg
         className="text-loop-svg"
         viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
-        preserveAspectRatio={isMobile ? 'xMidYMid slice' : 'xMidYMid meet'}
+        preserveAspectRatio={isMobile ? "xMidYMid slice" : "xMidYMid meet"}
         role="img"
         aria-label={text}
       >
@@ -213,7 +229,7 @@ export const TextLoop: React.FC<TextLoopProps> = ({
           id={pathId}
           d={d}
           fill="none"
-          stroke={ribbon ? ribbonColor : 'none'}
+          stroke={ribbon ? ribbonColor : "none"}
           strokeWidth={ribbon ? ribbonWidth : 0}
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -223,14 +239,38 @@ export const TextLoop: React.FC<TextLoopProps> = ({
           {unit}
         </text>
 
-        <text className="text-loop-text" style={textStyle} fill={color} dominantBaseline="central" aria-hidden="true">
-          <textPath ref={headRef} href={`#${pathId}`} startOffset={0} textLength={fitLength} lengthAdjust="spacing">
+        <text
+          className="text-loop-text"
+          style={textStyle}
+          fill={color}
+          dominantBaseline="central"
+          aria-hidden="true"
+        >
+          <textPath
+            ref={headRef}
+            href={`#${pathId}`}
+            startOffset={0}
+            textLength={fitLength}
+            lengthAdjust="spacing"
+          >
             {loopText}
           </textPath>
         </text>
 
-        <text className="text-loop-text" style={textStyle} fill={color} dominantBaseline="central" aria-hidden="true">
-          <textPath ref={tailRef} href={`#${pathId}`} startOffset={0} textLength={fitLength} lengthAdjust="spacing">
+        <text
+          className="text-loop-text"
+          style={textStyle}
+          fill={color}
+          dominantBaseline="central"
+          aria-hidden="true"
+        >
+          <textPath
+            ref={tailRef}
+            href={`#${pathId}`}
+            startOffset={0}
+            textLength={fitLength}
+            lengthAdjust="spacing"
+          >
             {loopText}
           </textPath>
         </text>

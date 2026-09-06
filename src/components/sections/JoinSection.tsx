@@ -75,7 +75,7 @@ export const JoinSection: React.FC = () => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
     setFormData({
       ...formData,
@@ -92,8 +92,8 @@ export const JoinSection: React.FC = () => {
             Join The <span className="gradient-text">Core Cohort</span>
           </h2>
           <p className="section-subtitle">
-            Ready to build models, organize hackathons, and ship projects? Fill in
-            your details below.
+            Ready to build models, organize hackathons, and ship projects? Fill in your details
+            below.
           </p>
         </div>
 
@@ -108,11 +108,14 @@ export const JoinSection: React.FC = () => {
             }}
           >
             <div style={{ fontSize: "36px", marginBottom: "12px" }}>🔒</div>
-            <h3 style={{ fontSize: "20px", fontWeight: "800", color: "#f87171", marginBottom: "8px" }}>
+            <h3
+              style={{ fontSize: "20px", fontWeight: "800", color: "#f87171", marginBottom: "8px" }}
+            >
               Recruitments Currently Paused
             </h3>
             <p style={{ fontSize: "14px", color: "#94a3b8", maxWidth: "450px", margin: "0 auto" }}>
-              Applications for Data Science Club VITB core team are currently closed by administration. Stay tuned for future recruitment cycles!
+              Applications for Data Science Club VITB core team are currently closed by
+              administration. Stay tuned for future recruitment cycles!
             </p>
           </div>
         ) : (
@@ -156,12 +159,7 @@ export const JoinSection: React.FC = () => {
 
               <div className="form-group">
                 <label htmlFor="domain">Preferred Sub-Domain</label>
-                <select
-                  id="domain"
-                  value={formData.domain}
-                  onChange={handleChange}
-                  required
-                >
+                <select id="domain" value={formData.domain} onChange={handleChange} required>
                   <option value="" disabled>
                     Select a domain
                   </option>

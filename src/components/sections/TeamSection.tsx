@@ -22,7 +22,7 @@ const createMember = (
   role: string,
   group: TeamMember["group"],
   borderColor: string,
-  rgbGlow: string
+  rgbGlow: string,
 ): TeamMember => ({
   title: name,
   subtitle: `${role} • ${group}`,
@@ -30,7 +30,7 @@ const createMember = (
   role,
   borderColor,
   gradient: `linear-gradient(145deg, rgba(${rgbGlow}, 0.22) 0%, rgba(11, 19, 41, 0.95) 100%)`,
-  image: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0b1329&color=${borderColor.replace('#', '')}&bold=true&font-size=0.38`
+  image: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0b1329&color=${borderColor.replace("#", "")}&bold=true&font-size=0.38`,
 });
 
 const teamMembers: TeamMember[] = [
@@ -45,7 +45,13 @@ const teamMembers: TeamMember[] = [
   createMember("Aditya Saini", "Lead", "HR Team", "#ec4899", "236, 72, 153"),
   createMember("Vedant Patil", "Co-Lead", "HR Team", "#ec4899", "236, 72, 153"),
   createMember("Gargi Singh", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
-  createMember("Swagatika Priyadarshini Sahoo", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
+  createMember(
+    "Swagatika Priyadarshini Sahoo",
+    "Core Member",
+    "HR Team",
+    "#ec4899",
+    "236, 72, 153",
+  ),
   createMember("Tanisha Sethi", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
   createMember("Mitali Pandey", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
   createMember("Aryan Awasthi", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
@@ -54,8 +60,20 @@ const teamMembers: TeamMember[] = [
   // EVENT MANAGEMENT TEAM (GOLDEN AMBER)
   createMember("Ayush Gupta", "Lead", "Event Management Team", "#f59e0b", "245, 158, 11"),
   createMember("Arunika Bag", "Co-Lead", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Ashutosh Shrivastava", "Co-Lead", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Divyansh Dhimole", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember(
+    "Ashutosh Shrivastava",
+    "Co-Lead",
+    "Event Management Team",
+    "#f59e0b",
+    "245, 158, 11",
+  ),
+  createMember(
+    "Divyansh Dhimole",
+    "Core Member",
+    "Event Management Team",
+    "#f59e0b",
+    "245, 158, 11",
+  ),
   createMember("Akshat Mujmer", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
   createMember("Anshima", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
   createMember("Nilesh Ugale", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
@@ -63,9 +81,21 @@ const teamMembers: TeamMember[] = [
   createMember("Prashant Dubey", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
   createMember("Rakshit Yadav", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
   createMember("Anushka Dubey", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Bhawesh Kumar Gautam", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember(
+    "Bhawesh Kumar Gautam",
+    "Core Member",
+    "Event Management Team",
+    "#f59e0b",
+    "245, 158, 11",
+  ),
   createMember("Sandeep Ganesh", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Anvesha Agrawal", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  createMember(
+    "Anvesha Agrawal",
+    "Core Member",
+    "Event Management Team",
+    "#f59e0b",
+    "245, 158, 11",
+  ),
   createMember("Satwik Singh", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
   createMember("Anushka Sahu", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
   createMember("Khushi Thakur", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
@@ -148,7 +178,13 @@ const teamMembers: TeamMember[] = [
   createMember("Neel Pandey", "Lead", "Software Dev Team", "#38bdf8", "56, 189, 248"),
   createMember("Aarush Rahul Patel", "Co-Lead", "Software Dev Team", "#38bdf8", "56, 189, 248"),
   createMember("Sanskar", "Co-Lead", "Software Dev Team", "#38bdf8", "56, 189, 248"),
-  createMember("Nikhil Kumar Tiwari", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
+  createMember(
+    "Nikhil Kumar Tiwari",
+    "Core Member",
+    "Software Dev Team",
+    "#38bdf8",
+    "56, 189, 248",
+  ),
   createMember("Shresth Bhargava", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
   createMember("Tanishka", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
   createMember("Ritik", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
@@ -204,7 +240,7 @@ export const TeamSection: React.FC = () => {
 
     const interval = setInterval(() => {
       setActiveGroup((prev) => {
-        const currentIndex = groups.indexOf(prev as typeof groups[number]);
+        const currentIndex = groups.indexOf(prev as (typeof groups)[number]);
         const nextIndex = (currentIndex + 1) % groups.length;
         return groups[nextIndex] || "Panel";
       });
@@ -219,10 +255,10 @@ export const TeamSection: React.FC = () => {
           .filter((m) => m.role === "Lead")
           .sort((a, b) => (teamOrderMap[a.group] || 99) - (teamOrderMap[b.group] || 99))
       : activeGroup === "Co-Leads"
-      ? teamMembers
-          .filter((m) => m.role === "Co-Lead")
-          .sort((a, b) => (teamOrderMap[a.group] || 99) - (teamOrderMap[b.group] || 99))
-      : teamMembers.filter((m) => m.group === activeGroup);
+        ? teamMembers
+            .filter((m) => m.role === "Co-Lead")
+            .sort((a, b) => (teamOrderMap[a.group] || 99) - (teamOrderMap[b.group] || 99))
+        : teamMembers.filter((m) => m.group === activeGroup);
 
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
@@ -235,7 +271,8 @@ export const TeamSection: React.FC = () => {
             The Minds Behind <span className="gradient-text">DSC VITB</span>
           </h2>
           <p className="section-subtitle">
-            Students, leads, and core members driving innovation, event management, software development, and AI initiatives.
+            Students, leads, and core members driving innovation, event management, software
+            development, and AI initiatives.
           </p>
         </div>
 
@@ -249,9 +286,7 @@ export const TeamSection: React.FC = () => {
                   <span className="pulse-dot" /> Auto-playing teams
                 </span>
               ) : (
-                <span className="auto-slide-badge paused">
-                  {filteredMembers.length} Members
-                </span>
+                <span className="auto-slide-badge paused">{filteredMembers.length} Members</span>
               )}
             </div>
 
@@ -277,8 +312,8 @@ export const TeamSection: React.FC = () => {
                     g === "Leads"
                       ? teamMembers.filter((m) => m.role === "Lead").length
                       : g === "Co-Leads"
-                      ? teamMembers.filter((m) => m.role === "Co-Lead").length
-                      : teamMembers.filter((m) => m.group === g).length;
+                        ? teamMembers.filter((m) => m.role === "Co-Lead").length
+                        : teamMembers.filter((m) => m.group === g).length;
 
                   return (
                     <button
@@ -338,7 +373,3 @@ export const TeamSection: React.FC = () => {
 };
 
 export default TeamSection;
-
-
-
-

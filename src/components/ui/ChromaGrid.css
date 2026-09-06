@@ -54,8 +54,14 @@
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  background: var(--card-gradient, linear-gradient(145deg, rgba(28, 30, 38, 0.95), rgba(12, 14, 18, 0.98)));
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  background: var(
+    --card-gradient,
+    linear-gradient(145deg, rgba(28, 30, 38, 0.95), rgba(12, 14, 18, 0.98))
+  );
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
@@ -67,14 +73,20 @@
 .chroma-card:hover {
   border-color: var(--card-border, #e5e4e2);
   transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 20px rgba(229, 228, 226, 0.2);
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(229, 228, 226, 0.2);
 }
 
 .chroma-card::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 70%);
+  background: radial-gradient(
+    circle at var(--mouse-x) var(--mouse-y),
+    var(--spotlight-color),
+    transparent 70%
+  );
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.5s ease;
