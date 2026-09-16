@@ -86,12 +86,12 @@ export interface RegistrationRecord {
   yearSemester: string;
   department: string;
   residenceType: ResidenceType;
-  teamName?: string;
-  teamSize?: number;
-  teamMembers?: TeamMember[];
+  teamName?: string | undefined;
+  teamSize?: number | undefined;
+  teamMembers?: TeamMember[] | undefined;
   paymentStatus: PaymentStatus;
-  paymentUtr?: string;
-  paymentReceiptUrl?: string;
+  paymentUtr?: string | undefined;
+  paymentReceiptUrl?: string | undefined;
   paymentAmount: number;
   registrationStatus: RegistrationStatus;
   registeredAt: string;

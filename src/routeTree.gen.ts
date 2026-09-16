@@ -16,6 +16,8 @@ import { Route as EventsRouteImport } from './routes/events'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as MembersRouteImport } from './routes/members'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as RegisterEventIdRouteImport } from './routes/register.$eventId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +54,16 @@ const MembersRoute = MembersRouteImport.update({
   path: '/members',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterEventIdRoute = RegisterEventIdRouteImport.update({
+  id: '/$eventId',
+  path: '/$eventId',
+  getParentRoute: () => RegisterRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +73,8 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/join': typeof JoinRoute
   '/members': typeof MembersRoute
+  '/register': typeof RegisterRouteWithChildren
+  '/register/$eventId': typeof RegisterEventIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +84,8 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/join': typeof JoinRoute
   '/members': typeof MembersRoute
+  '/register': typeof RegisterRouteWithChildren
+  '/register/$eventId': typeof RegisterEventIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,13 +96,32 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/join': typeof JoinRoute
   '/members': typeof MembersRoute
+  '/register': typeof RegisterRouteWithChildren
+  '/register/$eventId': typeof RegisterEventIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/admin' | '/events' | '/gallery' | '/join' | '/members'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/events'
+    | '/gallery'
+    | '/join'
+    | '/members'
+    | '/register'
+    | '/register/$eventId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/admin' | '/events' | '/gallery' | '/join' | '/members'
+  to:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/events'
+    | '/gallery'
+    | '/join'
+    | '/members'
+    | '/register'
+    | '/register/$eventId'
   id:
     | '__root__'
     | '/'
@@ -96,6 +131,8 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/join'
     | '/members'
+    | '/register'
+    | '/register/$eventId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +143,7 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   JoinRoute: typeof JoinRoute
   MembersRoute: typeof MembersRoute
+  RegisterRoute: typeof RegisterRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -159,8 +197,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MembersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register/$eventId': {
+      id: '/register/$eventId'
+      path: '/$eventId'
+      fullPath: '/register/$eventId'
+      preLoaderRoute: typeof RegisterEventIdRouteImport
+      parentRoute: typeof RegisterRoute
+    }
   }
 }
+
+interface RegisterRouteChildren {
+  RegisterEventIdRoute: typeof RegisterEventIdRoute
+}
+
+const RegisterRouteChildren: RegisterRouteChildren = {
+  RegisterEventIdRoute: RegisterEventIdRoute,
+}
+
+const RegisterRouteWithChildren = RegisterRoute._addFileChildren(
+  RegisterRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -170,6 +234,7 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   JoinRoute: JoinRoute,
   MembersRoute: MembersRoute,
+  RegisterRoute: RegisterRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

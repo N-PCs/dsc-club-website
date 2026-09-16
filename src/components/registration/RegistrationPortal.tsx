@@ -224,7 +224,10 @@ export const RegistrationPortal: React.FC<RegistrationPortalProps> = ({ initialE
   const handleTeammateChange = (index: number, field: keyof TeamMember, value: string) => {
     setTeammates((prev) => {
       const updated = [...prev];
-      updated[index] = { ...updated[index], [field]: value };
+      const current = updated[index];
+      if (current) {
+        updated[index] = { ...current, [field]: value } as TeamMember;
+      }
       return updated;
     });
   };
@@ -261,7 +264,7 @@ export const RegistrationPortal: React.FC<RegistrationPortalProps> = ({ initialE
       }
       for (let i = 0; i < teammates.length; i++) {
         const m = teammates[i];
-        if (!m.fullName.trim() || !m.regNumber.trim() || !m.email.trim()) {
+        if (!m || !m.fullName.trim() || !m.regNumber.trim() || !m.email.trim()) {
           setErrorMessage(`Please provide complete details for Teammate #${i + 2}.`);
           return;
         }
@@ -285,8 +288,8 @@ export const RegistrationPortal: React.FC<RegistrationPortalProps> = ({ initialE
         regNumber: regNumber.trim().toUpperCase(),
         email: email.trim().toLowerCase(),
         phone: phone.trim(),
-        branch,
-        yearSemester,
+        branch: branch || DEFAULT_BRANCH,
+        yearSemester: yearSemester || DEFAULT_YEAR,
         department,
         residenceType,
         teamName: regType === "team" ? teamName.trim() : undefined,
