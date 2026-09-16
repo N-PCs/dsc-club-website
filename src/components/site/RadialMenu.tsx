@@ -60,6 +60,14 @@ const DEFAULT_RADIAL_ITEMS: RadialMenuItem[] = [
     textColor: "#ffffff",
   },
   {
+    label: "Register",
+    href: "/register",
+    icon: "fa-solid fa-ticket",
+    ariaLabel: "Event Registrations",
+    bgColor: "#06b6d4",
+    textColor: "#ffffff",
+  },
+  {
     label: "Join Us",
     href: "/join",
     icon: "fa-solid fa-paper-plane",

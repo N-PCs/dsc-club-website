@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { CalendarDays, MapPin, ArrowRight } from "lucide-react";
 import { gsap } from "gsap";
@@ -26,6 +26,7 @@ export const Route = createFileRoute("/events")({
 
 const upcoming = [
   {
+    slug: "pytorch-bootcamp",
     img: workshopImg,
     title: "PyTorch Deep Dive Bootcamp",
     date: "12 Sep 2026 · 10:00 AM",
@@ -34,6 +35,7 @@ const upcoming = [
     tag: "BOOTCAMP",
   },
   {
+    slug: "llms-in-production",
     img: talkImg,
     title: "Talks: LLMs in Production",
     date: "26 Sep 2026 · 5:30 PM",
@@ -42,6 +44,7 @@ const upcoming = [
     tag: "TECH TALK",
   },
   {
+    slug: "datahacks-26",
     img: hackathonImg,
     title: "DataHacks '26",
     date: "18 Oct 2026 · 9:00 AM",
@@ -180,14 +183,25 @@ function Events() {
                   </div>
 
                   <div className="mt-8 pt-6 border-t border-white/5">
-                    <button
-                      className={`inline-flex items-center gap-2 rounded-xl py-3 px-6 text-xs font-bold transition-all ${
-                        tab === "upcoming" ? "btn-neon" : "btn-glass border-white/10"
-                      }`}
-                    >
-                      {tab === "upcoming" ? "Register For Event" : "View Recap dossier"}
-                      <ArrowRight className="size-3.5 group-hover:translate-x-1.5 transition-transform" />
-                    </button>
+                    {tab === "upcoming" && "slug" in e && e.slug ? (
+                      <Link
+                        to="/register/$eventId"
+                        params={{ eventId: e.slug }}
+                        className="inline-flex items-center gap-2 rounded-xl py-3 px-6 text-xs font-bold transition-all btn-neon cursor-pointer"
+                      >
+                        Register For Event
+                        <ArrowRight className="size-3.5 group-hover:translate-x-1.5 transition-transform" />
+                      </Link>
+                    ) : (
+                      <button
+                        className={`inline-flex items-center gap-2 rounded-xl py-3 px-6 text-xs font-bold transition-all ${
+                          tab === "upcoming" ? "btn-neon" : "btn-glass border-white/10"
+                        }`}
+                      >
+                        {tab === "upcoming" ? "Register For Event" : "View Recap dossier"}
+                        <ArrowRight className="size-3.5 group-hover:translate-x-1.5 transition-transform" />
+                      </button>
+                    )}
                   </div>
                 </div>
               </article>

@@ -1,0 +1,73 @@
+/* Cyber-Infused Registration Portal Styles */
+
+.registration-portal-wrapper {
+  color-scheme: dark;
+}
+
+.glass-card {
+  background: rgba(13, 19, 39, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.holographic-pass {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(8, 12, 24, 0.95));
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 210, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.holographic-pass::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 30%,
+    rgba(0, 210, 255, 0.08) 45%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(0, 210, 255, 0.08) 55%,
+    transparent 70%
+  );
+  transform: rotate(30deg);
+  pointer-events: none;
+  animation: holoSheen 6s infinite linear;
+}
+
+@keyframes holoSheen {
+  0% {
+    transform: translateY(-100%) rotate(30deg);
+  }
+  100% {
+    transform: translateY(100%) rotate(30deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
