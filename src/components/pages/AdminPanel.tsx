@@ -1,715 +1,459 @@
 import React, { useState, useEffect } from "react";
-import {
-  databases,
-  account,
-  APPWRITE_DATABASE_ID,
-  APPWRITE_RECRUITMENT_COLLECTION_ID,
-  RecruitmentData,
-  loginWithOAuth,
-} from "@/lib/appwrite";
+import { dataEngine } from "@/lib/data-engine";
+import { account, loginWithOAuth } from "@/lib/appwrite";
 import { OAuthProvider } from "appwrite";
+import type { UserRoleRecord, RoleType, LeadDomain } from "@/types/models";
+import { AdminDashboardOverview } from "@/components/admin/AdminDashboardOverview";
+import { RegistrationsAdminView } from "@/components/admin/RegistrationsAdminView";
 import { HiringAdminView } from "@/components/hiring/HiringAdminView";
+import { TeamLeadManager } from "@/components/admin/TeamLeadManager";
+import { ActivityLogView } from "@/components/admin/ActivityLogView";
+import { DatabaseBackupView } from "@/components/admin/DatabaseBackupView";
+import {
+  ShieldCheck,
+  Crown,
+  GraduationCap,
+  Users,
+  LayoutDashboard,
+  Ticket,
+  Briefcase,
+  History,
+  Settings,
+  LogOut,
+  RefreshCw,
+  Lock,
+  UserCheck,
+  ChevronDown,
+} from "lucide-react";
 import "./AdminPanel.css";
 
-// Super Admin Bypass Email
 const SUPER_ADMIN_EMAIL = "neelpandeyofficial@gmail.com";
 
-// Default domain filter for student admin access
-const ALLOWED_DOMAIN = "@vitbhopal.ac.in";
-
-export interface ApplicationRecord extends RecruitmentData {
-  $id?: string;
-  submittedAt?: string;
-}
-
-// Initial mock data if DB is newly initialized
-const INITIAL_MOCK_APPLICATIONS: ApplicationRecord[] = [
-  {
-    $id: "app-1",
-    fullName: "Aarav Sharma",
-    registrationNumber: "24BAI10042",
-    email: "aarav.24bai10042@vitbhopal.ac.in",
-    phone: "9876543210",
-    preferredTeam: "Software Dev Team",
-    githubUrl: "https://github.com/aaravsharma",
-    linkedinUrl: "https://linkedin.com/in/aaravsharma",
-    whyJoin: "Passionate about full-stack development and open-source systems.",
-    status: "shortlisted",
-    submittedAt: "2026-08-29T14:30:00.000Z",
-  },
-  {
-    $id: "app-2",
-    fullName: "Priya Verma",
-    registrationNumber: "24BCE10210",
-    email: "priya.24bce10210@vitbhopal.ac.in",
-    phone: "9123456789",
-    preferredTeam: "HR Team",
-    linkedinUrl: "https://linkedin.com/in/priyaverma",
-    whyJoin: "Experienced in event management, public relations and student outreach.",
-    status: "pending",
-    submittedAt: "2026-08-29T16:15:00.000Z",
-  },
-  {
-    $id: "app-3",
-    fullName: "Rohan Gupta",
-    registrationNumber: "24BET10088",
-    email: "rohan.24bet10088@vitbhopal.ac.in",
-    phone: "9988776655",
-    preferredTeam: "Technical Team",
-    githubUrl: "https://github.com/rohangupta",
-    whyJoin: "Built machine learning pipelines and interested in AI research at DSC.",
-    status: "accepted",
-    submittedAt: "2026-08-29T18:00:00.000Z",
-  },
-];
-
 export const AdminPanel: React.FC = () => {
-  const [userEmail, setUserEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  // Session / Authentication state
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(false);
+  const [currentUserEmail, setCurrentUserEmail] = useState<string>("");
+  const [userRoleRecord, setUserRoleRecord] = useState<UserRoleRecord | null>(null);
+
+  // Active Tab
+  const [activeTab, setActiveTab] = useState<string>("dashboard");
+
+  // Login form state
+  const [emailInput, setEmailInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
   const [errorMsg, setErrorMsg] = useState<string>("");
-  const [dbNotice, setDbNotice] = useState<string>("");
+  const [loadingSession, setLoadingSession] = useState<boolean>(true);
 
-  // Manage custom authorized admin emails list
-  const [authorizedAdmins, setAuthorizedAdmins] = useState<string[]>([SUPER_ADMIN_EMAIL]);
-  const [newAdminEmail, setNewAdminEmail] = useState<string>("");
-  const [showAdminManager, setShowAdminManager] = useState<boolean>(false);
-
-  // Recruitment Toggle (On / Off)
-  const [isRecruitmentOpen, setIsRecruitmentOpen] = useState<boolean>(true);
-
-  // Top Notification Headline Controls
-  const [adminHeadline, setAdminHeadline] = useState<string>(
-    "🚀 Core Team Recruitment 2026 is LIVE! Submit your application now.",
-  );
-  const [showHeadline, setShowHeadline] = useState<boolean>(false);
-  const [showBannerControls, setShowBannerControls] = useState<boolean>(false);
-
-  const [applications, setApplications] = useState<ApplicationRecord[]>(INITIAL_MOCK_APPLICATIONS);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [teamFilter, setTeamFilter] = useState<string>("All");
-  const [statusFilter, setStatusFilter] = useState<string>("All");
-
-  // Load state from localStorage on mount
+  // Check stored session or pre-authenticated role
   useEffect(() => {
-    try {
-      const storedAdmins = localStorage.getItem("dsc_authorized_admin_emails");
-      if (storedAdmins) {
-        const parsed = JSON.parse(storedAdmins);
-        if (Array.isArray(parsed)) {
-          setAuthorizedAdmins(Array.from(new Set([SUPER_ADMIN_EMAIL, ...parsed])));
-        }
-      }
-
-      const storedRecruitmentStatus = localStorage.getItem("dsc_recruitment_open");
-      if (storedRecruitmentStatus === "false") {
-        setIsRecruitmentOpen(false);
-      }
-
-      const storedHeadline = localStorage.getItem("dsc_admin_headline");
-      if (storedHeadline) setAdminHeadline(storedHeadline);
-
-      const storedHeadlineEnabled = localStorage.getItem("dsc_admin_headline_enabled");
-      if (storedHeadlineEnabled === "true") setShowHeadline(true);
-    } catch (e) {
-      console.warn("Failed loading stored admin settings:", e);
-    }
-
-    const checkActiveSession = async () => {
+    const checkSession = async () => {
       try {
-        const currentUser = await account.get();
-        if (currentUser && currentUser.email) {
-          handleValidateLogin(currentUser.email, true);
-          return;
+        const storedEmail = localStorage.getItem("dsc_admin_authenticated_email");
+        if (storedEmail) {
+          const role = await dataEngine.getCurrentUserRole(storedEmail);
+          if (role.role !== "member") {
+            setCurrentUserEmail(storedEmail);
+            setUserRoleRecord(role);
+            setIsAuthenticated(true);
+          }
+        } else {
+          // Attempt Appwrite session
+          const user = await account.get().catch(() => null);
+          if (user?.email) {
+            const role = await dataEngine.getCurrentUserRole(user.email);
+            if (role.role !== "member") {
+              setCurrentUserEmail(user.email);
+              setUserRoleRecord(role);
+              setIsAuthenticated(true);
+            }
+          }
         }
-      } catch {
-        const savedEmail = localStorage.getItem("dsc_admin_email");
-        if (savedEmail) {
-          handleValidateLogin(savedEmail, true);
-        }
+      } finally {
+        setLoadingSession(false);
       }
     };
-
-    checkActiveSession();
+    checkSession();
   }, []);
 
-  // Save Recruitment Toggle Status
-  const toggleRecruitmentStatus = () => {
-    const nextStatus = !isRecruitmentOpen;
-    setIsRecruitmentOpen(nextStatus);
-    localStorage.setItem("dsc_recruitment_open", String(nextStatus));
-    window.dispatchEvent(new Event("dsc_recruitment_status_updated"));
-  };
-
-  // Save Top Banner Announcement Settings
-  const handleSaveHeadline = (e: React.FormEvent) => {
+  // Handle Login Submission
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem("dsc_admin_headline", adminHeadline);
-    localStorage.setItem("dsc_admin_headline_enabled", String(showHeadline));
-    window.dispatchEvent(new Event("dsc_headline_updated"));
-    alert("Top Notification Headline updated successfully!");
-  };
+    setErrorMsg("");
 
-  // Save authorized admin emails list
-  const saveAuthorizedAdmins = (newList: string[]) => {
-    const uniqueList = Array.from(
-      new Set([SUPER_ADMIN_EMAIL, ...newList.map((e) => e.trim().toLowerCase())]),
-    );
-    setAuthorizedAdmins(uniqueList);
-    localStorage.setItem("dsc_authorized_admin_emails", JSON.stringify(uniqueList));
-  };
-
-  const handleAddAdminEmail = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newAdminEmail) return;
-    const clean = newAdminEmail.trim().toLowerCase();
-    if (authorizedAdmins.includes(clean)) {
-      alert(`Email "${clean}" is already an authorized admin.`);
-      return;
-    }
-    saveAuthorizedAdmins([...authorizedAdmins, clean]);
-    setNewAdminEmail("");
-  };
-
-  const handleRemoveAdminEmail = (emailToRemove: string) => {
-    if (emailToRemove.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase()) {
-      alert("Super Admin email cannot be removed.");
-      return;
-    }
-    saveAuthorizedAdmins(
-      authorizedAdmins.filter((e) => e.toLowerCase() !== emailToRemove.toLowerCase()),
-    );
-  };
-
-  const handleValidateLogin = (emailInput: string, isAutoLogin = false) => {
-    const cleanEmail = emailInput.trim().toLowerCase();
-
-    // 1. Super Admin Access
-    if (cleanEmail === SUPER_ADMIN_EMAIL.toLowerCase()) {
-      setIsAuthenticated(true);
-      setIsSuperAdmin(true);
-      setUserEmail(cleanEmail);
-      localStorage.setItem("dsc_admin_email", cleanEmail);
-      localStorage.setItem("dsc_admin_authenticated", "true");
-      setErrorMsg("");
-      fetchLiveApplications();
+    const email = emailInput.trim().toLowerCase();
+    if (!email) {
+      setErrorMsg("Please provide your email address.");
       return;
     }
 
-    // 2. Custom Authorized Admin Email List match
-    if (authorizedAdmins.map((a) => a.toLowerCase()).includes(cleanEmail)) {
-      setIsAuthenticated(true);
-      setIsSuperAdmin(false);
-      setUserEmail(cleanEmail);
-      localStorage.setItem("dsc_admin_email", cleanEmail);
-      localStorage.setItem("dsc_admin_authenticated", "true");
-      setErrorMsg("");
-      fetchLiveApplications();
-      return;
-    }
-
-    // 3. Domain Filter check (@vitbhopal.ac.in)
-    if (cleanEmail.endsWith(ALLOWED_DOMAIN)) {
-      setIsAuthenticated(true);
-      setIsSuperAdmin(false);
-      setUserEmail(cleanEmail);
-      localStorage.setItem("dsc_admin_email", cleanEmail);
-      localStorage.setItem("dsc_admin_authenticated", "true");
-      setErrorMsg("");
-      fetchLiveApplications();
-      return;
-    }
-
-    // 4. Access Denied
-    if (!isAutoLogin) {
+    const role = await dataEngine.getCurrentUserRole(email);
+    if (role.role === "member") {
       setErrorMsg(
-        `Access Denied: Email "${cleanEmail}" is not authorized. Only @vitbhopal.ac.in student emails or authorized admins can log in.`,
+        `Access denied. ${email} does not have assigned management panel privileges. Please contact the Club President or Faculty Coordinator.`,
       );
-    }
-  };
-
-  const handleLoginSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!userEmail) {
-      setErrorMsg("Please enter your email address.");
       return;
     }
-    handleValidateLogin(userEmail);
-  };
 
-  const handleLogout = async () => {
-    setIsAuthenticated(false);
-    setIsSuperAdmin(false);
-    setUserEmail("");
-    setPassword("");
-    localStorage.removeItem("dsc_admin_email");
-    localStorage.removeItem("dsc_admin_authenticated");
-    try {
-      await account.deleteSession("current");
-    } catch {
-      // Ignore if no active Appwrite OAuth session
-    }
-  };
-
-  // Fetch live documents from Appwrite Database with safe error handling
-  const fetchLiveApplications = async () => {
-    setLoading(true);
-    setDbNotice("");
-    try {
-      const response = await databases.listDocuments(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_RECRUITMENT_COLLECTION_ID,
-      );
-      if (response && response.documents && response.documents.length > 0) {
-        const fetchedDocs: ApplicationRecord[] = response.documents.map((doc: any) => ({
-          $id: doc.$id,
-          fullName: doc.fullName || "N/A",
-          registrationNumber: doc.registrationNumber || "N/A",
-          email: doc.email || "N/A",
-          phone: doc.phone || "N/A",
-          preferredTeam: doc.preferredTeam || "General",
-          githubUrl: doc.githubUrl,
-          linkedinUrl: doc.linkedinUrl,
-          portfolioUrl: doc.portfolioUrl,
-          whyJoin: doc.whyJoin || "",
-          experience: doc.experience || "",
-          status: doc.status || "pending",
-          submittedAt: doc.submittedAt || doc.$createdAt,
-        }));
-        setApplications(fetchedDocs);
-      } else {
-        setDbNotice("Appwrite collection connected (0 live submissions currently).");
-      }
-    } catch (err: any) {
-      console.warn("Appwrite live fetch notice:", err?.message || err);
-      setDbNotice(
-        "💡 Appwrite Notice: Displaying local dashboard applications. Run 'npm run setup:db' to sync live Appwrite database collection.",
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleUpdateStatus = async (
-    id: string,
-    newStatus: "pending" | "shortlisted" | "accepted" | "rejected",
-  ) => {
-    setApplications((prev) =>
-      prev.map((app) => (app.$id === id ? { ...app, status: newStatus } : app)),
+    localStorage.setItem("dsc_admin_authenticated_email", email);
+    setCurrentUserEmail(email);
+    setUserRoleRecord(role);
+    setIsAuthenticated(true);
+    await dataEngine.logActivity(
+      email,
+      role.fullName,
+      role.role,
+      "USER_LOGIN",
+      "Settings",
+      `Logged into the Management Panel as ${role.role} (${role.title})`,
     );
+  };
 
-    try {
-      await databases.updateDocument(APPWRITE_DATABASE_ID, APPWRITE_RECRUITMENT_COLLECTION_ID, id, {
-        status: newStatus,
-      });
-    } catch (err) {
-      console.warn("Appwrite status sync fallback:", err);
+  // Switch demo account / role
+  const handleQuickRoleSwitch = async (email: string) => {
+    const role = await dataEngine.getCurrentUserRole(email);
+    localStorage.setItem("dsc_admin_authenticated_email", email);
+    setCurrentUserEmail(email);
+    setUserRoleRecord(role);
+    setIsAuthenticated(true);
+    // Reset tab if current tab is not allowed for the new role
+    if (role.role === "team_lead" && (activeTab === "registrations" || activeTab === "team_leads" || activeTab === "settings")) {
+      setActiveTab("dashboard");
     }
   };
 
-  // Filtered Applications List
-  const filteredApps = applications.filter((app) => {
-    const matchesSearch =
-      app.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      app.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      app.registrationNumber.toLowerCase().includes(searchQuery.toLowerCase());
+  // Logout
+  const handleLogout = async () => {
+    localStorage.removeItem("dsc_admin_authenticated_email");
+    await account.deleteSession("current").catch(() => {});
+    setIsAuthenticated(false);
+    setCurrentUserEmail("");
+    setUserRoleRecord(null);
+  };
 
-    const matchesTeam = teamFilter === "All" || app.preferredTeam === teamFilter;
-    const matchesStatus = statusFilter === "All" || app.status === statusFilter.toLowerCase();
-
-    return matchesSearch && matchesTeam && matchesStatus;
-  });
-
-  // Calculate Stats
-  const totalCount = applications.length;
-  const pendingCount = applications.filter((a) => a.status === "pending").length;
-  const shortlistedCount = applications.filter((a) => a.status === "shortlisted").length;
-  const acceptedCount = applications.filter((a) => a.status === "accepted").length;
-
-  if (!isAuthenticated) {
+  if (loadingSession) {
     return (
-      <div className="admin-login-wrapper">
-        <div className="admin-login-card">
-          <div className="admin-login-header">
-            <span
-              className="dot-pulse"
-              style={{
-                display: "inline-block",
-                width: "10px",
-                height: "10px",
-                background: "#00d2ff",
-                borderRadius: "50%",
-              }}
-            />
-            <h2 className="admin-login-title">DSC VITB Admin Portal</h2>
-            <p style={{ fontSize: "13px", color: "#94a3b8", marginTop: "6px" }}>
-              Sign in with your campus credentials to review recruitment applications.
-            </p>
-          </div>
-
-          <div className="domain-notice-box">
-            🔒 <strong>Strict Access Rule:</strong> Restricted to <code>@vitbhopal.ac.in</code>{" "}
-            emails or authorized admins.
-          </div>
-
-          {errorMsg && <div className="error-alert-box">{errorMsg}</div>}
-
-          <form onSubmit={handleLoginSubmit}>
-            <div className="admin-form-group">
-              <label className="admin-form-label">Email Address</label>
-              <input
-                type="email"
-                className="admin-form-input"
-                placeholder="name.regNo@vitbhopal.ac.in"
-                value={userEmail}
-                onChange={(e) => setUserEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="admin-form-group">
-              <label className="admin-form-label">Password</label>
-              <input
-                type="password"
-                className="admin-form-input"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            <button type="submit" className="btn-admin-submit">
-              Authenticate & Access Panel →
-            </button>
-          </form>
-
-          <div style={{ display: "flex", alignItems: "center", margin: "20px 0", gap: "10px" }}>
-            <div style={{ flex: 1, height: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
-            <span
-              style={{
-                fontSize: "11px",
-                color: "#94a3b8",
-                textTransform: "uppercase",
-                letterSpacing: "0.05em",
-              }}
-            >
-              OR
-            </span>
-            <div style={{ flex: 1, height: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
-          </div>
-
-          <button
-            type="button"
-            className="btn-admin-submit"
-            style={{
-              background: "rgba(255, 255, 255, 0.06)",
-              border: "1px solid rgba(255, 255, 255, 0.15)",
-              color: "#ffffff",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "10px",
-              boxShadow: "none",
-            }}
-            onClick={() => loginWithOAuth(OAuthProvider.Google)}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24">
-              <path
-                fill="#4285F4"
-                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-              />
-              <path
-                fill="#34A853"
-                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-              />
-              <path
-                fill="#FBBC05"
-                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-              />
-              <path
-                fill="#EA4335"
-                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-              />
-            </svg>
-            Continue with Google OAuth
-          </button>
+      <div className="flex min-h-[500px] items-center justify-center">
+        <div className="flex items-center gap-3 text-cyan-400 font-mono text-xs">
+          <RefreshCw className="size-4 animate-spin" />
+          <span>Validating Administrator Credentials...</span>
         </div>
       </div>
     );
   }
 
-  return (
-    <div className="admin-page-container">
-      {/* Header */}
-      <div className="admin-header">
-        <div>
-          <h1 className="admin-title">
-            Recruitment Dashboard
-            {isSuperAdmin ? (
-              <span className="super-admin-badge">⚡ SUPER ADMIN</span>
-            ) : (
-              <span className="admin-badge">VERIFIED ADMIN</span>
-            )}
-          </h1>
-          <p style={{ fontSize: "13.5px", color: "#94a3b8", marginTop: "4px" }}>
-            Real-time management of member applications for Data Science Club VIT Bhopal.
+  // =========================================================================
+  // UN-AUTHENTICATED: LOGIN & QUICK ACCESS
+  // =========================================================================
+  if (!isAuthenticated || !userRoleRecord) {
+    return (
+      <div className="admin-page-container flex flex-col items-center justify-center px-4 py-16">
+        <div className="w-full max-w-md p-8 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl backdrop-blur-xl relative text-left">
+          <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 mb-4">
+            <Lock className="size-6" />
+          </div>
+
+          <h2 className="text-2xl font-display font-bold text-white mb-1">
+            DSC Club Management Panel
+          </h2>
+          <p className="text-xs text-slate-400 mb-6">
+            Restricted to Executive Board, Faculty Coordinator, and Domain Leads.
           </p>
-        </div>
 
-        <div className="admin-user-info" style={{ flexWrap: "wrap", gap: "10px" }}>
-          {/* Recruitment On / Off Toggle */}
-          <button
-            type="button"
-            onClick={toggleRecruitmentStatus}
-            style={{
-              padding: "8px 16px",
-              borderRadius: "20px",
-              fontSize: "13px",
-              fontWeight: "700",
-              cursor: "pointer",
-              border:
-                "1px solid " +
-                (isRecruitmentOpen ? "rgba(52, 211, 153, 0.5)" : "rgba(239, 68, 68, 0.5)"),
-              background: isRecruitmentOpen
-                ? "rgba(52, 211, 153, 0.15)"
-                : "rgba(239, 68, 68, 0.15)",
-              color: isRecruitmentOpen ? "#34d399" : "#f87171",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            <span
-              style={{
-                width: "8px",
-                height: "8px",
-                borderRadius: "50%",
-                background: isRecruitmentOpen ? "#34d399" : "#f87171",
-              }}
-            />
-            Recruitments: {isRecruitmentOpen ? "OPEN (Active)" : "CLOSED (Paused)"}
-          </button>
-
-          {/* Top Banner Control Toggle */}
-          <button
-            type="button"
-            className="filter-select"
-            style={{
-              padding: "8px 14px",
-              fontSize: "13px",
-              color: "#00d2ff",
-              borderColor: "rgba(0, 210, 255, 0.4)",
-            }}
-            onClick={() => setShowBannerControls(!showBannerControls)}
-          >
-            📢 Website Banner Notice
-          </button>
-
-          {isSuperAdmin && (
-            <button
-              type="button"
-              className="btn-action btn-shortlist"
-              style={{ padding: "8px 14px", fontSize: "13px", fontWeight: "700" }}
-              onClick={() => setShowAdminManager(!showAdminManager)}
-            >
-              👑 Manage Admins ({authorizedAdmins.length})
-            </button>
+          {errorMsg && (
+            <div className="mb-4 p-3 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs">
+              {errorMsg}
+            </div>
           )}
 
-          <span className="user-email-text">{userEmail}</span>
-          <button type="button" className="btn-admin-logout" onClick={handleLogout}>
-            Logout
+          <form onSubmit={handleLogin} className="space-y-4 text-xs">
+            <div>
+              <label className="text-[11px] font-mono text-slate-300 block mb-1">
+                Authorized University Email
+              </label>
+              <input
+                type="email"
+                placeholder="e.g. president@vitbhopal.ac.in"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                className="w-full bg-slate-950 border border-white/20 text-white rounded-xl px-4 py-2.5 text-xs focus:border-cyan-400 focus:outline-none"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="text-[11px] font-mono text-slate-300 block mb-1">Password</label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                className="w-full bg-slate-950 border border-white/20 text-white rounded-xl px-4 py-2.5 text-xs focus:border-cyan-400 focus:outline-none"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs hover:brightness-110 transition-all cursor-pointer shadow-lg shadow-cyan-500/20"
+            >
+              Sign In to Management Panel →
+            </button>
+          </form>
+
+          {/* Quick Demo Access Switcher */}
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-400 block mb-3">
+              DEMO / FAST RBAC ACCESS (1-CLICK TESTING)
+            </span>
+            <div className="grid grid-cols-1 gap-2">
+              <button
+                type="button"
+                onClick={() => handleQuickRoleSwitch(SUPER_ADMIN_EMAIL)}
+                className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left flex items-center justify-between text-xs transition-colors cursor-pointer"
+              >
+                <div>
+                  <span className="font-bold text-white block">👑 Super Admin (President)</span>
+                  <span className="text-[10px] font-mono text-slate-400">{SUPER_ADMIN_EMAIL}</span>
+                </div>
+                <span className="text-[10px] font-mono text-amber-400">Universal Access</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleQuickRoleSwitch("coordinator.dsc@vitbhopal.ac.in")}
+                className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left flex items-center justify-between text-xs transition-colors cursor-pointer"
+              >
+                <div>
+                  <span className="font-bold text-white block">🎓 Faculty Coordinator</span>
+                  <span className="text-[10px] font-mono text-slate-400">
+                    coordinator.dsc@vitbhopal.ac.in
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono text-purple-400">Read-Only Oversight</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleQuickRoleSwitch("techlead.dsc@vitbhopal.ac.in")}
+                className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left flex items-center justify-between text-xs transition-colors cursor-pointer"
+              >
+                <div>
+                  <span className="font-bold text-white block">💻 Technical Team Lead</span>
+                  <span className="text-[10px] font-mono text-slate-400">
+                    techlead.dsc@vitbhopal.ac.in
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono text-cyan-400">Scoped to Technical</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Permissions
+  const roleType = userRoleRecord.role;
+  const leadDomain = userRoleRecord.leadDomain || "None";
+  const isSuperAdmin = roleType === "super_admin";
+  const isFaculty = roleType === "faculty_coordinator";
+  const isTeamLead = roleType === "team_lead";
+
+  // =========================================================================
+  // AUTHENTICATED MANAGEMENT PANEL
+  // =========================================================================
+  return (
+    <div className="admin-page-container max-w-6xl mx-auto px-4 py-8">
+      {/* Top Header Bar */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/10 pb-6 mb-8">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span
+              className={`px-2.5 py-0.5 rounded-full font-mono text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 ${
+                isSuperAdmin
+                  ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                  : isFaculty
+                  ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
+                  : "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+              }`}
+            >
+              {isSuperAdmin && <Crown className="size-3" />}
+              {isFaculty && <GraduationCap className="size-3" />}
+              {isTeamLead && <Users className="size-3" />}
+              <span>{userRoleRecord.title}</span>
+            </span>
+
+            {isTeamLead && (
+              <span className="px-2 py-0.5 rounded-full font-mono text-[10px] bg-white/10 text-slate-300">
+                Scope: {leadDomain}
+              </span>
+            )}
+          </div>
+
+          <h1 className="text-2xl md:text-3xl font-display font-bold text-white">
+            DSC Club Management Panel
+          </h1>
+          <span className="text-xs text-slate-400 font-mono">
+            Signed in as: <strong className="text-slate-200">{currentUserEmail}</strong>
+          </span>
+        </div>
+
+        {/* Action Controls & Demo Switcher */}
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Fast Switch Role Dropdown */}
+          <select
+            value={currentUserEmail}
+            onChange={(e) => handleQuickRoleSwitch(e.target.value)}
+            className="bg-slate-900 border border-white/20 text-white rounded-xl px-3 py-2 text-xs font-mono focus:border-cyan-400 focus:outline-none"
+            title="Switch demo role on the fly"
+          >
+            <option value={SUPER_ADMIN_EMAIL}>👑 President (Super Admin)</option>
+            <option value="coordinator.dsc@vitbhopal.ac.in">🎓 Faculty Coordinator</option>
+            <option value="techlead.dsc@vitbhopal.ac.in">💻 Technical Lead</option>
+            <option value="designlead.dsc@vitbhopal.ac.in">🎨 Design Lead</option>
+          </select>
+
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="px-4 py-2 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold hover:bg-rose-500/30 transition-colors flex items-center gap-1.5 cursor-pointer"
+          >
+            <LogOut className="size-3.5" />
+            <span>Logout</span>
           </button>
         </div>
       </div>
 
-      {/* Top Banner Control Panel */}
-      {showBannerControls && (
-        <div
-          style={{
-            background: "rgba(15, 23, 42, 0.95)",
-            border: "1px solid rgba(0, 210, 255, 0.4)",
-            borderRadius: "18px",
-            padding: "20px",
-            marginBottom: "28px",
-          }}
+      {/* Role-Aware Tab Navigation */}
+      <div className="flex flex-wrap gap-2 border-b border-white/10 pb-3 mb-8">
+        <button
+          type="button"
+          onClick={() => setActiveTab("dashboard")}
+          className={`px-4 py-2 rounded-xl font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+            activeTab === "dashboard"
+              ? "bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20"
+              : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+          }`}
         >
-          <h3
-            style={{ fontSize: "16px", fontWeight: "800", color: "#00d2ff", marginBottom: "6px" }}
+          <LayoutDashboard className="size-3.5" />
+          <span>Dashboard</span>
+        </button>
+
+        {/* Registrations (Super Admin + Faculty) */}
+        {(isSuperAdmin || isFaculty) && (
+          <button
+            type="button"
+            onClick={() => setActiveTab("registrations")}
+            className={`px-4 py-2 rounded-xl font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+              activeTab === "registrations"
+                ? "bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20"
+                : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+            }`}
           >
-            📢 Admin Announcement Banner (Top of Website)
-          </h3>
-          <p style={{ fontSize: "13px", color: "#94a3b8", marginBottom: "16px" }}>
-            Set a custom ticker headline notification visible across the top of all website pages.
-          </p>
+            <Ticket className="size-3.5" />
+            <span>Registrations</span>
+          </button>
+        )}
 
-          <form
-            onSubmit={handleSaveHeadline}
-            style={{ display: "flex", flexDirection: "column", gap: "14px" }}
-          >
-            <input
-              type="text"
-              className="search-input-box"
-              placeholder="e.g. 🚀 Core Team Recruitments 2026 are OPEN! Apply now."
-              value={adminHeadline}
-              onChange={(e) => setAdminHeadline(e.target.value)}
-              required
-            />
-
-            <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
-              <label
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  fontSize: "13.5px",
-                  color: "#ffffff",
-                  cursor: "pointer",
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={showHeadline}
-                  onChange={(e) => setShowHeadline(e.target.checked)}
-                  style={{ width: "16px", height: "16px", accentColor: "#00d2ff" }}
-                />
-                Show Announcement Banner on Website
-              </label>
-
-              <button
-                type="submit"
-                className="btn-admin-submit"
-                style={{ width: "auto", padding: "8px 20px", marginTop: 0 }}
-              >
-                Save Banner Announcement
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
-
-      {/* Appwrite Status / Database Notice */}
-      {dbNotice && (
-        <div
-          style={{
-            background: "rgba(0, 210, 255, 0.08)",
-            border: "1px solid rgba(0, 210, 255, 0.25)",
-            color: "#00d2ff",
-            padding: "12px 18px",
-            borderRadius: "12px",
-            fontSize: "13px",
-            marginBottom: "24px",
-          }}
+        {/* Recruitment (Super Admin, Faculty, and Team Leads) */}
+        <button
+          type="button"
+          onClick={() => setActiveTab("recruitment")}
+          className={`px-4 py-2 rounded-xl font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+            activeTab === "recruitment"
+              ? "bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20"
+              : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+          }`}
         >
-          {dbNotice}
-        </div>
-      )}
+          <Briefcase className="size-3.5" />
+          <span>Recruitment {isTeamLead ? `(${leadDomain})` : "Candidates"}</span>
+        </button>
 
-      {/* Super Admin Manager Modal / Banner */}
-      {isSuperAdmin && showAdminManager && (
-        <div
-          style={{
-            background: "rgba(15, 23, 42, 0.95)",
-            border: "1px solid rgba(0, 210, 255, 0.4)",
-            borderRadius: "18px",
-            padding: "20px",
-            marginBottom: "32px",
-          }}
-        >
-          <h3
-            style={{ fontSize: "16px", fontWeight: "800", color: "#00d2ff", marginBottom: "8px" }}
+        {/* Team Leads Governance (Super Admin only) */}
+        {isSuperAdmin && (
+          <button
+            type="button"
+            onClick={() => setActiveTab("team_leads")}
+            className={`px-4 py-2 rounded-xl font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+              activeTab === "team_leads"
+                ? "bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20"
+                : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+            }`}
           >
-            👑 Super Admin Power: Grant Admin Access via Email
-          </h3>
-          <p style={{ fontSize: "13px", color: "#94a3b8", marginBottom: "16px" }}>
-            Add any email address to grant direct administrative access to this dashboard.
-          </p>
+            <Users className="size-3.5" />
+            <span>Team Leads (RBAC)</span>
+          </button>
+        )}
 
-          <form
-            onSubmit={handleAddAdminEmail}
-            style={{ display: "flex", gap: "12px", marginBottom: "20px", flexWrap: "wrap" }}
+        {/* Audit Logs (Super Admin + Faculty) */}
+        {(isSuperAdmin || isFaculty) && (
+          <button
+            type="button"
+            onClick={() => setActiveTab("logs")}
+            className={`px-4 py-2 rounded-xl font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+              activeTab === "logs"
+                ? "bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20"
+                : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+            }`}
           >
-            <input
-              type="email"
-              className="search-input-box"
-              placeholder="Enter email address (e.g. member@gmail.com)"
-              value={newAdminEmail}
-              onChange={(e) => setNewAdminEmail(e.target.value)}
-              style={{ flex: 1, minWidth: "260px" }}
-              required
-            />
-            <button
-              type="submit"
-              className="btn-admin-submit"
-              style={{ width: "auto", padding: "10px 20px", marginTop: 0 }}
-            >
-              + Grant Admin Access
-            </button>
-          </form>
+            <History className="size-3.5" />
+            <span>Audit Trail</span>
+          </button>
+        )}
 
-          <div
-            style={{ fontSize: "13px", fontWeight: "700", color: "#ffffff", marginBottom: "10px" }}
+        {/* Settings & Disaster Recovery (Super Admin only) */}
+        {isSuperAdmin && (
+          <button
+            type="button"
+            onClick={() => setActiveTab("settings")}
+            className={`px-4 py-2 rounded-xl font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+              activeTab === "settings"
+                ? "bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20"
+                : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+            }`}
           >
-            Authorized Admin Emails:
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-            {authorizedAdmins.map((email) => (
-              <span
-                key={email}
-                style={{
-                  background:
-                    email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase()
-                      ? "rgba(245,158,11,0.2)"
-                      : "rgba(0,210,255,0.15)",
-                  border:
-                    "1px solid " +
-                    (email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase()
-                      ? "rgba(245,158,11,0.4)"
-                      : "rgba(0,210,255,0.3)"),
-                  color:
-                    email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase() ? "#f59e0b" : "#00d2ff",
-                  padding: "6px 12px",
-                  borderRadius: "20px",
-                  fontSize: "12.5px",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                }}
-              >
-                {email}
-                {email.toLowerCase() !== SUPER_ADMIN_EMAIL.toLowerCase() && (
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveAdminEmail(email)}
-                    style={{
-                      background: "none",
-                      border: "none",
-                      color: "#ef4444",
-                      cursor: "pointer",
-                      fontWeight: "bold",
-                      fontSize: "14px",
-                      padding: 0,
-                    }}
-                    title="Revoke Admin Access"
-                  >
-                    ×
-                  </button>
-                )}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+            <Settings className="size-3.5" />
+            <span>Settings & Backup</span>
+          </button>
+        )}
+      </div>
 
-      {/* Recruitment Applications & Candidate Pipeline */}
-      <div style={{ marginTop: "24px" }}>
-        <HiringAdminView
-          userRole={isSuperAdmin ? "super_admin" : "team_lead"}
-          actorEmail={userEmail || SUPER_ADMIN_EMAIL}
-        />
+      {/* Tab Content Display */}
+      <div className="animate-fadeIn">
+        {activeTab === "dashboard" && (
+          <AdminDashboardOverview
+            userRole={roleType}
+            leadDomain={leadDomain}
+            onNavigateTab={(t) => setActiveTab(t)}
+          />
+        )}
+
+        {activeTab === "registrations" && (isSuperAdmin || isFaculty) && (
+          <RegistrationsAdminView
+            userRole={roleType}
+            actorEmail={currentUserEmail}
+          />
+        )}
+
+        {activeTab === "recruitment" && (
+          <HiringAdminView
+            userRole={roleType}
+            leadDomain={leadDomain}
+            actorEmail={currentUserEmail}
+          />
+        )}
+
+        {activeTab === "team_leads" && isSuperAdmin && (
+          <TeamLeadManager actorEmail={currentUserEmail} />
+        )}
+
+        {activeTab === "logs" && (isSuperAdmin || isFaculty) && (
+          <ActivityLogView />
+        )}
+
+        {activeTab === "settings" && isSuperAdmin && (
+          <DatabaseBackupView actorEmail={currentUserEmail} />
+        )}
       </div>
     </div>
   );
