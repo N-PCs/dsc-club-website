@@ -111,12 +111,12 @@ export interface DomainQuestion {
   id: string;
   label: string;
   type: "text" | "textarea" | "url";
-  placeholder?: string;
+  placeholder?: string | undefined;
   required: boolean;
 }
 
 export interface HiringDomain {
-  $id?: string;
+  $id?: string | undefined;
   id: string;
   domainName: LeadDomain;
   shortDescription: string;
@@ -127,7 +127,7 @@ export interface HiringDomain {
 }
 
 export interface ApplicationRecord {
-  $id?: string;
+  $id?: string | undefined;
   id: string;
   fullName: string;
   registrationNumber: string;
@@ -136,19 +136,19 @@ export interface ApplicationRecord {
   branch: string;
   year: string;
   primaryTeam: LeadDomain;
-  secondaryTeam?: LeadDomain;
-  portfolioUrl?: string;
-  githubUrl?: string;
-  linkedinUrl?: string;
-  resumeFileId?: string;
-  resumeFileName?: string;
-  resumeFileUrl?: string;
+  secondaryTeam?: LeadDomain | undefined;
+  portfolioUrl?: string | undefined;
+  githubUrl?: string | undefined;
+  linkedinUrl?: string | undefined;
+  resumeFileId?: string | undefined;
+  resumeFileName?: string | undefined;
+  resumeFileUrl?: string | undefined;
   whyJoin: string;
   domainAnswers: Record<string, string>; // questionId -> answer
   status: ApplicationStatus;
-  reviewerNotes?: string;
+  reviewerNotes?: string | undefined;
   submittedAt: string;
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 
 // ==========================================

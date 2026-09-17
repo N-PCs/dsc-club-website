@@ -3,26 +3,26 @@ import { Navbar } from "@/components/sections/Navbar";
 import { HiringPortal } from "@/components/hiring/HiringPortal";
 import { FooterSection } from "@/components/sections/FooterSection";
 
-export const Route = createFileRoute("/join")({
+export const Route = createFileRoute("/hiring")({
   head: () => ({
     meta: [
-      { title: "Core Team Recruitment 2026 — DSC Club VITB" },
+      { title: "Recruitment Portal — DSC Club VITB" },
       {
         name: "description",
         content:
-          "Apply for core team membership at DSC Club VITB. Open domains: Technical, AI & Data Science, Design & Media, Content & Editorial, Management & PR.",
+          "Official Core Team Hiring & Recruitment Portal for the Data Science Club at VIT Bhopal.",
       },
       { property: "og:title", content: "Recruitment Portal — DSC Club VITB" },
       {
         property: "og:description",
-        content: "Core team recruitment applications for the Data Science Club of VIT Bhopal.",
+        content: "Apply for open domain roles at DSC VIT Bhopal.",
       },
     ],
   }),
-  component: JoinRoute,
+  component: HiringRoute,
 });
 
-function JoinRoute() {
+function HiringRoute() {
   return (
     <div className="main-wrapper">
       <Navbar />
@@ -34,4 +34,4 @@ function JoinRoute() {
   );
 }
 
-export default JoinRoute;
+export default HiringRoute;

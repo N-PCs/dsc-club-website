@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as HiringRouteImport } from './routes/hiring'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as MembersRouteImport } from './routes/members'
 import { Route as RegisterRouteImport } from './routes/register'
@@ -44,6 +45,11 @@ const GalleryRoute = GalleryRouteImport.update({
   path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HiringRoute = HiringRouteImport.update({
+  id: '/hiring',
+  path: '/hiring',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JoinRoute = JoinRouteImport.update({
   id: '/join',
   path: '/join',
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/events': typeof EventsRoute
   '/gallery': typeof GalleryRoute
+  '/hiring': typeof HiringRoute
   '/join': typeof JoinRoute
   '/members': typeof MembersRoute
   '/register': typeof RegisterRouteWithChildren
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/events': typeof EventsRoute
   '/gallery': typeof GalleryRoute
+  '/hiring': typeof HiringRoute
   '/join': typeof JoinRoute
   '/members': typeof MembersRoute
   '/register': typeof RegisterRouteWithChildren
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/events': typeof EventsRoute
   '/gallery': typeof GalleryRoute
+  '/hiring': typeof HiringRoute
   '/join': typeof JoinRoute
   '/members': typeof MembersRoute
   '/register': typeof RegisterRouteWithChildren
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/events'
     | '/gallery'
+    | '/hiring'
     | '/join'
     | '/members'
     | '/register'
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/events'
     | '/gallery'
+    | '/hiring'
     | '/join'
     | '/members'
     | '/register'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/events'
     | '/gallery'
+    | '/hiring'
     | '/join'
     | '/members'
     | '/register'
@@ -141,6 +153,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   EventsRoute: typeof EventsRoute
   GalleryRoute: typeof GalleryRoute
+  HiringRoute: typeof HiringRoute
   JoinRoute: typeof JoinRoute
   MembersRoute: typeof MembersRoute
   RegisterRoute: typeof RegisterRouteWithChildren
@@ -181,6 +194,13 @@ declare module '@tanstack/react-router' {
       path: '/gallery'
       fullPath: '/gallery'
       preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hiring': {
+      id: '/hiring'
+      path: '/hiring'
+      fullPath: '/hiring'
+      preLoaderRoute: typeof HiringRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/join': {
@@ -232,6 +252,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   EventsRoute: EventsRoute,
   GalleryRoute: GalleryRoute,
+  HiringRoute: HiringRoute,
   JoinRoute: JoinRoute,
   MembersRoute: MembersRoute,
   RegisterRoute: RegisterRouteWithChildren,
