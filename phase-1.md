@@ -74,7 +74,7 @@ Total Build Time: 441ms
 ---
 ## 4. Graphical Representation of Changes made 
 
-```
+```mermaid
 graph TB
     subgraph Legacy_Setup["Prior Single Cloud Architecture (High Latency / Single Point of Failure)"]
         direction LR
