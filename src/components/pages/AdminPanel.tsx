@@ -9,6 +9,7 @@ import { HiringAdminView } from "@/components/hiring/HiringAdminView";
 import { TeamLeadManager } from "@/components/admin/TeamLeadManager";
 import { ActivityLogView } from "@/components/admin/ActivityLogView";
 import { DatabaseBackupView } from "@/components/admin/DatabaseBackupView";
+import { FinanceSectionView } from "@/components/finance/FinanceSectionView";
 import {
   ShieldCheck,
   Crown,
@@ -24,6 +25,7 @@ import {
   Lock,
   UserCheck,
   ChevronDown,
+  Wallet,
 } from "lucide-react";
 import "./AdminPanel.css";
 
@@ -116,7 +118,7 @@ export const AdminPanel: React.FC = () => {
     setUserRoleRecord(role);
     setIsAuthenticated(true);
     // Reset tab if current tab is not allowed for the new role
-    if (role.role === "team_lead" && (activeTab === "registrations" || activeTab === "team_leads" || activeTab === "settings")) {
+    if (role.role === "team_lead" && (activeTab === "registrations" || activeTab === "finance" || activeTab === "team_leads" || activeTab === "settings")) {
       setActiveTab("dashboard");
     }
   };
@@ -369,6 +371,22 @@ export const AdminPanel: React.FC = () => {
           <span>Recruitment {isTeamLead ? `(${leadDomain})` : "Candidates"}</span>
         </button>
 
+        {/* Finance & Accounts (Super Admin + Faculty) */}
+        {(isSuperAdmin || isFaculty) && (
+          <button
+            type="button"
+            onClick={() => setActiveTab("finance")}
+            className={`px-4 py-2 rounded-xl font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+              activeTab === "finance"
+                ? "bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20"
+                : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+            }`}
+          >
+            <Wallet className="size-3.5" />
+            <span>Finance & Accounts</span>
+          </button>
+        )}
+
         {/* Team Leads Governance (Super Admin only) */}
         {isSuperAdmin && (
           <button
@@ -439,6 +457,13 @@ export const AdminPanel: React.FC = () => {
           <HiringAdminView
             userRole={roleType}
             leadDomain={leadDomain}
+            actorEmail={currentUserEmail}
+          />
+        )}
+
+        {activeTab === "finance" && (isSuperAdmin || isFaculty) && (
+          <FinanceSectionView
+            userRole={roleType}
             actorEmail={currentUserEmail}
           />
         )}

@@ -174,7 +174,7 @@ export type ExpenseCategory =
 export type PaymentMode = "UPI" | "Bank Transfer" | "Cash" | "Card" | "College Requisition";
 
 export interface FinanceTransaction {
-  $id?: string;
+  $id?: string | undefined;
   id: string;
   sheetId: string; // Event ID or "general_treasury"
   eventId: string;
@@ -183,19 +183,19 @@ export interface FinanceTransaction {
   category: IncomeCategory | ExpenseCategory;
   amount: number;
   description: string;
-  billFileId?: string;
-  billFileName?: string;
-  billFileUrl?: string; // Appwrite storage URL or local preview data URI
+  billFileId?: string | undefined;
+  billFileName?: string | undefined;
+  billFileUrl?: string | undefined; // Appwrite storage URL or local preview data URI
   paymentMode: PaymentMode;
-  transactionRef?: string; // UTR or Invoice No.
+  transactionRef?: string | undefined; // UTR or Invoice No.
   transactionDate: string; // ISO date
   addedByEmail: string;
-  addedByName?: string;
+  addedByName?: string | undefined;
   createdAt: string;
 }
 
 export interface FinanceSheet {
-  $id?: string;
+  $id?: string | undefined;
   id: string;
   eventId: string;
   eventTitle: string;
