@@ -10,6 +10,7 @@ import { TeamLeadManager } from "@/components/admin/TeamLeadManager";
 import { ActivityLogView } from "@/components/admin/ActivityLogView";
 import { DatabaseBackupView } from "@/components/admin/DatabaseBackupView";
 import { FinanceSectionView } from "@/components/finance/FinanceSectionView";
+import { FacultyOversightView } from "@/components/faculty/FacultyOversightView";
 import {
   ShieldCheck,
   Crown,
@@ -118,8 +119,10 @@ export const AdminPanel: React.FC = () => {
     setUserRoleRecord(role);
     setIsAuthenticated(true);
     // Reset tab if current tab is not allowed for the new role
-    if (role.role === "team_lead" && (activeTab === "registrations" || activeTab === "finance" || activeTab === "team_leads" || activeTab === "settings")) {
+    if (role.role === "team_lead" && (activeTab === "registrations" || activeTab === "finance" || activeTab === "team_leads" || activeTab === "settings" || activeTab === "faculty_oversight")) {
       setActiveTab("dashboard");
+    } else if (role.role === "faculty_coordinator" && activeTab === "dashboard") {
+      setActiveTab("faculty_oversight");
     }
   };
 
@@ -328,6 +331,7 @@ export const AdminPanel: React.FC = () => {
 
       {/* Role-Aware Tab Navigation */}
       <div className="flex flex-wrap gap-2 border-b border-white/10 pb-3 mb-8">
+        {/* Dashboard */}
         <button
           type="button"
           onClick={() => setActiveTab("dashboard")}
@@ -340,6 +344,22 @@ export const AdminPanel: React.FC = () => {
           <LayoutDashboard className="size-3.5" />
           <span>Dashboard</span>
         </button>
+
+        {/* Faculty Oversight (Faculty Coordinator only) */}
+        {isFaculty && (
+          <button
+            type="button"
+            onClick={() => setActiveTab("faculty_oversight")}
+            className={`px-4 py-2 rounded-xl font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+              activeTab === "faculty_oversight"
+                ? "bg-purple-500 text-slate-950 shadow-lg shadow-purple-500/20"
+                : "bg-purple-500/10 text-purple-300 border border-purple-500/30 hover:bg-purple-500/20"
+            }`}
+          >
+            <GraduationCap className="size-3.5" />
+            <span>Faculty Oversight</span>
+          </button>
+        )}
 
         {/* Registrations (Super Admin + Faculty) */}
         {(isSuperAdmin || isFaculty) && (
@@ -442,6 +462,13 @@ export const AdminPanel: React.FC = () => {
           <AdminDashboardOverview
             userRole={roleType}
             leadDomain={leadDomain}
+            onNavigateTab={(t) => setActiveTab(t)}
+          />
+        )}
+
+        {activeTab === "faculty_oversight" && isFaculty && (
+          <FacultyOversightView
+            actorEmail={currentUserEmail}
             onNavigateTab={(t) => setActiveTab(t)}
           />
         )}
