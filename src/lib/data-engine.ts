@@ -58,41 +58,11 @@ const INITIAL_USER_ROLES: UserRoleRecord[] = [
   },
   {
     id: "role-2",
-    email: "vp.dsc@vitbhopal.ac.in",
-    fullName: "Aarav Sharma",
-    role: "super_admin",
-    title: "Vice President",
-    leadDomain: "None",
-    isActive: true,
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "role-3",
     email: "coordinator.dsc@vitbhopal.ac.in",
-    fullName: "Dr. Faculty Coordinator",
+    fullName: "Faculty Coordinator",
     role: "faculty_coordinator",
     title: "Faculty Coordinator",
     leadDomain: "None",
-    isActive: true,
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "role-4",
-    email: "techlead.dsc@vitbhopal.ac.in",
-    fullName: "Rohan Gupta",
-    role: "team_lead",
-    title: "Technical Team Lead",
-    leadDomain: "Technical",
-    isActive: true,
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "role-5",
-    email: "designlead.dsc@vitbhopal.ac.in",
-    fullName: "Priya Verma",
-    role: "team_lead",
-    title: "Design Team Lead",
-    leadDomain: "Design & Media",
     isActive: true,
     createdAt: new Date().toISOString(),
   },
@@ -104,15 +74,15 @@ const INITIAL_EVENTS: ClubEvent[] = [
     slug: "pytorch-bootcamp",
     title: "PyTorch Deep Dive Bootcamp",
     tag: "BOOTCAMP",
-    eventDate: "2026-09-24T10:00:00.000Z",
+    eventDate: "2026-10-24T10:00:00.000Z",
     venue: "AB-1 Auditorium, VIT Bhopal",
     description:
       "Three days of intensive tensors training, autograd computation graph breakdowns, and compiling vision classification models from scratch.",
     bannerImage: "/assets/event-workshop.jpg",
     isRegistrationOpen: true,
-    registrationDeadline: "2026-09-23T23:59:59.000Z",
+    registrationDeadline: "2026-10-23T23:59:59.000Z",
     maxCapacity: 200,
-    currentRegistrations: 42,
+    currentRegistrations: 0,
     isPaidEvent: false,
     registrationFee: 0,
     upiId: "dscvitb@upi",
@@ -123,15 +93,15 @@ const INITIAL_EVENTS: ClubEvent[] = [
     slug: "llms-in-production",
     title: "Talks: LLMs in Production",
     tag: "TECH TALK",
-    eventDate: "2026-09-28T17:30:00.000Z",
+    eventDate: "2026-10-28T17:30:00.000Z",
     venue: "Seminar Hall 2, VIT Bhopal",
     description:
       "An ML platform team member shares deployment telemetries, LLM evaluations, inference costs, and model monitoring guardrails.",
     bannerImage: "/assets/event-talk.jpg",
     isRegistrationOpen: true,
-    registrationDeadline: "2026-09-27T18:00:00.000Z",
+    registrationDeadline: "2026-10-27T18:00:00.000Z",
     maxCapacity: 150,
-    currentRegistrations: 68,
+    currentRegistrations: 0,
     isPaidEvent: false,
     registrationFee: 0,
     upiId: "dscvitb@upi",
@@ -142,15 +112,15 @@ const INITIAL_EVENTS: ClubEvent[] = [
     slug: "datahacks-26",
     title: "DataHacks '26 (Flagship Hackathon)",
     tag: "HACKATHON",
-    eventDate: "2026-10-18T09:00:00.000Z",
+    eventDate: "2026-11-18T09:00:00.000Z",
     venue: "Innovation Center & Lab Complex",
     description:
       "Our flagship 36-hour hackathon focusing on open civic data, autonomous analytics pipelines, and AI systems. 300+ developers expected.",
     bannerImage: "/assets/event-hackathon.jpg",
     isRegistrationOpen: true,
-    registrationDeadline: "2026-10-15T23:59:59.000Z",
+    registrationDeadline: "2026-11-15T23:59:59.000Z",
     maxCapacity: 120,
-    currentRegistrations: 89,
+    currentRegistrations: 0,
     isPaidEvent: true,
     registrationFee: 299,
     upiId: "dscvitb@upi",
@@ -288,100 +258,35 @@ const INITIAL_HIRING_DOMAINS: HiringDomain[] = [
 
 const INITIAL_FINANCE_SHEETS: FinanceSheet[] = [
   {
-    id: "sheet-datahacks-25",
-    eventId: "event-datahacks-2025",
-    eventTitle: "DataHacks '25 (Past Flagship)",
-    totalIncome: 145000,
-    totalExpense: 112450,
-    netBalance: 32550,
-    lastUpdated: "2025-10-25T18:30:00.000Z",
-  },
-  {
-    id: "sheet-bootcamp-26",
+    id: "sheet-bootcamp-2026",
     eventId: "event-bootcamp-2026",
     eventTitle: "PyTorch Deep Dive Bootcamp",
-    totalIncome: 25000,
-    totalExpense: 8500,
-    netBalance: 16500,
-    lastUpdated: "2026-09-10T14:00:00.000Z",
+    totalIncome: 0,
+    totalExpense: 0,
+    netBalance: 0,
+    lastUpdated: new Date().toISOString(),
   },
   {
-    id: "sheet-datahacks-26",
+    id: "sheet-talk-2026",
+    eventId: "event-talk-2026",
+    eventTitle: "Talks: LLMs in Production",
+    totalIncome: 0,
+    totalExpense: 0,
+    netBalance: 0,
+    lastUpdated: new Date().toISOString(),
+  },
+  {
+    id: "sheet-hack-2026",
     eventId: "event-hack-2026",
-    eventTitle: "DataHacks '26 (Active)",
-    totalIncome: 78500,
-    totalExpense: 24200,
-    netBalance: 54300,
-    lastUpdated: "2026-09-14T12:00:00.000Z",
+    eventTitle: "DataHacks '26 (Flagship Hackathon)",
+    totalIncome: 0,
+    totalExpense: 0,
+    netBalance: 0,
+    lastUpdated: new Date().toISOString(),
   },
 ];
 
-const INITIAL_FINANCE_TRANSACTIONS: FinanceTransaction[] = [
-  {
-    id: "txn-1",
-    sheetId: "sheet-datahacks-26",
-    eventId: "event-hack-2026",
-    eventTitle: "DataHacks '26",
-    type: "income",
-    category: "Sponsorship",
-    amount: 50000,
-    description: "Title Sponsorship grant from Cloud Platform partner",
-    paymentMode: "Bank Transfer",
-    transactionRef: "NEFT-DSC-2026-9912",
-    transactionDate: "2026-09-02",
-    addedByEmail: "neelpandeyofficial@gmail.com",
-    addedByName: "Neel Pandey (President)",
-    createdAt: "2026-09-02T10:00:00.000Z",
-  },
-  {
-    id: "txn-2",
-    sheetId: "sheet-datahacks-26",
-    eventId: "event-hack-2026",
-    eventTitle: "DataHacks '26",
-    type: "income",
-    category: "Registration Fee",
-    amount: 28500,
-    description: "Online team ticket registrations (Batch 1 - 95 teams)",
-    paymentMode: "UPI",
-    transactionRef: "UPI-BATCH-REG-01",
-    transactionDate: "2026-09-10",
-    addedByEmail: "vp.dsc@vitbhopal.ac.in",
-    addedByName: "Aarav Sharma (VP)",
-    createdAt: "2026-09-10T15:30:00.000Z",
-  },
-  {
-    id: "txn-3",
-    sheetId: "sheet-datahacks-26",
-    eventId: "event-hack-2026",
-    eventTitle: "DataHacks '26",
-    type: "expense",
-    category: "Marketing",
-    amount: 8200,
-    description: "Campus banners, promotional stickers & laser printed flyers",
-    paymentMode: "UPI",
-    transactionRef: "UPI-PRNT-449102",
-    transactionDate: "2026-09-05",
-    addedByEmail: "neelpandeyofficial@gmail.com",
-    addedByName: "Neel Pandey (President)",
-    createdAt: "2026-09-05T16:00:00.000Z",
-  },
-  {
-    id: "txn-4",
-    sheetId: "sheet-datahacks-26",
-    eventId: "event-hack-2026",
-    eventTitle: "DataHacks '26",
-    type: "expense",
-    category: "Prizes",
-    amount: 16000,
-    description: "Advance payment for customized acrylic trophies & prize certificates",
-    paymentMode: "Bank Transfer",
-    transactionRef: "IMPS-TRPH-7721",
-    transactionDate: "2026-09-12",
-    addedByEmail: "neelpandeyofficial@gmail.com",
-    addedByName: "Neel Pandey (President)",
-    createdAt: "2026-09-12T11:20:00.000Z",
-  },
-];
+const INITIAL_FINANCE_TRANSACTIONS: FinanceTransaction[] = [];
 
 const INITIAL_ACTIVITY_LOGS: ActivityLog[] = [
   {
@@ -391,7 +296,7 @@ const INITIAL_ACTIVITY_LOGS: ActivityLog[] = [
     actorRole: "super_admin",
     actionType: "SYSTEM_INITIALIZED",
     targetModule: "Settings",
-    details: "Initialized DSC Web Platform with dual-engine architecture and 100% free-tier zero cost guarantee.",
+    details: "Initialized Data Science Club platform with clean production database.",
     timestamp: new Date().toISOString(),
   },
 ];
@@ -437,6 +342,21 @@ export class DataEngine {
 
   private seedDefaultsIfEmpty(): void {
     if (typeof window === "undefined") return;
+
+    const STORAGE_VERSION_KEY = "dsc_data_clean_version";
+    const CURRENT_VERSION = "3.1.0_clean_prod";
+
+    if (localStorage.getItem(STORAGE_VERSION_KEY) !== CURRENT_VERSION) {
+      // Purge any legacy dummy seed data from previous development builds
+      localStorage.removeItem(STORAGE_KEYS.FINANCE_TRANSACTIONS);
+      localStorage.removeItem(STORAGE_KEYS.FINANCE_SHEETS);
+      localStorage.removeItem(STORAGE_KEYS.REGISTRATIONS);
+      localStorage.removeItem(STORAGE_KEYS.APPLICATIONS);
+      localStorage.removeItem(STORAGE_KEYS.ACTIVITY_LOGS);
+      localStorage.removeItem(STORAGE_KEYS.EVENTS);
+      localStorage.removeItem(STORAGE_KEYS.USER_ROLES);
+      localStorage.setItem(STORAGE_VERSION_KEY, CURRENT_VERSION);
+    }
 
     if (!localStorage.getItem(STORAGE_KEYS.SYSTEM_SETTINGS)) {
       setLocal(STORAGE_KEYS.SYSTEM_SETTINGS, INITIAL_SETTINGS);

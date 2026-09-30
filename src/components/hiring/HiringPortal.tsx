@@ -551,7 +551,7 @@ export const HiringPortal: React.FC = () => {
                   <label className="text-xs text-slate-300 block mb-1.5">Full Name *</label>
                   <input
                     type="text"
-                    placeholder="e.g. Aarav Sharma"
+                    placeholder="Enter your full name"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     className="w-full bg-slate-900 border border-white/20 text-white rounded-xl px-4 py-2.5 text-xs focus:border-cyan-400 focus:outline-none"

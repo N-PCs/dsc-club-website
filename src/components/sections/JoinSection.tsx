@@ -126,7 +126,7 @@ export const JoinSection: React.FC = () => {
                 <input
                   type="text"
                   id="fullName"
-                  placeholder="e.g. Aarav Sharma"
+                  placeholder="Enter your full name"
                   value={formData.fullName}
                   onChange={handleChange}
                   required

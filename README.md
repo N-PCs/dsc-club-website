@@ -1,189 +1,186 @@
-# Data Science Club — VIT Bhopal (DSC VITB)
+# Data Science Club — VIT Bhopal University (DSC VITB)
 
 [![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
- [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
- [![TanStack Router](https://img.shields.io/badge/TanStack_Router-FF4154?style=for-the-badge&logo=react-router&logoColor=white)](https://tanstack.com/router)
- [![Appwrite Cloud](https://img.shields.io/badge/Appwrite_Cloud-F02E65?style=for-the-badge&logo=appwrite&logoColor=white)](https://appwrite.io/)
- [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
- [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
- [![Three.js](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
- [![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=black)](https://greensock.com/)
- 
-**The official, high-performance web platform for the Data Science Club at VIT Bhopal University.** Built to showcase club projects, host event registrations, highlight member dossiers, and streamline core team recruitment via **Appwrite Cloud**.
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TanStack Router](https://img.shields.io/badge/TanStack_Router-FF4154?style=for-the-badge&logo=react-router&logoColor=white)](https://tanstack.com/router)
+[![Appwrite Cloud](https://img.shields.io/badge/Appwrite_Cloud-F02E65?style=for-the-badge&logo=appwrite&logoColor=white)](https://appwrite.io/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Zero SaaS Cost](https://img.shields.io/badge/Operational_Cost-%E2%82%B90.00%20(100%25%20Free)-10b981?style=for-the-badge)](https://github.com/N-PCs/dsc-club-website)
+
+**The official, high-performance web platform and operations management system for the Data Science Club at VIT Bhopal University.** Engineered from the ground up to deliver a modern cyber-infused public showcase, a full-featured event registration engine with dynamic UPI payments, an online core team recruitment portal, and a secure multi-tier Role-Based Access Control (RBAC) management panel with a dedicated finance section and faculty oversight.
 
 ---
 
-## ✨ Features
+## 🏛️ Core System Modules
 
-* **🎨 Cyberpunk & Glassmorphism Aesthetic**: Rich dark mode visuals, HSL glow effects, backdrop blur shaders, custom cursors, and responsive layouts.
-* **🌀 Shader-Powered Hero Section**: Live dynamic GLSL Dither shader background visualising data science concepts (graphs, noise, neural node scatter plots).
-* **👥 Member Roster & ChromaGrid**: Interactive grid featuring team cards with spotlight animations, domain color badges (Platinum, Gold, Silver, Neon Blue, Emerald), and strict core team filtering.
-* **📱 Custom Mobile Glassmorphism Dropdown**: Animated glass dropdown menu replacing native selects on mobile. Live **Member Count Pills** per team. **Auto-Slideshow Mode**: Automatically cycles through departmental teams every 3.5 seconds until manually interacted with.
-* **📝 Online Core Team Recruitment**: Seamless application form submitting candidate profiles directly to Appwrite Cloud.
-* **🛡️ Admin Access Portal (`/admin`)**:
-  * **Strict Campus Domain Filter**: Restricts standard admin logins to `@vitbhopal.ac.in` student email addresses.
-  * **Super Admin Override**: `neelpandeyofficial@gmail.com` enjoys direct super administrative privileges.
-  * **Email Access Manager 👑**: Super Admins can dynamically grant or revoke admin access for specific team lead email addresses.
-  * **Real-time Applicant Dashboard**: View, filter (by domain/team/status), search, and update candidate statuses (*Pending*, *Shortlisted*, *Accepted*, *Rejected*).
-* **⚙️ Automated Database Provisioning**: Automated CLI & script setup (`npm run setup:db`) to provision Appwrite database schemas and attributes in seconds.
+### 1. 🎟️ Public Event Registration Portal (`/register`, `/register/$eventId`)
+* **Individual & Team Registrations:** Flexible mode toggle allowing solo entries or team formations with dynamic member rosters (Leader + up to 4 members).
+* **Campus Logistics:** Auto-categorization for Hosteller vs. Day Scholar logistics.
+* **OTP Email Verification:** Real-time OTP challenge to prevent spam, duplicate submissions, and fake enrollments.
+* **Capacity Tracking & Auto-Close:** Real-time seat tally with automated waitlist routing once event limits are met.
+* **Zero-Cost NPCI UPI Payments:** Dynamic on-the-fly UPI QR generation encoding payee VPA, amount, and unique registration ID tag. Bypasses 2% + GST gateway charges via instant 12-digit bank UTR entry and verification.
+* **Vector PDF Passes:** Client-side generation of branded event badges with scannable QR codes via `jspdf`.
+
+### 2. 💼 Public Hiring & Core Recruitment Portal (`/hiring`, `/join`)
+* **Recruitment Status Banner:** Dynamic hiring toggle (*Open* / *Closed*) with live deadline countdown clocks.
+* **5 Core Technical & Creative Domains:**
+  1. **Technical:** Full-stack web development, cloud infra, microservices.
+  2. **AI & Data Science:** Machine learning pipelines, deep learning, NLP, computer vision.
+  3. **Design & Media:** UI/UX, graphic design, 3D assets, video editing.
+  4. **Content & Editorial:** Technical blogging, newsletters, documentation, social copy.
+  5. **Management & PR:** Event coordination, sponsorships, logistics, public relations.
+* **Dynamic Domain Questionnaires:** Contextual questions rendered on-the-fly based on applicant domain selection.
+* **Resume & Portfolio Integration:** Secure client-compressed PDF resume upload and GitHub/LinkedIn linking.
+* **Applicant Review Pipeline:** 5-stage status workflow (*Applied* ➔ *Shortlisted* ➔ *Interview* ➔ *Selected* ➔ *Rejected*), candidate dossier modal, and multi-format CSV/Excel export.
+
+### 3. 🛡️ Club Management Panel & RBAC Operations Center (`/admin`)
+* **Role-Based Access Control (RBAC):**
+  * 👑 **Super Admins (President, VP, GS, JS):** Universal read/write authority across registrations, recruitment, team governance, audit logs, and finance.
+  * 🎓 **Faculty Coordinator:** Dedicated read-only oversight across all modules, compliance metrics, and direct institutional PDF dossier exports.
+  * 💻 **Team Leads:** Scoped exclusively to their assigned technical domain. Automatically locked out of other teams' applications and strictly barred from the Finance section.
+  * 👤 **General Members:** No panel access; directed to public registration and application forms.
+* **Team Lead Governance:** Super Admins can dynamically grant or revoke lead permissions by university email and bind domain scopes.
+* **Immutable Audit Trail:** Comprehensive activity log capturing every mutation with actor email, role, module, details, and ISO timestamps.
+* **Disaster Recovery:** 1-click JSON database snapshot export and restore.
+
+### 4. 💰 Dedicated Finance & Treasury Section (`/admin` -> Finance)
+* **Event-Wise Bookkeeping:** Dedicated ledger sheets auto-provisioned for every event to maintain separate accounting.
+* **Revenue Inflow Tracking:** Categorized tracking for *Registration Fees*, *Sponsorships*, *College Grants*, *Merchandise*, and *Other Income*.
+* **Itemized Expenditure & Bill Attachment:** Log disbursements across *Venue*, *Food*, *Prizes*, *Marketing*, *Logistics*, and *Misc* with digital invoice photo/PDF attachments.
+* **Zero-Cost Client-Side Image Compression:** Employs `browser-image-compression` to optimize receipt photos locally before storing as Base64 data URIs.
+* **Digital Voucher Inspection Modal:** In-app receipt zoom viewer and PDF attachment downloader.
+* **Institutional PDF Audit Statements:** Generates formal financial audit reports compliant with university standards, including signature blocks for the Club President, Faculty Coordinator, and Dean.
+* **Multi-Sheet Excel Workbooks (`.xlsx`):** Formatted multi-tab workbook with Master Summary, Inflows, and Expenditures.
+
+---
+
+## 🚀 Implementation Phases & Architecture Roadmap
+
+The platform was built following the comprehensive requirements in [`system-design.md`](./system-design.md). Every phase includes dedicated documentation with performance statistics:
+
+| Phase | Milestone Name | Key Deliverables | Status | Documentation |
+| :---: | :--- | :--- | :---: | :---: |
+| **Phase 1** | **Data Layer & Collections** | Appwrite collections schema, dual-engine hybrid storage, strict TypeScript models | **Complete** | [`phase-1.md`](./phase-1.md) |
+| **Phase 2** | **Public Registration Portal** | Individual/Team forms, OTP gate, UPI QR passes, vector PDF badges | **Complete** | [`phase-2.md`](./phase-2.md) |
+| **Phase 3** | **Public Hiring Portal** | Domain forms, countdown timer, 5-stage status review pipeline, candidate dossiers | **Complete** | [`phase-3.md`](./phase-3.md) |
+| **Phase 4** | **Club Management & RBAC** | Role-based navigation, candidate review, team lead manager, audit log, backup utility | **Complete** | [`phase-4.md`](./phase-4.md) |
+| **Phase 5** | **Dedicated Finance Section** | Event-wise ledgers, bill upload/viewer, audit PDF & Excel workbooks | **Complete** | [`phase-5.md`](./phase-5.md) |
+| **Phase 6** | **Faculty Oversight & Final Verification** | Faculty dashboard, institutional semester dossier, mobile audit, zero dummy data sign-off | **Complete** | [`phase-6.md`](./phase-6.md) |
+
+---
+
+## ⚡ 100% Free-Tier & Zero-Cost Architecture Guarantee
+
+Every service and library in this platform was selected to ensure **₹0.00 / month lifetime operational and recurring cost**:
+
+1. **Zero Gateway Fees:** Native NPCI UPI QR code generation via `qrcode.react` with 12-digit bank UTR entry eliminates payment gateway charges (saving 2% + GST per registration).
+2. **Zero Server Rendering Costs:** Institutional audit statements and registration passes are vector-rendered directly in the client's browser via `jspdf` and `jspdf-autotable`.
+3. **Zero Spreadsheet Service Costs:** Complex multi-sheet Excel workbooks (`.xlsx`) stream directly from browser memory via `xlsx` (SheetJS).
+4. **Zero Cloud Bandwidth Overhead:** Receipt images and invoices are compressed on the client's device using HTML5 canvas via `browser-image-compression`.
+5. **High-Availability Hybrid Data Engine:** Local-first reactive storage with automatic synchronization ensures 100% operational uptime even during university Wi-Fi outages.
 
 ---
 
 ## 🛠️ Tech Stack
 
-<center>
-
-| Layer | Technology |
-| :--- | :--- |
-| **Frontend Framework** | ![React](https://img.shields.io/badge/-React-61DAFB?style=flat&logo=react&logoColor=white) ![v19](https://img.shields.io/badge/v19-000000?style=flat) |
-| **Language** | ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) ![5.8](https://img.shields.io/badge/5.8-000000?style=flat) |
-| **Routing** | ![TanStack Router](https://img.shields.io/badge/-TanStack_Router-FF4154?style=flat&logo=react-router&logoColor=white) ![1.170](https://img.shields.io/badge/1.170-000000?style=flat) |
-| **Backend & Auth** | ![Appwrite Cloud](https://img.shields.io/badge/-Appwrite_Cloud-F02E65?style=flat&logo=appwrite&logoColor=white) ![Latest](https://img.shields.io/badge/Latest-000000?style=flat) |
-| **3D & Shaders** | ![Three.js](https://img.shields.io/badge/-Three.js-000000?style=flat&logo=three.js&logoColor=white) ![r185](https://img.shields.io/badge/r185-000000?style=flat) |
-| **Animations** | ![GSAP](https://img.shields.io/badge/-GSAP-88CE02?style=flat&logo=greensock&logoColor=white) ![Latest](https://img.shields.io/badge/Latest-000000?style=flat) |
-| **Styling** | ![Tailwind CSS](https://img.shields.io/badge/-Tailwind_CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white) ![v4](https://img.shields.io/badge/v4-000000?style=flat) |
-| **Build Tool** | ![Vite](https://img.shields.io/badge/-Vite-646CFF?style=flat&logo=vite&logoColor=white) ![v8](https://img.shields.io/badge/v8-000000?style=flat) |
-
-</center>
+| Layer | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Frontend Framework** | React 19 | High-performance reactive UI rendering |
+| **Language** | TypeScript 5.8 | Strict type safety with `exactOptionalPropertyTypes` |
+| **Routing** | TanStack Router 1.170 | Type-safe, file-based client routing with code-splitting |
+| **Backend & Cloud DB** | Appwrite Cloud | Headless serverless backend, Auth, and Database collections |
+| **Styling** | Tailwind CSS v4 | High-performance CSS design system |
+| **Visual Effects & 3D** | Three.js & GLSL Shaders | Dither shaders, dynamic particle globe, ambient lights |
+| **Document Generation** | jsPDF & jsPDF-AutoTable | Client-side vector PDF passes and university audit statements |
+| **Spreadsheet Engine** | SheetJS (xlsx) | Multi-sheet Excel workbook export |
+| **Image Compression** | browser-image-compression | Client-side receipt compression |
+| **QR Code Engine** | qrcode.react | Dynamic NPCI UPI payment QR codes |
+| **Icons & UI** | Lucide React & Radix UI | Accessible UI primitives and icons |
+| **Build Tool** | Vite 8 | Sub-second HMR and production bundling |
 
 ---
 
-## 🔄 Workflow Diagram
-
-```mermaid
-flowchart TD
-    subgraph Frontend["🎨 Frontend (React 19 + TanStack Router)"]
-        User(("🌐 Visitor / Student"))
-        Nav["🧭 Navigation & Hero<br/>Dither Shader"]
-        Members["👥 Members Roster<br/>ChromaGrid + Dropdown"]
-        Join["📝 Recruitment<br/>Application Form"]
-        Admin["🛡️ Admin Portal<br/>/admin"]
-    end
- 
-    subgraph Authentication["🔐 Appwrite Authentication Layer"]
-        AuthCheck{{"🔑 Access Check<br/>Validation Logic"}}
-        CampusDomain["📧 Campus Domain<br/>*@vitbhopal.ac.in"]
-        SuperAdmin["👑 Super Admin<br/>neelpandey...@gmail.com"]
-        CustomAdmins["📋 Custom Admin List<br/>Team Leads"]
-        AppwriteAuth[("⚡ Appwrite<br/>Auth Service")]
-    end
- 
-    subgraph Appwrite["☁️ Appwrite Cloud Platform"]
-        AppwriteLogo["🔗 Appwrite Cloud<br/>https://appwrite.io"]
-        APILayer["🌐 REST API Layer<br/>SDK Integration"]
-    end
- 
-    subgraph Database["💾 Appwrite Cloud Database"]
-        DBCore[("🗄️ dscvitb_db<br/>Main Database")]
-        Collection[("📦 Recruitment<br/>Applications")]
-        AdminAccess[("👨‍💼 Admin Access<br/>Control")]
-        ApplicationAttributes[("📋 Schema<br/>Attributes")]
-    end
- 
-    User --> Nav
-    User --> Members
-    User --> Join
-    Join -->|Submit Application| Collection
-    User -->|Click Footer Link| Admin
-    Admin --> AuthCheck
-    AuthCheck -->|Validates Email| AppwriteAuth
-    AppwriteAuth -->|Checks Domain| CampusDomain
-    AppwriteAuth -->|Bypass Check| SuperAdmin
-    AppwriteAuth -->|Validate List| CustomAdmins
-    CustomAdmins --> AdminAccess
-    SuperAdmin -->|Grant/Revoke Access| AdminAccess
-    Admin -->|Manage Registrations| DBCore
-    AppwriteAuth -->|Authenticate| AppwriteLogo
-    AppwriteLogo --> APILayer
-    APILayer --> DBCore
-    DBCore --> Collection
-    DBCore --> AdminAccess
-    Collection --> ApplicationAttributes
-    AdminAccess --> ApplicationAttributes
- 
-     
-    style User fill:#61DAFB,stroke:#fff,stroke-width:2px,color:#000
-    style AuthCheck fill:#FFD700,stroke:#F02E65,stroke-width:2px,color:#000
-    style AppwriteAuth fill:#F02E65,stroke:#fff,stroke-width:2px,color:#fff
-    style AppwriteLogo fill:#F02E65,stroke:#fff,stroke-width:2px,color:#fff
-    style APILayer fill:#00D4FF,stroke:#fff,stroke-width:2px,color:#000
-    style DBCore fill:#06B6D4,stroke:#fff,stroke-width:2px,color:#000
-    style Collection fill:#00E5CC,stroke:#fff,stroke-width:2px,color:#000
-    style AdminAccess fill:#FF6B9D,stroke:#fff,stroke-width:2px,color:#fff
-    style ApplicationAttributes fill:#88CE02,stroke:#fff,stroke-width:2px,color:#000
-```
----
-
-## 📁 Project Structure
+## 📁 Project Directory Structure
 
 ```text
 dsc-club-website/
-├── public/                     # Static public assets, branding logos, icons
+├── public/                         # Static assets, branding, and campus event media
 ├── scripts/
-│   └── init-appwrite-db.js     # Automated Appwrite Database & Attribute setup script
+│   └── init-appwrite-db.js         # Automated Appwrite Database & collection provisioner
 ├── src/
-│   ├── assets/                 # SVGs and static media files
 │   ├── components/
-│   │   ├── pages/
-│   │   │   ├── AdminPanel.tsx  # Recruitment Admin Dashboard component
-│   │   │   └── AdminPanel.css  # Glassmorphism styling for Admin Dashboard
-│   │   ├── sections/
-│   │   │   ├── TeamSection.tsx # ChromaGrid Member Roster & Mobile Dropdown
-│   │   │   ├── TeamSection.css # Roster glassmorphism & dropdown keyframes
-│   │   │   ├── JoinSection.tsx # Core Team recruitment application form
-│   │   │   └── FooterSection.tsx # Site footer with Admin Access link
-│   │   ├── site/               # Shared site components (Navbar, Globe, TextLoop)
-│   │   └── ui/                 # React Bits UI components (ChromaGrid, Dither)
+│   │   ├── admin/                  # Management panel views (Dashboard, Registrations, Leads, Logs, Backup)
+│   │   ├── faculty/                # Faculty Coordinator oversight & master dossier PDF generator
+│   │   ├── finance/                # Finance ledger view, bill upload/viewer, Excel & PDF statement engines
+│   │   ├── hiring/                 # Public recruitment portal, domain forms, and review pipeline
+│   │   ├── registration/           # Public event registration portal, OTP challenge, and PDF passes
+│   │   ├── pages/                  # Page containers (AdminPanel, NotFoundPage)
+│   │   ├── sections/               # Landing page sections (Hero, About, Events, Domains, Team, Footer)
+│   │   ├── site/                   # Global site elements (Navbar, Ambient, Globe, RadialMenu, TextLoop)
+│   │   └── ui/                     # UI components (ChromaGrid, Dither, Dialog, Table, Tabs, Sonner)
 │   ├── lib/
-│   │   ├── appwrite.ts         # Appwrite Client, Account, & Database utilities
-│   │   └── utils.ts            # Helper utilities
-│   ├── routes/                 # TanStack file-based routes
-│   │   ├── __root.tsx          # Root layout shell
-│   │   ├── index.tsx           # Homepage
-│   │   ├── about.tsx           # About section route
-│   │   ├── members.tsx         # Members & Leads dossier route
-│   │   ├── join.tsx            # Recruitment route
-│   │   └── admin.tsx           # Protected Admin Access route
-│   ├── routeTree.gen.ts        # Auto-generated TanStack router tree
-│   ├── main.tsx                # Client app entrypoint
-│   └── styles.css              # Global CSS & color tokens
-├── .env.example                # Appwrite environment variable template
-├── package.json                # Project scripts and dependencies
-├── vite.config.ts              # Vite & TanStack plugin configuration
-└── README.md                   # Project documentation
+│   │   ├── data-engine.ts          # Reactive dual-engine hybrid data layer & offline storage
+│   │   ├── appwrite.ts             # Appwrite SDK client and authentication methods
+│   │   └── utils.ts                # Styling utilities and class variance helpers
+│   ├── routes/                     # TanStack file-based routes
+│   │   ├── __root.tsx              # Root shell layout
+│   │   ├── index.tsx               # Homepage
+│   │   ├── events.tsx              # Campus events explorer
+│   │   ├── register.tsx            # Event registration route
+│   │   ├── register.$eventId.tsx   # Dynamic event registration route
+│   │   ├── hiring.tsx              # Core recruitment portal
+│   │   ├── join.tsx                # Recruitment redirect route
+│   │   ├── members.tsx             # Executive board and member roster
+│   │   ├── about.tsx               # Club history and mission
+│   │   └── admin.tsx               # Protected Club Management Panel
+│   ├── types/
+│   │   └── models.ts               # Strict TypeScript data models for all modules
+│   ├── main.tsx                    # React application entrypoint
+│   └── styles.css                  # Global tokens and cyber-infused theme styling
+├── phase-1.md                      # Phase 1 Summary: Appwrite Database & Data Layer
+├── phase-2.md                      # Phase 2 Summary: Public Registration Portal
+├── phase-3.md                      # Phase 3 Summary: Public Hiring Portal
+├── phase-4.md                      # Phase 4 Summary: Management Panel & RBAC Core
+├── phase-5.md                      # Phase 5 Summary: Dedicated Finance Section
+├── phase-6.md                      # Phase 6 Summary: Faculty Oversight & Final Verification
+├── system-design.md                # Comprehensive System Design Document
+├── package.json                    # Dependencies and npm scripts
+├── vite.config.ts                  # Vite and TanStack Router build configuration
+└── README.md                       # Master project documentation
 ```
 
 ---
 
-## 🚀 How to Run
+## 🚀 How to Run Locally
 
 ### Prerequisites
-* **Node.js**: `v22.12.0` or higher
-* **npm**: `v10.0.0` or higher
+* **Node.js**: `>= 22.12.0`
+* **npm**: `>= 10.0.0`
 
-### 1. Clone & Install Dependencies
+### 1. Clone & Install
 ```bash
-git clone https://github.com/dscvitb/dsc-club-website.git
+git clone https://github.com/N-PCs/dsc-club-website.git
 cd dsc-club-website
 npm install
 ```
 
 ### 2. Configure Environment Variables
-Copy `.env.example` to create your local `.env` file:
+Copy `.env.example` to create your local `.env`:
 ```bash
 cp .env.example .env
 ```
 
-Add your Appwrite credentials to `.env`:
+Configure your credentials in `.env`:
 ```dotenv
 VITE_APPWRITE_PROJECT_ID="6a931d3300098a4116bf"
 VITE_APPWRITE_PROJECT_NAME="dscvitb"
 VITE_APPWRITE_ENDPOINT="https://sgp.cloud.appwrite.io/v1"
-APPWRITE_API_KEY="your_secret_appwrite_api_key_here"
+APPWRITE_API_KEY="your_optional_appwrite_api_key"
 ```
+*(Note: If Appwrite Cloud credentials are not configured, the platform automatically activates its high-availability local-first hybrid data engine with 100% functionality).*
 
-### 3. Provision Appwrite Database Automatically
-Run the setup script to automatically build the database, collection, and required schema attributes on Appwrite Cloud:
+### 3. Provision Database Collections (Optional)
 ```bash
 npm run setup:db
 ```
@@ -192,45 +189,34 @@ npm run setup:db
 ```bash
 npm run dev
 ```
-
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
----
+### 5. Production Build & Type Checking
+```bash
+# Verify TypeScript types
+npx tsc --noEmit
 
-## 🌐 Deployment (Vercel)
-
-This project is configured for seamless deployment on **Vercel**:
-
-1. Push your repository to GitHub.
-2. Import the project in [Vercel](https://vercel.com).
-3. Set **Framework Preset** to **Vite** (or TanStack Start).
-4. Under **Environment Variables**, add:
-   * `VITE_APPWRITE_PROJECT_ID`
-   * `VITE_APPWRITE_PROJECT_NAME`
-   * `VITE_APPWRITE_ENDPOINT`
-5. Click **Deploy**.
+# Compile production bundle
+npm run build
+```
 
 ---
 
-## 👥 Contributors
+## 👥 Management Panel Access Details
 
-The amazing team behind this project:
+Access to the Management Panel (`/admin`) is strictly controlled:
 
-```
-Generated with: https://contrib.rocks/image/gh/dscvitb/dsc-club-website
-```
-
-For a live contributors list, visit: [Contributors on GitHub](https://github.com/dscvitb/dsc-club-website/graphs/contributors)
-
-> **Note**: If the contributor image doesn't load, visit the [Contributors Graph](https://github.com/dscvitb/dsc-club-website/graphs/contributors) on GitHub directly.
+| Account / Role | Access Level | Description |
+| :--- | :--- | :--- |
+| **👑 President (Super Admin)** | Universal Read/Write | Full control across Registrations, Recruitment, Finance, and RBAC governance. |
+| **🎓 Faculty Coordinator** | Read-Only Oversight | Comprehensive oversight, verification checklists, and Master Dossier PDF generation. |
+| **💻 Team Leads** | Scoped Domain Control | Manage applicants and tasks scoped to assigned domain. Finance section locked. |
 
 ---
 
 ## 📄 License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
-
----
 
 <p align="center">
   Crafted with ❤️ by the Data Science Club Web Team at VIT Bhopal University.

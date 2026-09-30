@@ -40,6 +40,7 @@ export const AdminPanel: React.FC = () => {
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const [availableRoles, setAvailableRoles] = useState<UserRoleRecord[]>([]);
 
   // Login form state
   const [emailInput, setEmailInput] = useState<string>("");
@@ -76,6 +77,15 @@ export const AdminPanel: React.FC = () => {
       }
     };
     checkSession();
+    dataEngine.getUserRoles().then(setAvailableRoles);
+
+    const handleRoleUpdate = () => {
+      dataEngine.getUserRoles().then(setAvailableRoles);
+    };
+    window.addEventListener("dsc_data_change", handleRoleUpdate);
+    return () => {
+      window.removeEventListener("dsc_data_change", handleRoleUpdate);
+    };
   }, []);
 
   // Handle Login Submission
@@ -236,20 +246,6 @@ export const AdminPanel: React.FC = () => {
                 </div>
                 <span className="text-[10px] font-mono text-purple-400">Read-Only Oversight</span>
               </button>
-
-              <button
-                type="button"
-                onClick={() => handleQuickRoleSwitch("techlead.dsc@vitbhopal.ac.in")}
-                className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left flex items-center justify-between text-xs transition-colors cursor-pointer"
-              >
-                <div>
-                  <span className="font-bold text-white block">💻 Technical Team Lead</span>
-                  <span className="text-[10px] font-mono text-slate-400">
-                    techlead.dsc@vitbhopal.ac.in
-                  </span>
-                </div>
-                <span className="text-[10px] font-mono text-cyan-400">Scoped to Technical</span>
-              </button>
             </div>
           </div>
         </div>
@@ -312,10 +308,19 @@ export const AdminPanel: React.FC = () => {
             className="bg-slate-900 border border-white/20 text-white rounded-xl px-3 py-2 text-xs font-mono focus:border-cyan-400 focus:outline-none"
             title="Switch demo role on the fly"
           >
-            <option value={SUPER_ADMIN_EMAIL}>👑 President (Super Admin)</option>
-            <option value="coordinator.dsc@vitbhopal.ac.in">🎓 Faculty Coordinator</option>
-            <option value="techlead.dsc@vitbhopal.ac.in">💻 Technical Lead</option>
-            <option value="designlead.dsc@vitbhopal.ac.in">🎨 Design Lead</option>
+            {availableRoles.length > 0 ? (
+              availableRoles.map((r) => (
+                <option key={r.email} value={r.email}>
+                  {r.role === "super_admin" ? "👑" : r.role === "faculty_coordinator" ? "🎓" : "💻"}{" "}
+                  {r.title} ({r.email})
+                </option>
+              ))
+            ) : (
+              <>
+                <option value={SUPER_ADMIN_EMAIL}>👑 President (Super Admin)</option>
+                <option value="coordinator.dsc@vitbhopal.ac.in">🎓 Faculty Coordinator</option>
+              </>
+            )}
           </select>
 
           <button
