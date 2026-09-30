@@ -46,22 +46,15 @@ export const SiloHero: React.FC = () => {
           borderRadius: `${borderRadius}px`,
           transition: "transform 0.1s ease-out, border-radius 0.15s ease-out",
         }}
-        className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] max-h-[720px] overflow-hidden border border-sky-400/25 bg-black shadow-[0_25px_80px_rgba(0,0,0,0.9)]"
+        className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] max-h-[720px] overflow-hidden border border-sky-400/25 bg-[#030612] shadow-[0_25px_80px_rgba(0,0,0,0.9)]"
       >
-        {/* Background Looping Dummy Video
-        <video
-          src="/bg-dummy.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover filter brightness-[0.75] contrast-[1.15]"
-        />
-*/}
-
+        {/* Subtle Ambient Cyber Grid & Glow Background */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-950/40 via-[#030612] to-black pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0ea5e912_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e912_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-sky-500/10 blur-[120px] rounded-full pointer-events-none" />
 
         {/* Ambient Dark & Blue Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-black/60 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60 pointer-events-none" />
         <div className="absolute inset-0 bg-radial-at-c from-transparent via-black/20 to-black/85 pointer-events-none" />
 
         {/* Bottom Banner Content */}
