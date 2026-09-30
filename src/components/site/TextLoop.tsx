@@ -73,12 +73,12 @@ const buildPath = (shape: string, curviness: number, ribbonWidth: number) => {
 };
 
 export const TextLoop: React.FC<TextLoopProps> = ({
-  text = "React ✦ Bits",
+  text = "DSC CLUB VITB // DATA SCIENCE",
   shape = "wave",
   path,
   speed = 90,
   direction = "forward",
-  separator = "✦",
+  separator = "//",
   curviness = 90,
   fontSize = 38,
   fontWeight = 800,

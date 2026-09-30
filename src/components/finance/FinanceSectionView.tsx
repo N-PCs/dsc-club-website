@@ -35,7 +35,6 @@ import {
   X,
   Download,
   Clock,
-  Sparkles,
   ArrowUpRight,
   ArrowDownRight,
   ChevronDown,

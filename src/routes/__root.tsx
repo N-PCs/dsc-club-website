@@ -66,7 +66,10 @@ function RootComponent() {
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
     });
+
+    (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
 
     let animationFrameId: number;
     const raf = (time: number) => {
@@ -76,9 +79,29 @@ function RootComponent() {
 
     animationFrameId = requestAnimationFrame(raf);
 
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest("a");
+      if (!target) return;
+      const href = target.getAttribute("href");
+      if (href && (href.startsWith("#") || href.startsWith("/#"))) {
+        const hash = href.includes("#") ? "#" + href.split("#")[1] : "";
+        if (hash && hash !== "#") {
+          const element = document.querySelector(hash);
+          if (element) {
+            e.preventDefault();
+            lenis.scrollTo(element as HTMLElement, { offset: -70, duration: 1.2 });
+          }
+        }
+      }
+    };
+
+    document.addEventListener("click", handleAnchorClick);
+
     return () => {
+      document.removeEventListener("click", handleAnchorClick);
       lenis.destroy();
       cancelAnimationFrame(animationFrameId);
+      delete (window as unknown as { __lenis?: Lenis }).__lenis;
     };
   }, []);
 

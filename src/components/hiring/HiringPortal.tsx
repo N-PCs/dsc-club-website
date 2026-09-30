@@ -5,7 +5,6 @@ import {
   Clock,
   CheckCircle2,
   AlertCircle,
-  Sparkles,
   Code2,
   Brain,
   Palette,
@@ -286,8 +285,8 @@ export const HiringPortal: React.FC = () => {
           <div className="absolute -top-24 -right-24 size-48 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-24 -left-24 size-48 rounded-full bg-purple-600/10 blur-3xl pointer-events-none" />
 
-          <div className="inline-flex size-16 items-center justify-center rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 mb-5">
-            <Sparkles className="size-8 animate-pulse" />
+          <div className="inline-flex size-16 items-center justify-center rounded-2xl bg-sky-500/10 border border-sky-500/30 text-sky-400 mb-5">
+            <CheckCircle2 className="size-8" />
           </div>
 
           <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-2">
@@ -372,8 +371,8 @@ export const HiringPortal: React.FC = () => {
     <div className="hiring-portal-wrapper max-w-5xl mx-auto px-4 py-8">
       {/* Hero Header */}
       <div className="text-center mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono mb-3">
-          <Sparkles className="size-3.5" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-mono mb-3">
+          <span className="size-2 rounded-full bg-sky-400 animate-pulse" />
           <span>DATA SCIENCE CLUB CORE TEAM RECRUITMENT 2026</span>
         </div>
         <h1 className="text-3xl md:text-5xl font-display font-extrabold text-white tracking-tight mb-4">

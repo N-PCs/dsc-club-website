@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect, useRef } from "react";
-import { CalendarDays, MapPin, ArrowRight } from "lucide-react";
-import { gsap } from "gsap";
-import { PageHeader } from "@/components/site/Ambient";
+import { useState } from "react";
+import { Navbar } from "@/components/sections/Navbar";
+import { FooterSection } from "@/components/sections/FooterSection";
+import { SiloEventModal, SiloEventData } from "@/components/silo/SiloEventModal";
+import { Calendar, Clock, MapPin, ArrowRight, Ticket, Filter } from "lucide-react";
 import hackathonImg from "@/assets/event-hackathon.jpg";
 import workshopImg from "@/assets/event-workshop.jpg";
 import talkImg from "@/assets/event-talk.jpg";
@@ -24,191 +25,284 @@ export const Route = createFileRoute("/events")({
   component: Events,
 });
 
-const upcoming = [
+const upcomingEvents: SiloEventData[] = [
   {
-    slug: "pytorch-bootcamp",
-    img: workshopImg,
-    title: "PyTorch Deep Dive Bootcamp",
-    date: "12 Sep 2026 · 10:00 AM",
-    place: "AB-1 Auditorium",
-    text: "Three days of intensive tensors training, autograd computation graph breakdowns, and compiling vision classification models from scratch.",
-    tag: "BOOTCAMP",
+    id: "pytorch-bootcamp-2026",
+    title: "PyTorch Deep Learning Sprint",
+    speaker: "Dr. Alok Ranjan",
+    role: "Deep Learning Specialist & Associate Professor",
+    category: "BOOTCAMP",
+    date: "Saturday, Oct 24, 2026",
+    time: "10:00 AM - 4:00 PM IST",
+    venue: "Lab Complex 3 // AB-1 High-Perf Lab",
+    image: workshopImg,
+    badge: "PASSES OPEN",
+    description:
+      "A hands-on, hardware-accelerated deep dive into neural tensor architectures, gradient descent graph compilation, and fine-tuning computer vision backbones.",
+    longBio:
+      "This 6-hour intensive bootcamp guides developers through tensor manipulation, building custom autoencoders, and deploying models to mobile & edge backends using TensorRT and ONNX runtime.",
+    ticketPrice: "FREE // STUDENT PASS",
+    socials: {
+      github: "https://github.com/cdsvitbhopal",
+      linkedin: "https://linkedin.com/company/dsc-vitb",
+    },
   },
   {
-    slug: "llms-in-production",
-    img: talkImg,
-    title: "Talks: LLMs in Production",
-    date: "26 Sep 2026 · 5:30 PM",
-    place: "Seminar Hall 2",
-    text: "An ML platform team member shares deployment telemetries, LLM evaluations, inference costs, and model monitoring guardrails.",
-    tag: "TECH TALK",
+    id: "datahacks-26",
+    title: "DataHacks '26 (36-Hour Hackathon)",
+    speaker: "DSC Executive Board & Industry Judges",
+    role: "Central India Flagship Collegiate Hackathon",
+    category: "HACKATHON",
+    date: "Fri-Sun, Nov 14-16, 2026",
+    time: "9:00 AM Fri - 9:00 PM Sun",
+    venue: "Innovation Center & Central Auditorium",
+    image: hackathonImg,
+    badge: "REGISTRATIONS OPEN",
+    description:
+      "Over 400 collegiate engineers assemble on campus for 36 hours of relentless building across Generative AI, Distributed Data Pipelines, and Civic Intelligence.",
+    longBio:
+      "DataHacks '26 features direct mentorship from top engineering teams, 1Gbps fiber connectivity, midnight catering, compute credits, and a dedicated hardware lab.",
+    ticketPrice: "₹2,50,000+ PRIZE POOL",
+    socials: {
+      x: "https://x.com/DSC_VITB",
+      github: "https://github.com/cdsvitbhopal",
+    },
   },
   {
-    slug: "datahacks-26",
-    img: hackathonImg,
-    title: "DataHacks '26",
-    date: "18 Oct 2026 · 9:00 AM",
-    place: "Innovation Center",
-    text: "Our flagship 36-hour hackathon focusing on open civic API integration and local-campus analytics platforms. 300+ builders expected.",
-    tag: "HACKATHON",
+    id: "llms-in-production-2026",
+    title: "LLMs in Production: Architecture & Telemetry",
+    speaker: "Rohan Varma",
+    role: "Staff Platform Engineer & Open Source Contributor",
+    category: "TECH TALK",
+    date: "Wednesday, Dec 02, 2026",
+    time: "5:30 PM - 7:30 PM IST",
+    venue: "Seminar Hall 2 // Virtual Stream Available",
+    image: talkImg,
+    badge: "KEYNOTE",
+    description:
+      "A deep technical breakdown of high-throughput model serving, prompt caching strategies, semantic vector routing, and minimizing GPU memory latency.",
+    longBio:
+      "Explore real production architectural telemetry from systems serving millions of daily inferences. Understand latency bottlenecks, quantized inference, and evaluation guardrails.",
+    ticketPrice: "OPEN REGISTRATION",
+    socials: {
+      x: "https://x.com/DSC_VITB",
+      linkedin: "https://linkedin.com/company/dsc-vitb",
+    },
   },
 ];
 
-const past = [
+const pastEvents: SiloEventData[] = [
   {
-    img: hackathonImg,
+    id: "datahacks-25",
     title: "DataHacks '25",
-    date: "20 Oct 2025",
-    place: "Innovation Center",
-    text: "240 developers, 62 functional prototypes, and 36 hours of continuous pipeline building with real telemetry feedback.",
-    tag: "HACKATHON",
+    speaker: "DSC Core Team & Faculty Mentors",
+    role: "National Hackathon",
+    category: "HACKATHON",
+    date: "Sunday, Oct 20, 2025",
+    time: "36 Continuous Hours",
+    venue: "Innovation Center, VIT Bhopal",
+    image: hackathonImg,
+    badge: "COMPLETED",
+    description:
+      "240 collegiate builders, 62 functional machine learning prototypes, and ₹1,50,000 distributed in bounties across 4 competitive tracks.",
+    longBio:
+      "DataHacks '25 established our benchmark for collegiate AI hackathons, featuring live telemetry dashboards, automated test pipelines, and guest mentors from top tech companies.",
+    ticketPrice: "ARCHIVED",
   },
   {
-    img: workshopImg,
-    title: "Python for Data Bootcamp",
-    date: "08 Aug 2025",
-    place: "Lab Complex 3",
-    text: "An intensive bootcamp covering Pandas indices, NumPy aggregations, and Seaborn visual layouts. 150+ students certified.",
-    tag: "WORKSHOP",
+    id: "python-for-data-2025",
+    title: "Python for Data & Analytics Sprint",
+    speaker: "DSC Technical Leads",
+    role: "Core Curriculum Workshop",
+    category: "WORKSHOP",
+    date: "Friday, Aug 08, 2025",
+    time: "2:00 PM - 6:00 PM IST",
+    venue: "Lab Complex 3",
+    image: workshopImg,
+    badge: "COMPLETED",
+    description:
+      "Comprehensive training covering multi-indexed Pandas dataframes, vectorized NumPy mathematics, and publication-ready statistical visualizations.",
+    longBio:
+      "Over 180 freshmen and sophomore students completed the hands-on sprint and earned verifiable certificate badges logged to their student dossiers.",
+    ticketPrice: "ARCHIVED",
   },
   {
-    img: teamImg,
-    title: "DSC Onboarding Night",
-    date: "02 Aug 2025",
-    place: "Open Air Theatre",
-    text: "Welcoming our next cohort with lightning project demos, core coordinator reveals, and collaborative developer networking.",
-    tag: "COMMUNITY",
+    id: "dsc-onboarding-2025",
+    title: "DSC Onboarding & Keynote Reveal",
+    speaker: "Club Presidents & Domain Leads",
+    role: "Community Welcome Sprint",
+    category: "COMMUNITY",
+    date: "Saturday, Aug 02, 2025",
+    time: "6:00 PM - 8:30 PM IST",
+    venue: "Open Air Theatre (OAT)",
+    image: teamImg,
+    badge: "COMPLETED",
+    description:
+      "Welcoming our 2025 student cohort with lightning architecture demos, project showcase unveilings, and open networking sessions.",
+    longBio:
+      "An electric evening bringing together 600+ students across campus to discover open research domains, recruitment tracks, and technical bootcamps.",
+    ticketPrice: "ARCHIVED",
   },
 ];
 
 function Events() {
   const [tab, setTab] = useState<"upcoming" | "past">("upcoming");
-  const list = tab === "upcoming" ? upcoming : past;
-  const listRef = useRef<HTMLDivElement>(null);
+  const [selectedEvent, setSelectedEvent] = useState<SiloEventData | null>(null);
 
-  useEffect(() => {
-    // Fade in the list items on tab change
-    if (listRef.current) {
-      gsap.fromTo(
-        listRef.current.children,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power2.out" },
-      );
-    }
-  }, [tab]);
+  const displayList = tab === "upcoming" ? upcomingEvents : pastEvents;
 
   return (
-    <div className="px-6 pt-36 pb-20 lg:px-16">
-      {/* Header */}
-      <PageHeader
-        eyebrow="CALENDAR"
-        title="Events that ship skills"
-        subtitle="From weekend hackathons to deep learning bootcamps — choose your next track."
-      />
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-sky-400 selection:text-black">
+      <Navbar />
 
-      <div className="mx-auto mt-20 max-w-6xl">
-        <div className="grid gap-12 lg:grid-cols-12">
-          {/* Left Column: Sticky Tab Selector */}
-          <div className="lg:col-span-4 lg:sticky lg:top-32 h-fit">
-            <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
-              FILTER TIMELINE
-            </span>
-            <h2 className="mt-3 font-display text-3xl font-bold text-white">Select Cohort</h2>
-            <p className="mt-4 text-xs text-slate-400 leading-relaxed max-w-xs">
-              Check out what's coming up next or look back at our past initiatives, hackathons, and
-              certifications.
-            </p>
-
-            <div className="glass mt-8 flex flex-col gap-2 rounded-2xl p-2 border border-white/5 bg-slate-900/10">
-              {(["upcoming", "past"] as const).map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setTab(t)}
-                  className={`w-full rounded-xl py-3.5 px-5 font-mono text-xs uppercase tracking-[0.2em] transition-all text-left ${
-                    tab === t
-                      ? "bg-primary text-white font-bold shadow-glow"
-                      : "text-slate-400 hover:text-white hover:bg-white/5"
-                  }`}
-                >
-                  {t === "upcoming" ? "Upcoming Sprints" : "Completed Sprints"}
-                </button>
-              ))}
+      <main className="relative pt-32 sm:pt-40 pb-20 px-4 sm:px-8 max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+          <div>
+            <div className="flex items-center gap-3">
+              <span className="size-8 rounded-xl border border-sky-400/40 bg-sky-950/40 flex items-center justify-center font-mono text-xs font-bold text-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.2)]">
+                03
+              </span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-950/30 px-3.5 py-1 text-[11px] font-mono uppercase tracking-[0.2em] text-sky-400">
+                <span className="size-1.5 rounded-full bg-sky-400" />
+                <span>CALENDAR & SPRINTS</span>
+              </div>
             </div>
+
+            <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white mt-3 leading-none">
+              EVENTS & HACKATHONS
+            </h1>
+            <p className="text-xs sm:text-sm font-mono text-slate-400 mt-2 max-w-xl">
+              From 36-hour hackathons to deep learning bootcamps — reserve seats or explore past
+              telemetry archives.
+            </p>
           </div>
 
-          {/* Right Column: Timeline Cards List */}
-          <div
-            ref={listRef}
-            className="space-y-12 lg:col-span-8 relative border-l border-primary/20 pl-6 md:pl-10"
-          >
-            {list.map((e, index) => (
-              <article
-                key={e.title}
-                className="glass group relative rounded-3xl border border-white/5 p-6 md:p-8 flex flex-col md:flex-row gap-6 hover:border-primary/45 transition-colors"
-              >
-                {/* Timeline Dot Connector */}
-                <div className="absolute -left-[31px] md:-left-[47px] top-9 size-3.5 rounded-full bg-slate-950 border-[3.5px] border-primary group-hover:scale-125 transition-transform" />
+          {/* Tab Selector Buttons */}
+          <div className="flex items-center gap-2 p-1.5 rounded-full border border-sky-400/25 bg-black/60 backdrop-blur-md">
+            <button
+              onClick={() => setTab("upcoming")}
+              className={`px-5 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+                tab === "upcoming"
+                  ? "bg-sky-400 text-black font-bold shadow-[0_0_20px_rgba(56,189,248,0.4)]"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              UPCOMING ({upcomingEvents.length})
+            </button>
+            <button
+              onClick={() => setTab("past")}
+              className={`px-5 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+                tab === "past"
+                  ? "bg-sky-400 text-black font-bold shadow-[0_0_20px_rgba(56,189,248,0.4)]"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              ARCHIVE ({pastEvents.length})
+            </button>
+          </div>
+        </div>
 
-                {/* Event Image */}
-                <div className="w-full md:w-1/3 overflow-hidden rounded-2xl h-44 md:h-auto relative">
-                  <img
-                    src={e.img}
-                    alt={e.title}
-                    loading="lazy"
-                    className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-slate-950/20" />
-                  <span className="absolute top-3 left-3 bg-slate-950/80 border border-white/10 px-3 py-1 font-mono text-[9px] uppercase tracking-widest text-accent rounded-full backdrop-blur-md">
-                    {e.tag}
+        {/* Events Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {displayList.map((evt) => (
+            <article
+              key={evt.id}
+              onClick={() => setSelectedEvent(evt)}
+              className="group relative rounded-3xl border border-sky-400/20 bg-[#050814] p-5 sm:p-6 flex flex-col justify-between hover:border-sky-400/80 hover:shadow-[0_0_40px_rgba(56,189,248,0.22)] hover:-translate-y-1.5 transition-all duration-300 ease-out cursor-pointer"
+            >
+              {/* Poster Art with Cyber Overlay */}
+              <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-sky-400/20 bg-slate-950">
+                <img
+                  src={evt.image}
+                  alt={evt.title}
+                  className="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+
+                {/* Top Badges */}
+                <div className="absolute top-3 inset-x-3 flex items-center justify-between text-[10px] font-mono tracking-wider">
+                  <span className="text-sky-300 font-bold bg-black/80 px-2.5 py-1 rounded-md border border-sky-400/30 backdrop-blur-md">
+                    DSC LABS
+                  </span>
+                  <span className="text-slate-300 uppercase bg-black/80 px-2.5 py-1 rounded-md border border-white/10 backdrop-blur-md">
+                    {evt.category}
                   </span>
                 </div>
 
-                {/* Event Details */}
-                <div className="flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="font-display text-2xl font-bold text-white group-hover:text-primary transition-colors">
-                      {e.title}
-                    </h3>
-
-                    <div className="mt-4 flex flex-wrap gap-3">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 border border-white/5 px-3.5 py-1.5 font-mono text-[9px] uppercase tracking-widest text-slate-300">
-                        <CalendarDays className="size-3 text-accent" /> {e.date}
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 border border-white/5 px-3.5 py-1.5 font-mono text-[9px] uppercase tracking-widest text-slate-300">
-                        <MapPin className="size-3 text-accent" /> {e.place}
-                      </span>
-                    </div>
-
-                    <p className="mt-5 text-xs text-slate-400 leading-relaxed">{e.text}</p>
+                {/* Floating Status Badge */}
+                {evt.badge && (
+                  <div className="absolute bottom-3 right-3">
+                    <span className="bg-sky-400 text-black text-[9px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-lg">
+                      {evt.badge}
+                    </span>
                   </div>
+                )}
+              </div>
 
-                  <div className="mt-8 pt-6 border-t border-white/5">
-                    {tab === "upcoming" && "slug" in e && e.slug ? (
-                      <Link
-                        to="/register/$eventId"
-                        params={{ eventId: e.slug }}
-                        className="inline-flex items-center gap-2 rounded-xl py-3 px-6 text-xs font-bold transition-all btn-neon cursor-pointer"
-                      >
-                        Register For Event
-                        <ArrowRight className="size-3.5 group-hover:translate-x-1.5 transition-transform" />
-                      </Link>
-                    ) : (
-                      <button
-                        className={`inline-flex items-center gap-2 rounded-xl py-3 px-6 text-xs font-bold transition-all ${
-                          tab === "upcoming" ? "btn-neon" : "btn-glass border-white/10"
-                        }`}
-                      >
-                        {tab === "upcoming" ? "Register For Event" : "View Recap dossier"}
-                        <ArrowRight className="size-3.5 group-hover:translate-x-1.5 transition-transform" />
-                      </button>
-                    )}
+              {/* Information */}
+              <div className="mt-5 space-y-3">
+                <div className="text-[10px] font-mono text-sky-400 uppercase tracking-widest">
+                  {evt.date.split(",")[0]}
+                </div>
+                <h2 className="text-xl font-black uppercase text-white tracking-tight leading-snug group-hover:text-sky-300 transition-colors">
+                  {evt.title}
+                </h2>
+                <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                  {evt.description}
+                </p>
+
+                <div className="space-y-2 text-[11px] font-mono text-slate-400 border-t border-sky-400/15 pt-3.5">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="size-3.5 text-sky-400 shrink-0" />
+                    <span className="text-slate-300 truncate">{evt.date}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="size-3.5 text-sky-400 shrink-0" />
+                    <span className="text-slate-300 truncate">{evt.time}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="size-3.5 text-sky-400 shrink-0" />
+                    <span className="text-slate-300 truncate">{evt.venue}</span>
                   </div>
                 </div>
-              </article>
-            ))}
-          </div>
+
+                <div className="pt-3">
+                  <span className="inline-flex w-full items-center justify-center rounded-xl border border-sky-400/30 bg-sky-950/20 py-2.5 text-xs font-mono font-bold uppercase tracking-wider text-sky-300 group-hover:bg-sky-400 group-hover:text-black group-hover:border-sky-400 transition-all duration-300">
+                    VIEW SESSION DETAILS
+                  </span>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
-      </div>
+
+        {/* Quick Registration Callout */}
+        <div className="rounded-3xl border border-sky-400/25 bg-[#030610] p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+          <div className="space-y-2">
+            <h3 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
+              LOOKING TO SECURE YOUR ENTRY PASS?
+            </h3>
+            <p className="text-xs sm:text-sm font-mono text-slate-400 max-w-xl">
+              Access individual and team RSVPs with cryptographic QR check-in passes on the official
+              registration desk.
+            </p>
+          </div>
+
+          <Link
+            to="/register"
+            className="inline-flex items-center gap-2 rounded-full bg-sky-400 px-8 py-3.5 text-xs font-mono font-bold tracking-wider text-black uppercase hover:bg-sky-300 hover:scale-[1.03] transition-all duration-300 shadow-[0_0_25px_rgba(56,189,248,0.4)] cursor-pointer shrink-0"
+          >
+            <Ticket className="size-4" />
+            <span>OPEN REGISTRATION DESK</span>
+          </Link>
+        </div>
+      </main>
+
+      <FooterSection />
+
+      {/* Interactive Detail Modal */}
+      <SiloEventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
     </div>
   );
 }

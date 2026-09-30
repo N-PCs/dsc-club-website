@@ -24,9 +24,9 @@ export const Route = createFileRoute("/register")({
 
 function RegisterPage() {
   return (
-    <div className="main-wrapper">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-sky-400 selection:text-black">
       <Navbar />
-      <main style={{ paddingTop: "80px", minHeight: "85vh" }}>
+      <main className="relative pt-28 sm:pt-36 pb-20 px-4 sm:px-8 max-w-7xl mx-auto">
         <RegistrationPortal />
       </main>
       <FooterSection />

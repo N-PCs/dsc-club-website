@@ -16,7 +16,6 @@ import {
   Download,
   Share2,
   Printer,
-  Sparkles,
   ShieldCheck,
   ArrowRight,
   RefreshCw,
@@ -346,8 +345,8 @@ export const RegistrationPortal: React.FC<RegistrationPortalProps> = ({ initialE
           <div className="absolute -bottom-24 -left-24 size-48 rounded-full bg-blue-600/10 blur-3xl pointer-events-none" />
 
           {/* Celebration Header */}
-          <div className="inline-flex size-16 items-center justify-center rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 mb-5">
-            <Sparkles className="size-8 animate-pulse" />
+          <div className="inline-flex size-16 items-center justify-center rounded-2xl bg-sky-500/10 border border-sky-500/30 text-sky-400 mb-5">
+            <CheckCircle2 className="size-8" />
           </div>
 
           <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-2">

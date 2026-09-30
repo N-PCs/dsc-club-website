@@ -157,11 +157,11 @@ export const AboutSection: React.FC = () => {
 
         {/* Animated Text Loop Banner */}
         <TextLoop
-          text="DSC CLUB VITB ✦ DATA SCIENCE CLUB"
+          text="DSC CLUB VITB // DATA SCIENCE CLUB"
           shape="wave"
           speed={85}
           direction="forward"
-          separator="✦"
+          separator="//"
           curviness={35}
           fontSize={34}
           fontWeight={800}

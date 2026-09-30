@@ -10,7 +10,6 @@ import {
   ArrowRight,
   TrendingUp,
   ShieldAlert,
-  Sparkles,
   CheckCircle2,
 } from "lucide-react";
 
@@ -61,8 +60,8 @@ export const AdminDashboardOverview: React.FC<AdminDashboardOverviewProps> = ({
       <div className="p-6 md:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 border border-white/10 relative overflow-hidden">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono mb-2">
-              <Sparkles className="size-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-mono mb-2">
+              <span className="size-2 rounded-full bg-sky-400 animate-pulse" />
               <span>
                 {userRole === "super_admin"
                   ? "SUPER ADMIN CONSOLE"

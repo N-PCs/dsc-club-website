@@ -1,8 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef } from "react";
-import { BookOpen, Code2, Mic, Trophy } from "lucide-react";
-import { gsap } from "gsap";
-import { PageHeader } from "@/components/site/Ambient";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Navbar } from "@/components/sections/Navbar";
+import { FooterSection } from "@/components/sections/FooterSection";
+import {
+  Cpu,
+  Terminal,
+  Database,
+  Code2,
+  Trophy,
+  Mic,
+  BookOpen,
+  ArrowRight,
+  ShieldCheck,
+  Layers,
+} from "lucide-react";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -23,176 +33,256 @@ export const Route = createFileRoute("/about")({
   component: About,
 });
 
-const doCards = [
+const activities = [
   {
-    icon: BookOpen,
+    num: "01",
     title: "Skills Workshops",
-    text: "Weekly hands-on labs from basic exploratory analysis in pandas to deploying custom transformer pipelines.",
-    gridSpan: "md:col-span-2",
+    icon: BookOpen,
+    desc: "Weekly hands-on laboratory sessions ranging from exploratory data analysis and statistical inference in Pandas to fine-tuning multimodal vision-language models.",
+    tag: "CURRICULUM",
   },
   {
-    icon: Mic,
+    num: "02",
     title: "Industry Sprints",
-    text: "ML platform engineers and researchers sharing production telemetry workflows.",
-    gridSpan: "md:col-span-1",
+    icon: Mic,
+    desc: "Direct masterclasses and telemetry breakdowns with production ML platform engineers, distributed cloud architects, and research scientists.",
+    tag: "TELEMETRY",
   },
   {
+    num: "03",
+    title: "Competitive Datathons",
     icon: Trophy,
-    title: "Competitive Hackathons",
-    text: "36-hour sprint sessions, campus-wide datathons, and Kaggle leaderboard runs.",
-    gridSpan: "md:col-span-1",
+    desc: "36-hour hackathon sprints, Kaggle benchmark challenges, and university-wide algorithmic tournaments with cash bounties and compute grants.",
+    tag: "HACKATHONS",
   },
   {
-    icon: Code2,
+    num: "04",
     title: "Open Source Lab",
-    text: "Building libraries, maintaining campus utility platforms, and mentoring local code contributions.",
-    gridSpan: "md:col-span-2",
+    icon: Code2,
+    desc: "Building production developer tooling, open campus platforms, low-latency APIs, and mentoring students into Google Summer of Code and major open repositories.",
+    tag: "SOFTWARE",
   },
 ];
 
-const stack = [
+const technologies = [
   "Python",
-  "TensorFlow",
   "PyTorch",
-  "Scikit-learn",
-  "SQL",
-  "Docker",
-  "Spark",
-  "Pandas",
-  "FastAPI",
-  "Next.js",
+  "TensorFlow",
+  "CUDA",
   "HuggingFace",
+  "Docker",
+  "Apache Spark",
+  "Kafka",
+  "PostgreSQL",
+  "FastAPI",
+  "React",
+  "TypeScript",
+  "Tailwind CSS",
+  "Scikit-Learn",
 ];
 
 function About() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".about-header-fade", {
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out",
-      });
-      gsap.from(".parallax-card-left", {
-        y: 60,
-        opacity: 0,
-        duration: 1,
-        ease: "power2.out",
-        delay: 0.3,
-      });
-      gsap.from(".parallax-card-right", {
-        y: 110,
-        opacity: 0,
-        duration: 1,
-        ease: "power2.out",
-        delay: 0.45,
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <div ref={containerRef} className="px-6 pt-36 pb-20 lg:px-16">
-      {/* Page Header */}
-      <div className="about-header-fade">
-        <PageHeader
-          eyebrow="ABOUT THE LAB"
-          title="Campus engine for builders"
-          subtitle="We turn computational curiosity into production-ready pipelines, insights, and algorithms."
-        />
-      </div>
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-sky-400 selection:text-black">
+      <Navbar />
 
-      {/* Asymmetrical Mission & Vision Panels */}
-      <div className="mx-auto mt-24 grid max-w-5xl gap-10 md:grid-cols-2 items-start">
-        {/* Mission Card (Floated higher) */}
-        <div className="parallax-card-left glass relative overflow-hidden rounded-3xl p-10 border border-primary/25 bg-gradient-to-b from-primary/5 to-transparent">
-          <span className="font-mono text-xs uppercase tracking-[0.25em] text-accent">
-            01 / OUR MISSION
-          </span>
-          <h2 className="mt-4 font-display text-3xl font-bold text-white">
-            Cultivating ML Competency
-          </h2>
-          <p className="mt-5 text-sm text-slate-300 leading-relaxed">
-            Make computational engineering accessible to every developer at VIT Bhopal. We pair
-            structured algorithmic fundamentals with project-driven telemetry, creating a platform
-            where builders gather to design the future of technology.
-          </p>
-        </div>
-
-        {/* Vision Card (Floated lower with margin top on desktop) */}
-        <div className="parallax-card-right glass relative overflow-hidden rounded-3xl p-10 border border-white/10 md:mt-12 bg-gradient-to-b from-white/5 to-transparent">
-          <span className="font-mono text-xs uppercase tracking-[0.25em] text-silver">
-            02 / OUR VISION
-          </span>
-          <h2 className="mt-4 font-display text-3xl font-bold text-white">Core Technology Hub</h2>
-          <p className="mt-5 text-sm text-slate-300 leading-relaxed">
-            To serve as central India's premier student hub for ML research, software architecture,
-            and data engineering pipelines. We aim to establish a self-sustaining system of
-            developer contributions that scale far beyond campus boundaries.
-          </p>
-        </div>
-      </div>
-
-      {/* Asymmetric Core Values Grid (Breaking standard columns) */}
-      <div className="mx-auto mt-36 max-w-5xl">
-        <div className="about-header-fade flex flex-col justify-between items-start gap-4 border-b border-white/5 pb-8 md:flex-row md:items-end">
-          <div>
-            <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
-              ACTIVITIES
+      <main className="relative pt-32 sm:pt-40 pb-20 px-4 sm:px-8 max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="flex flex-col items-start gap-4 mb-16 max-w-4xl">
+          <div className="flex items-center gap-3">
+            <span className="size-8 rounded-xl border border-sky-400/40 bg-sky-950/40 flex items-center justify-center font-mono text-xs font-bold text-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.2)]">
+              01
             </span>
-            <h2 className="mt-3 font-display text-4xl font-extrabold text-white leading-none">
-              WHAT WE <span className="text-outline">CRAFT</span>
-            </h2>
+            <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-950/30 px-3.5 py-1 text-[11px] font-mono uppercase tracking-[0.2em] text-sky-400">
+              <span className="size-1.5 rounded-full bg-sky-400" />
+              <span>PHILOSOPHY & CAPABILITY</span>
+            </div>
           </div>
-          <p className="max-w-xs text-xs text-slate-400 leading-relaxed">
-            We structure our sprints across several active tracks to match individual engineering
-            goals.
+
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-white leading-none">
+            ABOUT DSC VIT BHOPAL
+          </h1>
+
+          <p className="text-xs sm:text-base font-mono text-slate-400 leading-relaxed max-w-2xl mt-2">
+            The student engineering collective bridging textbook mathematics and production-grade
+            computational software at VIT Bhopal University.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {doCards.map((c, i) => (
-            <div
-              key={c.title}
-              className={`glass glass-hover p-8 rounded-3xl border border-white/5 bg-slate-900/10 flex flex-col justify-between ${c.gridSpan}`}
-            >
-              <div>
-                <span className="inline-flex rounded-2xl bg-secondary p-3.5 text-accent border border-white/5">
-                  <c.icon className="size-5.5" />
-                </span>
-                <h3 className="mt-6 font-display text-xl font-bold text-white">{c.title}</h3>
-                <p className="mt-3 text-xs text-slate-400 leading-relaxed">{c.text}</p>
-              </div>
-              <span className="mt-8 font-mono text-[9px] text-slate-600 tracking-widest">
-                [ACTIVITY 0{i + 1}]
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+        {/* Signature Manifesto Box */}
+        <div className="rounded-3xl border border-sky-400/25 bg-[#050814] p-8 sm:p-14 text-center mb-16 relative overflow-hidden shadow-[0_0_50px_rgba(56,189,248,0.1)]">
+          <div className="text-2xl sm:text-4xl lg:text-5xl font-medium text-slate-200 flex flex-wrap items-center justify-center gap-3 max-w-4xl mx-auto leading-tight">
+            <span>DSC VIT Bhopal combines</span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-sky-400/60 bg-sky-950/40 px-5 py-1.5 text-sky-300 font-mono text-lg sm:text-2xl font-bold shadow-[0_0_20px_rgba(56,189,248,0.25)]">
+              <Cpu className="size-5 text-sky-400" />
+              <span>intelligence</span>
+            </span>
+            <span>and</span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-sky-400/60 bg-sky-950/40 px-5 py-1.5 text-sky-300 font-mono text-lg sm:text-2xl font-bold shadow-[0_0_20px_rgba(56,189,248,0.25)]">
+              <Terminal className="size-5 text-sky-400" />
+              <span>engineering</span>
+            </span>
+            <span>in a true technological experiment.</span>
+          </div>
 
-      {/* Tech Stack Marquee Scroll */}
-      <div className="mx-auto mt-36 max-w-5xl">
-        <h2 className="text-center font-display text-2xl font-bold text-white tracking-wide">
-          DEVELOPMENT <span className="text-outline">TECHNOLOGY</span>
-        </h2>
-        <div className="glass mt-8 overflow-hidden rounded-3xl py-7 border border-white/5">
-          <div className="marquee-track flex w-max gap-5 px-5">
-            {[...stack, ...stack].map((tech, i) => (
+          <p className="text-xs sm:text-sm font-mono text-slate-400 max-w-2xl mx-auto mt-6">
+            We operate like a modern technology startup — pairing algorithmic research with
+            low-latency infrastructure and high-throughput deployment.
+          </p>
+        </div>
+
+        {/* Mission & Vision Dual Cyber Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+          {/* Mission Card */}
+          <div className="group rounded-3xl border border-sky-400/20 bg-[#050814] p-8 sm:p-10 flex flex-col justify-between hover:border-sky-400/80 hover:shadow-[0_0_40px_rgba(56,189,248,0.22)] hover:-translate-y-1.5 transition-all duration-300 ease-out">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono text-xs font-bold text-sky-400 uppercase tracking-widest bg-sky-950/50 border border-sky-400/30 px-3 py-1 rounded-full">
+                  01 // OUR MISSION
+                </span>
+                <span className="font-mono text-2xl font-black text-slate-600 group-hover:text-sky-400/60 transition-colors">
+                  01
+                </span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight uppercase group-hover:text-sky-300 transition-colors mt-2">
+                Cultivating ML Competency
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 mt-4 leading-relaxed font-sans">
+                Make computational engineering accessible to every developer at VIT Bhopal. We pair
+                structured algorithmic fundamentals with project-driven telemetry, creating a
+                platform where builders gather to design the future of technology.
+              </p>
+            </div>
+            <div className="mt-8 pt-4 border-t border-sky-400/15 flex items-center gap-2 text-xs font-mono text-slate-400">
+              <ShieldCheck className="size-4 text-sky-400" />
+              <span>Production-grade telemetry & code reviews</span>
+            </div>
+          </div>
+
+          {/* Vision Card */}
+          <div className="group rounded-3xl border border-sky-400/20 bg-[#050814] p-8 sm:p-10 flex flex-col justify-between hover:border-sky-400/80 hover:shadow-[0_0_40px_rgba(56,189,248,0.22)] hover:-translate-y-1.5 transition-all duration-300 ease-out">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono text-xs font-bold text-sky-400 uppercase tracking-widest bg-sky-950/50 border border-sky-400/30 px-3 py-1 rounded-full">
+                  02 // OUR VISION
+                </span>
+                <span className="font-mono text-2xl font-black text-slate-600 group-hover:text-sky-400/60 transition-colors">
+                  02
+                </span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight uppercase group-hover:text-sky-300 transition-colors mt-2">
+                Central India Technology Hub
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 mt-4 leading-relaxed font-sans">
+                To serve as central India's premier student hub for ML research, software
+                architecture, and distributed data pipelines. We aim to establish a self-sustaining
+                system of developer contributions that scale far beyond campus boundaries.
+              </p>
+            </div>
+            <div className="mt-8 pt-4 border-t border-sky-400/15 flex items-center gap-2 text-xs font-mono text-slate-400">
+              <Layers className="size-4 text-sky-400" />
+              <span>1,500+ builders shaping campus tech culture</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Core Activities Grid */}
+        <div className="mb-20">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-sky-400 block mb-2 font-semibold">
+                CURRICULAR TRACKS
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-white">
+                WHAT WE CRAFT
+              </h2>
+            </div>
+            <p className="text-xs sm:text-sm font-mono text-slate-400 max-w-sm">
+              We structure our initiatives across 4 active operational tracks to match individual
+              engineering goals.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {activities.map((act) => {
+              const Icon = act.icon;
+              return (
+                <div
+                  key={act.title}
+                  className="group rounded-3xl border border-sky-400/20 bg-[#050814] p-6 flex flex-col justify-between hover:border-sky-400/80 hover:shadow-[0_0_35px_rgba(56,189,248,0.2)] hover:-translate-y-1.5 transition-all duration-300 ease-out"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="size-11 rounded-xl bg-sky-950/60 border border-sky-400/30 flex items-center justify-center text-sky-300 group-hover:bg-sky-400 group-hover:text-black group-hover:border-sky-400 transition-all shadow-[0_0_15px_rgba(56,189,248,0.15)]">
+                        <Icon className="size-5" />
+                      </div>
+                      <span className="font-mono text-xs font-bold text-sky-400/80 uppercase">
+                        {act.tag}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl font-bold text-white uppercase group-hover:text-sky-300 transition-colors mt-2">
+                      {act.title}
+                    </h3>
+                    <p className="text-xs text-slate-400 mt-3 leading-relaxed">{act.desc}</p>
+                  </div>
+
+                  <div className="mt-6 pt-4 border-t border-sky-400/15 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                    <span>TRACK [{act.num}]</span>
+                    <span className="text-sky-400 group-hover:translate-x-1 transition-transform">
+                      →
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Tech Stack Matrix */}
+        <div className="rounded-3xl border border-sky-400/20 bg-[#030610] p-8 sm:p-12 mb-20 text-center">
+          <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-sky-400 block mb-2 font-semibold">
+            DEVELOPMENT ENVIRONMENT
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-black uppercase text-white tracking-tight mb-8">
+            TOOLS & COMPUTATIONAL STACK
+          </h2>
+
+          <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+            {technologies.map((tech) => (
               <span
-                key={`${tech}-${i}`}
-                className="whitespace-nowrap rounded-2xl border border-primary/20 bg-primary/5 hover:border-primary/50 transition-colors px-7 py-3.5 font-mono text-xs text-accent tracking-widest uppercase font-semibold"
+                key={tech}
+                className="px-4 py-2 rounded-xl border border-sky-400/25 bg-black/60 text-xs font-mono text-slate-300 uppercase tracking-wider hover:border-sky-400 hover:text-white hover:bg-sky-950/40 hover:shadow-[0_0_15px_rgba(56,189,248,0.2)] transition-all duration-200 cursor-default"
               >
                 {tech}
               </span>
             ))}
           </div>
         </div>
-      </div>
+
+        {/* Join CTA Card */}
+        <div className="rounded-3xl border border-sky-400/30 bg-gradient-to-r from-black via-sky-950/20 to-black p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_0_40px_rgba(56,189,248,0.15)]">
+          <div className="space-y-2 text-center md:text-left">
+            <h3 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
+              READY TO BUILD WITH US?
+            </h3>
+            <p className="text-xs sm:text-sm font-mono text-slate-400 max-w-xl">
+              Apply to join the DSC VIT Bhopal Core Team for our upcoming project sprint and
+              hackathon execution rounds.
+            </p>
+          </div>
+
+          <Link
+            to="/join"
+            className="inline-flex items-center gap-2 rounded-full bg-sky-400 px-8 py-3.5 text-xs font-mono font-bold tracking-wider text-black uppercase hover:bg-sky-300 hover:scale-[1.03] transition-all duration-300 shadow-[0_0_25px_rgba(56,189,248,0.4)] cursor-pointer shrink-0"
+          >
+            <span>JOIN CORE TEAM</span>
+            <ArrowRight className="size-3.5" />
+          </Link>
+        </div>
+      </main>
+
+      <FooterSection />
     </div>
   );
 }

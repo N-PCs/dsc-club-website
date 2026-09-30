@@ -24,31 +24,31 @@ const DEFAULT_RADIAL_ITEMS: RadialMenuItem[] = [
     href: "/",
     icon: "fa-solid fa-house",
     ariaLabel: "Home",
-    bgColor: "#3b82f6",
-    textColor: "#ffffff",
+    bgColor: "#38bdf8",
+    textColor: "#000000",
   },
   {
     label: "About",
     href: "/#about",
     icon: "fa-solid fa-circle-info",
-    ariaLabel: "About Us",
-    bgColor: "#10b981",
-    textColor: "#ffffff",
+    ariaLabel: "About DSC",
+    bgColor: "#60a5fa",
+    textColor: "#000000",
   },
   {
     label: "Domains",
     href: "/#domains",
     icon: "fa-solid fa-cubes",
-    ariaLabel: "Domains",
-    bgColor: "#00d2ff",
-    textColor: "#0b1329",
+    ariaLabel: "Sub-Domains",
+    bgColor: "#0284c7",
+    textColor: "#ffffff",
   },
   {
     label: "Events",
     href: "/#events",
     icon: "fa-solid fa-calendar-days",
-    ariaLabel: "Events",
-    bgColor: "#f59e0b",
+    ariaLabel: "Flagship Events",
+    bgColor: "#2563eb",
     textColor: "#ffffff",
   },
   {
@@ -56,7 +56,7 @@ const DEFAULT_RADIAL_ITEMS: RadialMenuItem[] = [
     href: "/members",
     icon: "fa-solid fa-users",
     ariaLabel: "Team Roster",
-    bgColor: "#8b5cf6",
+    bgColor: "#1d4ed8",
     textColor: "#ffffff",
   },
   {
@@ -64,7 +64,7 @@ const DEFAULT_RADIAL_ITEMS: RadialMenuItem[] = [
     href: "/register",
     icon: "fa-solid fa-ticket",
     ariaLabel: "Event Registrations",
-    bgColor: "#06b6d4",
+    bgColor: "#0ea5e9",
     textColor: "#ffffff",
   },
   {
@@ -72,16 +72,16 @@ const DEFAULT_RADIAL_ITEMS: RadialMenuItem[] = [
     href: "/join",
     icon: "fa-solid fa-paper-plane",
     ariaLabel: "Join Core Team",
-    bgColor: "#ec4899",
-    textColor: "#ffffff",
+    bgColor: "#38bdf8",
+    textColor: "#000000",
   },
 ];
 
 export function RadialMenu({
   items = DEFAULT_RADIAL_ITEMS,
-  radius = 135,
-  startAngle = 90,
-  endAngle = 180,
+  radius = 145,
+  startAngle = 180,
+  endAngle = 90,
 }: RadialMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
@@ -105,9 +105,9 @@ export function RadialMenu({
           if (isMobile) {
             // Mobile staggered vertical menu going down from toggle button
             targetX = 0;
-            targetY = 56 + index * 50;
+            targetY = 56 + index * 48;
           } else {
-            // Desktop radial menu
+            // Desktop radial menu fanning down and left
             const count = items.length;
             const angleDeg =
               count > 1 ? startAngle + (index * (endAngle - startAngle)) / (count - 1) : startAngle;
@@ -125,8 +125,8 @@ export function RadialMenu({
               y: targetY,
               scale: 1,
               opacity: 1,
-              duration: 0.45,
-              delay: index * 0.05,
+              duration: 0.4,
+              delay: index * 0.04,
               ease: "back.out(1.7)",
             },
           );
@@ -138,8 +138,8 @@ export function RadialMenu({
           y: 0,
           scale: 0,
           opacity: 0,
-          duration: 0.25,
-          stagger: 0.03,
+          duration: 0.22,
+          stagger: 0.025,
           ease: "power2.in",
         });
       }
@@ -157,60 +157,27 @@ export function RadialMenu({
 
   return (
     <>
-      {/* Brand logo top-left */}
-      <div
-        style={{
-          position: "fixed",
-          top: "28px",
-          left: "36px",
-          zIndex: 999,
-          pointerEvents: "auto",
-        }}
-      >
+      {/* Brand logo top-left (Obsidian & Electric Blue capsule) */}
+      <div className="fixed top-4 left-4 sm:top-6 sm:left-8 z-[999] pointer-events-auto">
         <a
           href="/"
-          className="brand-group"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            textDecoration: "none",
-            background: "rgba(11, 19, 41, 0.85)",
-            padding: "8px 18px 8px 12px",
-            borderRadius: "14px",
-            border: "1px solid rgba(0, 210, 255, 0.25)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            boxShadow: "0 6px 20px rgba(0,0,0,0.3)",
-          }}
+          className="group flex items-center gap-3 no-underline bg-black/85 border border-sky-400/25 hover:border-sky-400/80 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl backdrop-blur-xl transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.8)] hover:shadow-[0_0_30px_rgba(56,189,248,0.3)] hover:scale-[1.02]"
         >
-          <img
-            src="/DSClogo.png"
-            alt="DSC Logo"
-            style={{ width: "40px", height: "40px", objectFit: "contain" }}
-          />
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <span
-              style={{
-                fontFamily: "var(--font-sans, sans-serif)",
-                fontWeight: 800,
-                fontSize: "17.5px",
-                letterSpacing: "0.08em",
-                color: "#ffffff",
-                lineHeight: 1.1,
-              }}
-            >
-              DSC CLUB
-            </span>
-            <span
-              style={{
-                fontFamily: "var(--font-sans, sans-serif)",
-                fontSize: "9px",
-                letterSpacing: "0.15em",
-                color: "var(--blue-bright, #00d2ff)",
-                fontWeight: 700,
-              }}
-            >
+          <div className="relative flex items-center justify-center size-9 sm:size-10 rounded-xl bg-sky-950/40 border border-sky-400/30 p-1 overflow-hidden group-hover:border-sky-400/70 transition-colors">
+            <img
+              src="/DSClogo.png"
+              alt="DSC Logo"
+              className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(56,189,248,0.5)]"
+            />
+          </div>
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1.5">
+              <span className="font-sans font-black text-sm sm:text-base tracking-wider text-white leading-none">
+                DSC CLUB
+              </span>
+              <span className="size-1.5 rounded-full bg-sky-400 animate-pulse" />
+            </div>
+            <span className="font-mono text-[9px] sm:text-[10px] tracking-[0.22em] text-sky-400 font-bold leading-none mt-1">
               VIT BHOPAL
             </span>
           </div>
@@ -248,7 +215,7 @@ export function RadialMenu({
               onClick={closeMenu}
               style={
                 {
-                  "--hover-bg": item.bgColor || "#0066ff",
+                  "--hover-bg": item.bgColor || "#0284c7",
                   "--hover-color": item.textColor || "#ffffff",
                   opacity: 0,
                   transform: "scale(0)",

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import ChromaGrid, { ChromaItem } from "@/components/ui/ChromaGrid";
-import "./TeamSection.css";
+import React, { useState, useMemo } from "react";
+import { Search, Users, Shield, Terminal, ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
-export interface TeamMember extends ChromaItem {
+export interface TeamMember {
+  name: string;
+  role: string;
   group:
     | "Panel"
     | "HR Team"
@@ -14,359 +16,306 @@ export interface TeamMember extends ChromaItem {
     | "Design Team"
     | "Photography Team"
     | "Software Dev Team";
-  role: string;
 }
 
-const createMember = (
-  name: string,
-  role: string,
-  group: TeamMember["group"],
-  borderColor: string,
-  rgbGlow: string,
-): TeamMember => ({
-  title: name,
-  subtitle: `${role} • ${group}`,
-  group,
-  role,
-  borderColor,
-  gradient: `linear-gradient(145deg, rgba(${rgbGlow}, 0.22) 0%, rgba(11, 19, 41, 0.95) 100%)`,
-  image: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0b1329&color=${borderColor.replace("#", "")}&bold=true&font-size=0.38`,
-});
-
 const teamMembers: TeamMember[] = [
-  // PANEL (METALLIC SILVER)
-  createMember("Divish Jain", "President", "Panel", "#cbd5e1", "203, 213, 225"),
-  createMember("Kritika Maurya", "Vice President", "Panel", "#cbd5e1", "203, 213, 225"),
-  createMember("Aman Panday", "General Secretary", "Panel", "#cbd5e1", "203, 213, 225"),
-  createMember("Somya Tiwari", "Joint Secretary", "Panel", "#cbd5e1", "203, 213, 225"),
-  createMember("Shriyash Sahu", "Ops Manager", "Panel", "#cbd5e1", "203, 213, 225"),
+  // PANEL
+  { name: "Divish Jain", role: "President", group: "Panel" },
+  { name: "Kritika Maurya", role: "Vice President", group: "Panel" },
+  { name: "Aman Panday", role: "General Secretary", group: "Panel" },
+  { name: "Somya Tiwari", role: "Joint Secretary", group: "Panel" },
+  { name: "Shriyash Sahu", role: "Ops Manager", group: "Panel" },
 
-  // HR TEAM (HOT PINK)
-  createMember("Aditya Saini", "Lead", "HR Team", "#ec4899", "236, 72, 153"),
-  createMember("Vedant Patil", "Co-Lead", "HR Team", "#ec4899", "236, 72, 153"),
-  createMember("Gargi Singh", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
-  createMember(
-    "Swagatika Priyadarshini Sahoo",
-    "Core Member",
-    "HR Team",
-    "#ec4899",
-    "236, 72, 153",
-  ),
-  createMember("Tanisha Sethi", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
-  createMember("Mitali Pandey", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
-  createMember("Aryan Awasthi", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
-  createMember("Aryan Raj Mishra", "Core Member", "HR Team", "#ec4899", "236, 72, 153"),
+  // HR TEAM
+  { name: "Aditya Saini", role: "Lead", group: "HR Team" },
+  { name: "Vedant Patil", role: "Co-Lead", group: "HR Team" },
+  { name: "Gargi Singh", role: "Core Member", group: "HR Team" },
+  { name: "Swagatika Priyadarshini Sahoo", role: "Core Member", group: "HR Team" },
+  { name: "Tanisha Sethi", role: "Core Member", group: "HR Team" },
+  { name: "Mitali Pandey", role: "Core Member", group: "HR Team" },
+  { name: "Aryan Awasthi", role: "Core Member", group: "HR Team" },
+  { name: "Aryan Raj Mishra", role: "Core Member", group: "HR Team" },
 
-  // EVENT MANAGEMENT TEAM (GOLDEN AMBER)
-  createMember("Ayush Gupta", "Lead", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Arunika Bag", "Co-Lead", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember(
-    "Ashutosh Shrivastava",
-    "Co-Lead",
-    "Event Management Team",
-    "#f59e0b",
-    "245, 158, 11",
-  ),
-  createMember(
-    "Divyansh Dhimole",
-    "Core Member",
-    "Event Management Team",
-    "#f59e0b",
-    "245, 158, 11",
-  ),
-  createMember("Akshat Mujmer", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Anshima", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Nilesh Ugale", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Ayush Ranjan", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Prashant Dubey", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Rakshit Yadav", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Anushka Dubey", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember(
-    "Bhawesh Kumar Gautam",
-    "Core Member",
-    "Event Management Team",
-    "#f59e0b",
-    "245, 158, 11",
-  ),
-  createMember("Sandeep Ganesh", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember(
-    "Anvesha Agrawal",
-    "Core Member",
-    "Event Management Team",
-    "#f59e0b",
-    "245, 158, 11",
-  ),
-  createMember("Satwik Singh", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Anushka Sahu", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Khushi Thakur", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Krishna Nishad", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Tejal Sharma", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Abhinav Gomra", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Siddhi Gupta", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
-  createMember("Salam Khan", "Core Member", "Event Management Team", "#f59e0b", "245, 158, 11"),
+  // EVENT MANAGEMENT TEAM
+  { name: "Ayush Gupta", role: "Lead", group: "Event Management Team" },
+  { name: "Arunika Bag", role: "Co-Lead", group: "Event Management Team" },
+  { name: "Ashutosh Shrivastava", role: "Co-Lead", group: "Event Management Team" },
+  { name: "Divyansh Dhimole", role: "Core Member", group: "Event Management Team" },
+  { name: "Akshat Mujmer", role: "Core Member", group: "Event Management Team" },
+  { name: "Anshima", role: "Core Member", group: "Event Management Team" },
+  { name: "Nilesh Ugale", role: "Core Member", group: "Event Management Team" },
+  { name: "Ayush Ranjan", role: "Core Member", group: "Event Management Team" },
+  { name: "Prashant Dubey", role: "Core Member", group: "Event Management Team" },
+  { name: "Rakshit Yadav", role: "Core Member", group: "Event Management Team" },
+  { name: "Anushka Dubey", role: "Core Member", group: "Event Management Team" },
+  { name: "Bhawesh Kumar Gautam", role: "Core Member", group: "Event Management Team" },
+  { name: "Sandeep Ganesh", role: "Core Member", group: "Event Management Team" },
+  { name: "Anvesha Agrawal", role: "Core Member", group: "Event Management Team" },
+  { name: "Satwik Singh", role: "Core Member", group: "Event Management Team" },
+  { name: "Anushka Sahu", role: "Core Member", group: "Event Management Team" },
+  { name: "Khushi Thakur", role: "Core Member", group: "Event Management Team" },
+  { name: "Krishna Nishad", role: "Core Member", group: "Event Management Team" },
+  { name: "Tejal Sharma", role: "Core Member", group: "Event Management Team" },
+  { name: "Abhinav Gomra", role: "Core Member", group: "Event Management Team" },
+  { name: "Siddhi Gupta", role: "Core Member", group: "Event Management Team" },
+  { name: "Salam Khan", role: "Core Member", group: "Event Management Team" },
 
-  // PR AND OUTREACH TEAM (NEON PURPLE)
-  createMember("Shalini Pal", "Lead", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
-  createMember("Soumya Chouhan", "Co-Lead", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
-  createMember("Sousthab Mitra", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
-  createMember("Pranjal Bhatnagar", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
-  createMember("Anandita Sharma", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
-  createMember("Karan Kumar Gupta", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
-  createMember("Sivi Shrivastav", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
-  createMember("Vijval Singh", "Core Member", "PR & Outreach Team", "#a855f7", "168, 85, 247"),
+  // PR AND OUTREACH TEAM
+  { name: "Shalini Pal", role: "Lead", group: "PR & Outreach Team" },
+  { name: "Soumya Chouhan", role: "Co-Lead", group: "PR & Outreach Team" },
+  { name: "Sousthab Mitra", role: "Core Member", group: "PR & Outreach Team" },
+  { name: "Pranjal Bhatnagar", role: "Core Member", group: "PR & Outreach Team" },
+  { name: "Anandita Sharma", role: "Core Member", group: "PR & Outreach Team" },
+  { name: "Karan Kumar Gupta", role: "Core Member", group: "PR & Outreach Team" },
+  { name: "Sivi Shrivastav", role: "Core Member", group: "PR & Outreach Team" },
+  { name: "Vijval Singh", role: "Core Member", group: "PR & Outreach Team" },
 
-  // CONTENT TEAM (ELECTRIC TEAL)
-  createMember("Jihi Mamtani", "Lead", "Content Team", "#06b6d4", "6, 182, 212"),
-  createMember("Anusha Singh Rajput", "Co-Lead", "Content Team", "#06b6d4", "6, 182, 212"),
-  createMember("Shruti Mishra", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
-  createMember("Akshat Singh", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
-  createMember("Ananya Pandey", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
-  createMember("Bhavesh Wadhwani", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
-  createMember("Ashi Gupta", "Core Member", "Content Team", "#06b6d4", "6, 182, 212"),
+  // CONTENT TEAM
+  { name: "Jihi Mamtani", role: "Lead", group: "Content Team" },
+  { name: "Anusha Singh Rajput", role: "Co-Lead", group: "Content Team" },
+  { name: "Shruti Mishra", role: "Core Member", group: "Content Team" },
+  { name: "Akshat Singh", role: "Core Member", group: "Content Team" },
+  { name: "Ananya Pandey", role: "Core Member", group: "Content Team" },
+  { name: "Bhavesh Wadhwani", role: "Core Member", group: "Content Team" },
+  { name: "Ashi Gupta", role: "Core Member", group: "Content Team" },
 
-  // TECHNICAL TEAM (EMERALD GREEN)
-  createMember("Sumit Tripathi", "Lead", "Technical Team", "#10b981", "16, 185, 129"),
-  createMember("Abhishek Bochare", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
-  createMember("Sparsh Kapoor", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
-  createMember("Harshit Mohta", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
-  createMember("Divyanshi Adhikari", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
-  createMember("Monika Sahu", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
-  createMember("Parth Chopra", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
-  createMember("Anwesha Dhote", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
-  createMember("Mansi Kumari", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
-  createMember("Siddhi Dogne", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
-  createMember("Kuldeep", "Core Member", "Technical Team", "#10b981", "16, 185, 129"),
+  // TECHNICAL TEAM
+  { name: "Sumit Tripathi", role: "Lead", group: "Technical Team" },
+  { name: "Abhishek Bochare", role: "Core Member", group: "Technical Team" },
+  { name: "Sparsh Kapoor", role: "Core Member", group: "Technical Team" },
+  { name: "Harshit Mohta", role: "Core Member", group: "Technical Team" },
+  { name: "Divyanshi Adhikari", role: "Core Member", group: "Technical Team" },
+  { name: "Monika Sahu", role: "Core Member", group: "Technical Team" },
+  { name: "Parth Chopra", role: "Core Member", group: "Technical Team" },
+  { name: "Anwesha Dhote", role: "Core Member", group: "Technical Team" },
+  { name: "Mansi Kumari", role: "Core Member", group: "Technical Team" },
+  { name: "Siddhi Dogne", role: "Core Member", group: "Technical Team" },
+  { name: "Kuldeep", role: "Core Member", group: "Technical Team" },
 
-  // SOCIAL MEDIA TEAM (CRIMSON ROSE)
-  createMember("Himesh Jham", "Lead", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Shalvi Pandey", "Co-Lead", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Pari Pancholiya", "Co-Lead", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Ankit Kumar Yadav", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Rudra Pratap Singh", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Sanidhya Raj", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Aarushi Raizada", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Utkarsh Agrawal", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Shrashti Bansal", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Indrayudh Paul", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Riddhima Gupta", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Aastha Sharma", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Dhanraj Choudhary", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Muskan Bhatia", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Abhinav Sharma", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Sohini Dutta", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("Aashish", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
-  createMember("N Nishchay Reddy", "Core Member", "Social Media Team", "#f43f5e", "244, 63, 94"),
+  // SOCIAL MEDIA TEAM
+  { name: "Himesh Jham", role: "Lead", group: "Social Media Team" },
+  { name: "Shalvi Pandey", role: "Co-Lead", group: "Social Media Team" },
+  { name: "Pari Pancholiya", role: "Co-Lead", group: "Social Media Team" },
+  { name: "Ankit Kumar Yadav", role: "Core Member", group: "Social Media Team" },
+  { name: "Rudra Pratap Singh", role: "Core Member", group: "Social Media Team" },
+  { name: "Sanidhya Raj", role: "Core Member", group: "Social Media Team" },
+  { name: "Aarushi Raizada", role: "Core Member", group: "Social Media Team" },
+  { name: "Utkarsh Agrawal", role: "Core Member", group: "Social Media Team" },
+  { name: "Shrashti Bansal", role: "Core Member", group: "Social Media Team" },
+  { name: "Indrayudh Paul", role: "Core Member", group: "Social Media Team" },
+  { name: "Riddhima Gupta", role: "Core Member", group: "Social Media Team" },
+  { name: "Aastha Sharma", role: "Core Member", group: "Social Media Team" },
+  { name: "Dhanraj Choudhary", role: "Core Member", group: "Social Media Team" },
+  { name: "Muskan Bhatia", role: "Core Member", group: "Social Media Team" },
+  { name: "Abhinav Sharma", role: "Core Member", group: "Social Media Team" },
+  { name: "Sohini Dutta", role: "Core Member", group: "Social Media Team" },
+  { name: "Aashish", role: "Core Member", group: "Social Media Team" },
+  { name: "N Nishchay Reddy", role: "Core Member", group: "Social Media Team" },
 
-  // DESIGN TEAM (VIVID INDIGO)
-  createMember("Pranjal Tiwari", "Lead", "Design Team", "#818cf8", "129, 140, 248"),
-  createMember("Aditya Pandey", "Co-Lead", "Design Team", "#818cf8", "129, 140, 248"),
-  createMember("Ishani Sahay", "Co-Lead", "Design Team", "#818cf8", "129, 140, 248"),
-  createMember("Saumya Dayal", "Core Member", "Design Team", "#818cf8", "129, 140, 248"),
-  createMember("Vaibhav Santosh Tiwari", "Core Member", "Design Team", "#818cf8", "129, 140, 248"),
-  createMember("Abhishek", "Core Member", "Design Team", "#818cf8", "129, 140, 248"),
-  createMember("Drishti Singh", "Core Member", "Design Team", "#818cf8", "129, 140, 248"),
-  createMember("Prisha Sharma", "Core Member", "Design Team", "#818cf8", "129, 140, 248"),
+  // DESIGN TEAM
+  { name: "Pranjal Tiwari", role: "Lead", group: "Design Team" },
+  { name: "Aditya Pandey", role: "Co-Lead", group: "Design Team" },
+  { name: "Ishani Sahay", role: "Co-Lead", group: "Design Team" },
+  { name: "Saumya Dayal", role: "Core Member", group: "Design Team" },
+  { name: "Vaibhav Santosh Tiwari", role: "Core Member", group: "Design Team" },
+  { name: "Abhishek", role: "Core Member", group: "Design Team" },
+  { name: "Drishti Singh", role: "Core Member", group: "Design Team" },
+  { name: "Prisha Sharma", role: "Core Member", group: "Design Team" },
 
-  // PHOTOGRAPHY TEAM (SUNSET CORAL)
-  createMember("Prabhav Sharma", "Lead", "Photography Team", "#ff7849", "255, 120, 73"),
-  createMember("Neha A", "Core Member", "Photography Team", "#ff7849", "255, 120, 73"),
-  createMember("Vaishnavi Gupta", "Core Member", "Photography Team", "#ff7849", "255, 120, 73"),
-  createMember("Prince Gupta", "Core Member", "Photography Team", "#ff7849", "255, 120, 73"),
-  createMember("Parimal Vinod Swami", "Core Member", "Photography Team", "#ff7849", "255, 120, 73"),
+  // PHOTOGRAPHY TEAM
+  { name: "Prabhav Sharma", role: "Lead", group: "Photography Team" },
+  { name: "Neha A", role: "Core Member", group: "Photography Team" },
+  { name: "Vaishnavi Gupta", role: "Core Member", group: "Photography Team" },
+  { name: "Prince Gupta", role: "Core Member", group: "Photography Team" },
+  { name: "Parimal Vinod Swami", role: "Core Member", group: "Photography Team" },
 
-  // SOFTWARE DEV TEAM (PLATINUM CYAN)
-  createMember("Neel Pandey", "Lead", "Software Dev Team", "#38bdf8", "56, 189, 248"),
-  createMember("Aarush Rahul Patel", "Co-Lead", "Software Dev Team", "#38bdf8", "56, 189, 248"),
-  createMember("Sanskar", "Co-Lead", "Software Dev Team", "#38bdf8", "56, 189, 248"),
-  createMember(
-    "Nikhil Kumar Tiwari",
-    "Core Member",
-    "Software Dev Team",
-    "#38bdf8",
-    "56, 189, 248",
-  ),
-  createMember("Shresth Bhargava", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
-  createMember("Tanishka", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
-  createMember("Ritik", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
-  createMember("Varun Saini", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
-  createMember("Rajnarayan", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
-  createMember("Anish", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
-  createMember("Ananya", "Core Member", "Software Dev Team", "#38bdf8", "56, 189, 248"),
+  // SOFTWARE DEV TEAM
+  { name: "Neel Pandey", role: "Lead", group: "Software Dev Team" },
+  { name: "Aarush Rahul Patel", role: "Co-Lead", group: "Software Dev Team" },
+  { name: "Sanskar", role: "Co-Lead", group: "Software Dev Team" },
+  { name: "Nikhil Kumar Tiwari", role: "Core Member", group: "Software Dev Team" },
+  { name: "Shresth Bhargava", role: "Core Member", group: "Software Dev Team" },
+  { name: "Tanishka", role: "Core Member", group: "Software Dev Team" },
+  { name: "Ritik", role: "Core Member", group: "Software Dev Team" },
+  { name: "Varun Saini", role: "Core Member", group: "Software Dev Team" },
+  { name: "Rajnarayan", role: "Core Member", group: "Software Dev Team" },
+  { name: "Anish", role: "Core Member", group: "Software Dev Team" },
+  { name: "Ananya", role: "Core Member", group: "Software Dev Team" },
 ];
 
-const groups = [
+const departmentTabs = [
   "Panel",
-  "Leads",
-  "Co-Leads",
   "Software Dev Team",
   "Technical Team",
   "Event Management Team",
-  "HR Team",
-  "PR & Outreach Team",
-  "Content Team",
-  "Social Media Team",
   "Design Team",
+  "Content Team",
+  "PR & Outreach Team",
+  "HR Team",
+  "Social Media Team",
   "Photography Team",
+  "All Members",
 ] as const;
-
-const teamOrderMap: Record<string, number> = {
-  "Software Dev Team": 1,
-  "Technical Team": 2,
-  "Event Management Team": 3,
-  "HR Team": 4,
-  "PR & Outreach Team": 5,
-  "Content Team": 6,
-  "Social Media Team": 7,
-  "Design Team": 8,
-  "Photography Team": 9,
-};
 
 export const TeamSection: React.FC = () => {
   const [activeGroup, setActiveGroup] = useState<string>("Panel");
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [userInteracted, setUserInteracted] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  const filteredMembers = useMemo(() => {
+    return teamMembers.filter((m) => {
+      const matchesGroup = activeGroup === "All Members" ? true : m.group === activeGroup;
 
-  useEffect(() => {
-    if (!isMobile || userInteracted) return;
+      const matchesSearch =
+        searchQuery.trim() === "" ||
+        m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        m.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        m.group.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const interval = setInterval(() => {
-      setActiveGroup((prev) => {
-        const currentIndex = groups.indexOf(prev as (typeof groups)[number]);
-        const nextIndex = (currentIndex + 1) % groups.length;
-        return groups[nextIndex] || "Panel";
-      });
-    }, 3500);
-
-    return () => clearInterval(interval);
-  }, [isMobile, userInteracted]);
-
-  const filteredMembers =
-    activeGroup === "Leads"
-      ? teamMembers
-          .filter((m) => m.role === "Lead")
-          .sort((a, b) => (teamOrderMap[a.group] || 99) - (teamOrderMap[b.group] || 99))
-      : activeGroup === "Co-Leads"
-        ? teamMembers
-            .filter((m) => m.role === "Co-Lead")
-            .sort((a, b) => (teamOrderMap[a.group] || 99) - (teamOrderMap[b.group] || 99))
-        : teamMembers.filter((m) => m.group === activeGroup);
-
-  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+      return matchesGroup && matchesSearch;
+    });
+  }, [activeGroup, searchQuery]);
 
   return (
-    <section id="team" className="content-section">
-      <div className="section-container">
-        <div className="section-header text-center">
-          <span className="section-eyebrow">TEAM & LEADERSHIP</span>
-          <h2 className="section-title">
-            The Minds Behind <span className="gradient-text">DSC VITB</span>
-          </h2>
-          <p className="section-subtitle">
-            Students, leads, and core members driving innovation, event management, software
-            development, and AI initiatives.
+    <section id="team" className="w-full">
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+        <div>
+          <div className="flex items-center gap-3">
+            <span className="size-8 rounded-xl border border-sky-400/40 bg-sky-950/40 flex items-center justify-center font-mono text-xs font-bold text-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.2)]">
+              04
+            </span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-950/30 px-3.5 py-1 text-[11px] font-mono uppercase tracking-[0.2em] text-sky-400">
+              <span className="size-1.5 rounded-full bg-sky-400" />
+              <span>CORE DOSSIER & ROSTER</span>
+            </div>
+          </div>
+
+          <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white mt-3 leading-none">
+            MEET THE TEAM
+          </h1>
+          <p className="text-xs sm:text-sm font-mono text-slate-400 mt-2 max-w-xl">
+            The presidents, domain leads, machine learning researchers, and developers orchestrating
+            DSC VIT Bhopal.
           </p>
         </div>
 
-        <div className="team-layout margin-top-lg">
-          {/* Custom Animated Mobile Dropdown View */}
-          <div className="mobile-custom-dropdown-container">
-            <div className="mobile-dropdown-topbar">
-              <span className="filter-label">ROSTER DEPARTMENTS</span>
-              {!userInteracted ? (
-                <span className="auto-slide-badge">
-                  <span className="pulse-dot" /> Auto-playing teams
-                </span>
-              ) : (
-                <span className="auto-slide-badge paused">{filteredMembers.length} Members</span>
-              )}
-            </div>
-
-            <button
-              type="button"
-              className={`mobile-dropdown-trigger ${dropdownOpen ? "open" : ""}`}
-              onClick={() => setDropdownOpen((prev) => !prev)}
-            >
-              <div className="trigger-left">
-                <span className="trigger-icon">❖</span>
-                <span className="trigger-selected-text">{activeGroup}</span>
-              </div>
-              <div className="trigger-right">
-                <span className="count-pill">{filteredMembers.length}</span>
-                <span className={`trigger-chevron ${dropdownOpen ? "rotate" : ""}`}>▼</span>
-              </div>
-            </button>
-
-            {dropdownOpen && (
-              <div className="mobile-dropdown-menu">
-                {groups.map((g) => {
-                  const count =
-                    g === "Leads"
-                      ? teamMembers.filter((m) => m.role === "Lead").length
-                      : g === "Co-Leads"
-                        ? teamMembers.filter((m) => m.role === "Co-Lead").length
-                        : teamMembers.filter((m) => m.group === g).length;
-
-                  return (
-                    <button
-                      key={g}
-                      type="button"
-                      className={`mobile-dropdown-item ${activeGroup === g ? "active" : ""}`}
-                      onClick={() => {
-                        setActiveGroup(g);
-                        setUserInteracted(true);
-                        setDropdownOpen(false);
-                      }}
-                    >
-                      <span className="item-name">{g}</span>
-                      <span className="item-count">{count}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          {/* Desktop Sidebar Department Selector */}
-          <div className="team-sidebar">
-            <span className="filter-label">ROSTER DEPARTMENTS</span>
-            <h3 className="filter-title">Filter Team</h3>
-            <div className="team-filter-group">
-              {groups.map((g) => (
-                <button
-                  key={g}
-                  className={`team-tab-btn ${activeGroup === g ? "active" : ""}`}
-                  onClick={() => {
-                    setActiveGroup(g);
-                    setUserInteracted(true);
-                  }}
-                >
-                  {g}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Compact ChromaGrid Roster */}
-          <div className="team-grid-area" style={{ width: "100%", position: "relative" }}>
-            <ChromaGrid
-              items={filteredMembers}
-              radius={240}
-              columns={4}
-              damping={0.45}
-              fadeOut={0.6}
-              ease="power3.out"
-            />
-          </div>
+        {/* Real-time Search Box */}
+        <div className="relative w-full sm:w-72">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-sky-400" />
+          <input
+            type="text"
+            placeholder="Search member or role..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-11 pr-4 py-2.5 rounded-full bg-black/60 border border-sky-400/30 text-xs font-mono text-white placeholder:text-slate-500 focus:outline-none focus:border-sky-400 focus:shadow-[0_0_20px_rgba(56,189,248,0.25)] transition-all"
+          />
         </div>
+      </div>
+
+      {/* Filter Tabs Slider */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-10 scrollbar-none">
+        {departmentTabs.map((g) => {
+          const count =
+            g === "All Members"
+              ? teamMembers.length
+              : teamMembers.filter((m) => m.group === g).length;
+
+          const isActive = activeGroup === g;
+
+          return (
+            <button
+              key={g}
+              onClick={() => setActiveGroup(g)}
+              className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider whitespace-nowrap transition-all duration-300 cursor-pointer border ${
+                isActive
+                  ? "bg-sky-400 text-black border-sky-400 font-bold shadow-[0_0_20px_rgba(56,189,248,0.35)]"
+                  : "bg-[#050814] text-slate-300 border-sky-400/20 hover:border-sky-400/60 hover:text-white"
+              }`}
+            >
+              <span>{g}</span>
+              <span className={`ml-2 text-[10px] ${isActive ? "text-black/80" : "text-sky-400"}`}>
+                ({count})
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Members Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {filteredMembers.map((m) => (
+          <div
+            key={m.name}
+            className="group relative rounded-3xl border border-sky-400/20 bg-[#050814] p-5 flex flex-col justify-between hover:border-sky-400/80 hover:shadow-[0_0_35px_rgba(56,189,248,0.25)] hover:-translate-y-1.5 transition-all duration-300 ease-out"
+          >
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-sky-400 font-bold bg-sky-950/50 px-2.5 py-0.5 rounded-md border border-sky-400/30">
+                  {m.group.replace(" Team", "")}
+                </span>
+                <span className="size-2 rounded-full bg-sky-400/60 group-hover:bg-sky-400 group-hover:shadow-[0_0_8px_#38bdf8] transition-all" />
+              </div>
+
+              {/* Avatar & Ident */}
+              <div className="flex items-center gap-4 my-2">
+                <div className="size-14 rounded-2xl border border-sky-400/30 p-0.5 bg-black overflow-hidden group-hover:border-sky-400 group-hover:scale-105 transition-all duration-300 shrink-0">
+                  <img
+                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=020617&color=38bdf8&bold=true&font-size=0.4`}
+                    alt={m.name}
+                    className="w-full h-full object-cover rounded-xl"
+                  />
+                </div>
+
+                <div className="min-w-0">
+                  <h3 className="text-base font-bold text-white group-hover:text-sky-300 transition-colors truncate">
+                    {m.name}
+                  </h3>
+                  <p className="text-xs font-mono text-sky-400 font-semibold mt-0.5 truncate">
+                    {m.role}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-sky-400/15 flex items-center justify-between text-[11px] font-mono text-slate-500">
+              <span>VIT BHOPAL</span>
+              <span className="text-sky-400/80 group-hover:text-sky-400 transition-colors">
+                ACTIVE
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {filteredMembers.length === 0 && (
+        <div className="text-center py-20 rounded-3xl border border-sky-400/20 bg-[#050814] my-8">
+          <Users className="size-10 text-sky-400 mx-auto mb-3 opacity-60" />
+          <h3 className="text-xl font-bold text-white">No members matched</h3>
+          <p className="text-xs font-mono text-slate-400 mt-2">
+            Try adjusting your search criteria or selecting a different department tab.
+          </p>
+        </div>
+      )}
+
+      {/* Recruitment Callout */}
+      <div className="mt-16 rounded-3xl border border-sky-400/25 bg-[#030610] p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+        <div className="space-y-2">
+          <h3 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
+            WANT TO JOIN OUR ROSTER?
+          </h3>
+          <p className="text-xs sm:text-sm font-mono text-slate-400 max-w-xl">
+            Core team applications are currently open across technical development, AI research,
+            event ops, and creative design.
+          </p>
+        </div>
+
+        <Link
+          to="/join"
+          className="inline-flex items-center gap-2 rounded-full bg-sky-400 px-8 py-3.5 text-xs font-mono font-bold tracking-wider text-black uppercase hover:bg-sky-300 hover:scale-[1.03] transition-all duration-300 shadow-[0_0_25px_rgba(56,189,248,0.4)] cursor-pointer shrink-0"
+        >
+          <span>APPLY FOR CORE TEAM</span>
+          <ArrowRight className="size-3.5" />
+        </Link>
       </div>
     </section>
   );
